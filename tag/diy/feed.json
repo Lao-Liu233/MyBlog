@@ -1,0 +1,30 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "カレーうどん屋 • All posts by \"diy\" tag",
+    "description": "カレーうどん屋.",
+    "home_page_url": "https://blog.udon.eu.org",
+    "items": [
+        {
+            "id": "https://blog.udon.eu.org/archives/f82a3103.html",
+            "url": "https://blog.udon.eu.org/archives/f82a3103.html",
+            "title": "BETAFPV 高频头固件编译 AttributeError",
+            "date_published": "2022-08-06T04:30:00.000Z",
+            "content_html": "<link rel=\"stylesheet\" class=\"aplayer-secondary-style-marker\" href=\"/assets/css/APlayer.min.css\"><script src=\"/assets/js/APlayer.min.js\" class=\"aplayer-secondary-script-marker\"></script><script class=\"meting-secondary-script-marker\" src=\"/assets/js/Meting.min.js\"></script><h2 id=\"错误原因\"><a href=\"#错误原因\" class=\"headerlink\" title=\"错误原因\"></a>错误原因</h2><p>Python 模块 <code>pypandoc</code> 版本过新，1.8.0 及更高版本已移除了 BETAFPV 高频头固件中仍在使用的 <code>convert</code> 函数。</p>\n<h2 id=\"解决方法\"><a href=\"#解决方法\" class=\"headerlink\" title=\"解决方法\"></a>解决方法</h2><p>安装旧版的 <code>pypandoc</code> 模块。</p>\n<p><code>pip install pypandoc==1.7.0</code></p>\n",
+            "tags": [
+                "教程",
+                "DIY"
+            ]
+        },
+        {
+            "id": "https://blog.udon.eu.org/archives/38942a16.html",
+            "url": "https://blog.udon.eu.org/archives/38942a16.html",
+            "title": "DIY 显示器音箱",
+            "date_published": "2022-06-03T07:15:00.000Z",
+            "content_html": "<link rel=\"stylesheet\" class=\"aplayer-secondary-style-marker\" href=\"/assets/css/APlayer.min.css\"><script src=\"/assets/js/APlayer.min.js\" class=\"aplayer-secondary-script-marker\"></script><script class=\"meting-secondary-script-marker\" src=\"/assets/js/Meting.min.js\"></script><p>新买的显示器（LG 27UL500，虽然因为屏幕问题已经退货了）没有内置音箱，虽然大部分时间都在用耳机，但别人有的东西我不能没有嘛，就买了些材料，DIY 一个外接音箱。</p>\n<p>写作此文章分享一下制作的过程~</p>\n<h3 id=\"物料清单\"><a href=\"#物料清单\" class=\"headerlink\" title=\"物料清单\"></a>物料清单</h3><p><img src=\"/images/2022-06-03/01.JPG\" alt=\"物料清单\"></p>\n<ul>\n<li>PAM8403 数字功放板 5RMB</li>\n</ul>\n<p>接受 5V 电压，可以驱动两个 3W 的喇叭。商品详情页面吹的很厉害，确实底噪很小，而且输出的音量非常高。相当 OK 的功放板。</p>\n<ul>\n<li>8Ω 3W 喇叭两只（带音腔） 2*4RMB + 运费</li>\n</ul>\n<p>音质很不错，声音很大也不会破音，因为是广告机用的喇叭么？</p>\n<ul>\n<li>3.5MM 公头 0.5RMB</li>\n</ul>\n<p>我选的型号是 PJ392，只要是 3.5MM 双声道的公头就行了。</p>\n<ul>\n<li>Type C 母座 0.4RMB</li>\n</ul>\n<p>这个随意选。</p>\n<ul>\n<li>屏蔽线缆 2RMB&#x2F;m</li>\n</ul>\n<p>我买的是4芯的屏蔽线，可供 Type C 头使用（2 power 2 data），音频线只需要三芯（2 data 1 GND），屏蔽线是为了更小的干扰、更好的音质。</p>\n<h3 id=\"开始组装\"><a href=\"#开始组装\" class=\"headerlink\" title=\"开始组装\"></a>开始组装</h3><h4 id=\"3-5MM-线缆\"><a href=\"#3-5MM-线缆\" class=\"headerlink\" title=\"3.5MM 线缆\"></a>3.5MM 线缆</h4><p>剥除一段屏蔽线的外皮，做工还是很不错的，有金属丝和铝箔的屏蔽，塑料膜防水，还有一根抗拉扯的填充芯。</p>\n<p>我选择使用红绿蓝三根线，黄线悬空。线色对应如下：</p>\n<p>红 - 左声道；绿 - 右声道；蓝 - 接地。</p>\n<p><img src=\"/images/2022-06-03/02.JPG\" alt=\"屏蔽线\"></p>\n<p>可以预先套上一段热缩管。</p>\n<p><img src=\"/images/2022-06-03/03.JPG\" alt=\"热缩管\"></p>\n<p>取一枚 3.5mm 公头，旋下插头。</p>\n<p>最长的一段一般是接地。若将接地朝下，我这款公头左侧为左声道，右侧为右声道。具体的接线方式可以用万用表测量接头和接口得知。</p>\n<p>将线穿入孔中，上一坨焊锡即可。</p>\n<p><img src=\"/images/2022-06-03/04.JPG\" alt=\"公头焊接\"></p>\n<p>再使用万用表测量接头与线末端的连通性，注意不能与其他线短路了。</p>\n<p>确认无误后可以打上热熔胶固定。</p>\n<p><img src=\"/images/2022-06-03/05.JPG\" alt=\"热熔胶固定\"></p>\n<p>再打点热熔胶，旋回外壳，将热缩管套好，加热热缩管使其收缩。</p>\n<p>3.5mm 线缆就制作完成了。</p>\n<h4 id=\"驱动板焊接\"><a href=\"#驱动板焊接\" class=\"headerlink\" title=\"驱动板焊接\"></a>驱动板焊接</h4><p>驱动板上有三组线需要焊接：</p>\n<ul>\n<li>音频输入线（3.5mm 线缆）</li>\n<li>电源输入线（Type C 线）</li>\n<li>音频输出线（喇叭线）</li>\n</ul>\n<p>Type C 线我没有再用屏蔽线，用两根导线连接 Type C 母头和驱动板即可。</p>\n<p>焊接方法就不多说了，线穿过孔，上锡即可。</p>\n<p><img src=\"/images/2022-06-03/06.JPG\" alt=\"焊接中的驱动板\"></p>\n<p>全部线缆焊接完成如下：</p>\n<p><img src=\"/images/2022-06-03/07.JPG\" alt=\"焊接完的驱动板\"></p>\n<h4 id=\"热熔胶填充\"><a href=\"#热熔胶填充\" class=\"headerlink\" title=\"热熔胶填充\"></a>热熔胶填充</h4><p>完成接线后，确认无短路，即可连接电脑测试音箱。</p>\n<p>若没有问题，考虑到需要长期使用，就可以用热熔胶覆盖焊接处，防止焊点脱落。</p>\n<p>用热熔胶覆盖之后的驱动板：</p>\n<p><img src=\"/images/2022-06-03/08.JPG\" alt=\"热熔胶覆盖的驱动板\"></p>\n<p>嘛…手艺不是很行。</p>\n<hr>\n<p>就此，外接音箱组装完成啦！</p>\n",
+            "tags": [
+                "教程",
+                "DIY"
+            ]
+        }
+    ]
+}

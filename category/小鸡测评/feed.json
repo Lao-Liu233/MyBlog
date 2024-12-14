@@ -1,0 +1,78 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "カレーうどん屋 • All posts by \"小鸡测评\" category",
+    "description": "カレーうどん屋.",
+    "home_page_url": "https://blog.udon.eu.org",
+    "items": [
+        {
+            "id": "https://blog.udon.eu.org/archives/28fa0729.html",
+            "url": "https://blog.udon.eu.org/archives/28fa0729.html",
+            "title": "Virmach Japan",
+            "date_published": "2022-04-06T14:15:00.000Z",
+            "content_html": "<link rel=\"stylesheet\" class=\"aplayer-secondary-style-marker\" href=\"/assets/css/APlayer.min.css\"><script src=\"/assets/js/APlayer.min.js\" class=\"aplayer-secondary-script-marker\"></script><script class=\"meting-secondary-script-marker\" src=\"/assets/js/Meting.min.js\"></script><p>老朋友 Virmach 最近搞了场日本的预售。上游是 XTom，线路走的 IIJ。配置从 1C 384M 到 2C 2.5G 都有，价格则是 11.11刀&#x2F;年 起（预售打 8 折， 8.89刀&#x2F;年起）。</p>\n<p>我买的这台是折后 9.7刀&#x2F;年，1C 768M 20G NVME 2T 双向流量的配置。</p>\n<span id=\"more\"></span>\n\n<hr>\n<p>直观感受：性能强劲，白天网络不错。晚高峰也能用，不爆炸。</p>\n<p>下面放测试数据：</p>\n<h3 id=\"综合测试\"><a href=\"#综合测试\" class=\"headerlink\" title=\"综合测试\"></a>综合测试</h3><p><img src=\"/images/2022-04-06/Bench.png\"></p>\n<p>CPU 很幸运地抽中了 5900X，可以看到硬盘速度非常 OK。</p>\n<p>早上的网络情况很不错，没指望能跑满 G 口，毕竟这么多人分 10G 的口子。</p>\n<h3 id=\"性能测试\"><a href=\"#性能测试\" class=\"headerlink\" title=\"性能测试\"></a>性能测试</h3><p><img src=\"/images/2022-04-06/UNIXBench.jpg\"></p>\n<p>不愧是 5900X，单核跑出了部分志强将近3倍的成绩！AMD, YES！</p>\n<p>开一台 2C 2G 的机子完全可以当作开发服务器使了。</p>\n<h3 id=\"国内网络测试\"><a href=\"#国内网络测试\" class=\"headerlink\" title=\"国内网络测试\"></a>国内网络测试</h3><h4 id=\"白天\"><a href=\"#白天\" class=\"headerlink\" title=\"白天\"></a>白天</h4><p><img src=\"/images/2022-04-06/SuperSpeed-Morning.png\"></p>\n<p>三网表现均不错呢。</p>\n<h4 id=\"晚高峰\"><a href=\"#晚高峰\" class=\"headerlink\" title=\"晚高峰\"></a>晚高峰</h4><p><img src=\"/images/2022-04-06/SuperSpeed-Night.png\"></p>\n<p>惊了，晚高峰表现很不错耶。</p>\n<h3 id=\"流媒体解锁\"><a href=\"#流媒体解锁\" class=\"headerlink\" title=\"流媒体解锁\"></a>流媒体解锁</h3><p><img src=\"/images/2022-04-06/Streaming.png\"></p>\n<p>Virmach 只字没提流媒体，就别报多大希望。</p>\n<p>不过作为日本的 VPS 自家游戏都不能解锁……这 IP 优化的不大行。</p>\n<h3 id=\"总结\"><a href=\"#总结\" class=\"headerlink\" title=\"总结\"></a>总结</h3><p>网络不错，性能强劲，如此便宜的价格可以说性价超高。</p>\n",
+            "tags": [
+                "小鸡测评"
+            ]
+        },
+        {
+            "id": "https://blog.udon.eu.org/archives/6e832212.html",
+            "url": "https://blog.udon.eu.org/archives/6e832212.html",
+            "title": "Deepvm 9929",
+            "date_published": "2022-01-10T13:00:00.000Z",
+            "content_html": "<link rel=\"stylesheet\" class=\"aplayer-secondary-style-marker\" href=\"/assets/css/APlayer.min.css\"><script src=\"/assets/js/APlayer.min.js\" class=\"aplayer-secondary-script-marker\"></script><script class=\"meting-secondary-script-marker\" src=\"/assets/js/Meting.min.js\"></script><p>本以为不会再购买新的机子了，今天看到有一台挺便宜的 9929 线路的机子，就买了一个月尝尝鲜。</p>\n<span id=\"more\"></span>\n\n<p>配置：1core 512Mb 20G-SSD 500G@150Mbps</p>\n<p>价格：16元&#x2F;月</p>\n<p>总结：Something strange.</p>\n<hr>\n<h3 id=\"网络\"><a href=\"#网络\" class=\"headerlink\" title=\"网络\"></a>网络</h3><p><img src=\"/images/2022-01-10/Deepvm9929.png\"></p>\n<p>晚高峰测速全部都能跑满 150Mbps，看起来很不错。</p>\n<p>AS9929 是联通最新的专线，好像比 AS4837 要高级那么一点点，应该体验要比 4837 来得好一点吧，看延迟会比 4837 低十几毫秒。</p>\n<p>但实际体验下来，双向延迟会比 4837 高上 200ms 左右，speed.cloudflare.com 的成绩也不如 4837 来的好，众人迷信的 Youtube 4K 视频（电脑解码带不动 8K）跑分在 56k，和 4837 基本一致。 </p>\n<p>这就是我上述的 something strange 了。Deepvm 家的上游好像是 Spartan，按道理网络是不会差的。我猜测是这家的机子超售的稍微厉害了一点点，导致总体体验不如 Wikihost 家的 4837.</p>\n<h3 id=\"性能\"><a href=\"#性能\" class=\"headerlink\" title=\"性能\"></a>性能</h3><p><img src=\"/images/2022-01-10/Deepvm9929Bench.png\"></p>\n<p>跑分上来看，性能是十分不错的。性能这一块又没有超售太多？？？把我整懵了。</p>\n<hr>\n<p>综合价格和性能来看，这台机子的性价比还是很能打的。由于商家是去年年初刚成立的，服务器的可靠性还是未知数，也没有赠送自动备份（在折腾坏系统的时候有备份可以还原是很美妙的事情）。因此我建议月付购买这家的机子。</p>\n<p>放上 AFF：<a href=\"https://www.deepvm.net/aff/HVQAFOVA\">https://www.deepvm.net/aff/HVQAFOVA</a></p>\n",
+            "tags": [
+                "小鸡测评"
+            ]
+        },
+        {
+            "id": "https://blog.udon.eu.org/archives/be3776eb.html",
+            "url": "https://blog.udon.eu.org/archives/be3776eb.html",
+            "title": "WikiHost CU4837",
+            "date_published": "2021-12-31T04:30:00.000Z",
+            "content_html": "<link rel=\"stylesheet\" class=\"aplayer-secondary-style-marker\" href=\"/assets/css/APlayer.min.css\"><script src=\"/assets/js/APlayer.min.js\" class=\"aplayer-secondary-script-marker\"></script><script class=\"meting-secondary-script-marker\" src=\"/assets/js/Meting.min.js\"></script><p>今天要介绍的是一台来自 WikiHost 家的机器。</p>\n<span id=\"more\"></span>\n\n<p>配置：Los Angeles - CU4837 Lite KVM</p>\n<p>1 core (5900X)@30% 基准性能 512Mb 20G-SSD 500G@1Gbps</p>\n<p>价格：月付 18 元（首月附加 5 元初装费）&#x2F; 年付 200 元（免初装费）</p>\n<p>总结：性能优异，网络为最大卖点。性价比很高。</p>\n<hr>\n<h3 id=\"网络\"><a href=\"#网络\" class=\"headerlink\" title=\"网络\"></a>网络</h3><p><img src=\"/images/2021-12-29/WikiHost4837.png\"></p>\n<p>G 口没有虚标。</p>\n<p>测试特意挑在晚高峰跑的，与前面测评的 Cloudcone 相比，上海与广州出口三线的表现都很优秀。</p>\n<p><img src=\"/images/2021-12-29/WikiHostMtr.png\"></p>\n<p>这台机子的去程是 163 骨干网，回程是联通专线 AS4837. 图中为回程路由 —— 进入电信的骨干网之前的流量就是 4837 承载的。</p>\n<h3 id=\"性能\"><a href=\"#性能\" class=\"headerlink\" title=\"性能\"></a>性能</h3><p><img src=\"/images/2021-12-29/WikiHostBench.png\"></p>\n<p>听到 30% 基准性能，你会觉得这是一台跑 apt 都嫌卡的机子。</p>\n<p>你错了！这台母鸡配备的可是 AMD R9-5900X。AMD YES！</p>\n<p>即使只有单核的三成性能，跑分依旧十分接近 WebHorizon 的单核成绩，轻松超过了 Cloudcone 的单核成绩。</p>\n<p>所以这台机器在日常使用时不会觉得 CPU 性能太差。主要的瓶颈还是在 512MB 内存上。</p>\n<hr>\n<p>综合性能和网络考虑，这台机子作为远程开发机器，安装 VSCode 跑一些轻量的项目还是很不错的。这台机器最合适的工作还是优化国内连接国外的网络情况，例如加速 GitHub 下载速度等。这个性能建立个人网站也完全足够了，140ms 较低的延迟与晚高峰的超低丢包可以带来很不错的体验。</p>\n<p>你问我推不推荐？那肯定推荐啊！</p>\n<p>鸡总的 WikiHost 是以高质量服务著称的，我在 WikiHost 购买过网站空间和流量转发，使用期间给我的体验很不错，发工单很快就能得到回复或技术人员的直接处理。缺点就是大部分机型价格都比较高（月付 30 元以上），而这台 Lite 机型以超低的价格（还附赠了7天全盘备份，前几天把机子玩炸了就用上了还原功能），一出来就被抢光了。目前还有存货的是直连韩国 VPS（高峰时段三网全炸，平时延迟非常低），有需求的朋友也可以考虑。</p>\n<p>放上 AFF：<a href=\"https://idc.wiki/aff.php?aff=2182\">https://idc.wiki/aff.php?aff=2182</a></p>\n<p>这台机子让我非常满意，再配合 Cloudcone 的高性能、较大硬盘的机器，因此短时间内我应该不会购入新的机子，尽请期待未来的机器测评。</p>\n",
+            "tags": [
+                "小鸡测评"
+            ]
+        },
+        {
+            "id": "https://blog.udon.eu.org/archives/a7b78eea.html",
+            "url": "https://blog.udon.eu.org/archives/a7b78eea.html",
+            "title": "Cloudcone 双十一特价鸡",
+            "date_published": "2021-12-24T14:00:00.000Z",
+            "content_html": "<link rel=\"stylesheet\" class=\"aplayer-secondary-style-marker\" href=\"/assets/css/APlayer.min.css\"><script src=\"/assets/js/APlayer.min.js\" class=\"aplayer-secondary-script-marker\"></script><script class=\"meting-secondary-script-marker\" src=\"/assets/js/Meting.min.js\"></script><p>今天来介绍一下来自（依旧是）高性价比商家 Cloudcone 的机器。</p>\n<span id=\"more\"></span>\n\n<p>配置：2cores 2GB 70G-SSD（RAID 10）4T@1Gbps</p>\n<p>价格：年付23.8刀</p>\n<p>来个总结：性能优异、硬盘性能尤为突出；网络质量尚可；性价比高。</p>\n<hr>\n<h3 id=\"网络\"><a href=\"#网络\" class=\"headerlink\" title=\"网络\"></a>网络</h3><p><img src=\"/images/2021-12-24/Cloudcone.jpg\"></p>\n<p>测试是在晚高峰做的，只能说炸的很彻底，国内基本没有什么速度。</p>\n<p><img src=\"/images/2021-12-24/CloudconeMorning.png\"></p>\n<p>中午再测一次，白天的网络还是很不错的。</p>\n<p><img src=\"/images/2021-12-24/CloudconeRoute.png\"></p>\n<p>根据路由测试来看，走的是最普通的163骨干网，没有线路可言。</p>\n<p><img src=\"/images/2021-12-24/CloudconeMtr.png\"></p>\n<p>Mtr 显示丢包率在 10-20%，延迟在 160-190ms，中规中矩。</p>\n<h3 id=\"性能\"><a href=\"#性能\" class=\"headerlink\" title=\"性能\"></a>性能</h3><p><img src=\"/images/2021-12-24/CloudconeBench.jpg\"></p>\n<p>单核性能说不上强，甚至打不过 Webhorizon 的 NAT 机子。</p>\n<p>但是有俩核啊~</p>\n<p>在编译一个 Node.js 项目时，其他机子要花将近一分钟，这台机子只要 32s 左右，有效提高了我的工作效率。</p>\n<hr>\n<p>一个月前，手持 Virmach 的我流下了不争气的泪水，发誓要买一台好一点的机子做开发、跑服务。</p>\n<p>于是我就在网上找性价比商家了（笑）。</p>\n<p>有人推荐我买 GreenCloud 的机子，500G 大盘鸡，价格也不贵。我当时就很心动，几欲下单，最后上网一查，发现 GC 家的 IP 段不大好，会被 Google 查岗（验证是否是机器人），遂放弃。</p>\n<p>持币徘徊的我遇见了 Cloudcone。网上一查，没有什么黑历史，我就和同学“拼鸡”下单了。（没错，我只花了一半的钱 XD）</p>\n<p>24刀的价格平常只能买到 1c 1G 的机子，双十一特价可以让性能翻倍，性价比一下子上来了。70G 的硬盘也可以用来挂一些需要存储数据的服务（例如现在正在跑的 H@H）。</p>\n<p>至于网络嘛……因为没有特殊线路，晚上还是挺糟糕的，有时候 SSH 都会断连。</p>\n<p>不得不提的是，就在我开通机器一周后，Cloudcone 貌似出现了部分机器数据丢失的问题……因为范围不大，似乎没有引起什么讨论。因为没有附带异地备份的功能，使用高性价机器要承担一定风险，重要数据就不要存放在此类没有备份的 VPS 中。</p>\n<hr>\n<p>总结来说，如果遇到活动，Cloudcone 的机子还是很值得入手的！</p>\n<p>正好圣诞节促销到了，力度比双十一还大一点点。放上 AFF Link~</p>\n<p><a href=\"https://app.cloudcone.com/?ref=7447\">https://app.cloudcone.com/?ref=7447</a></p>\n",
+            "tags": [
+                "小鸡测评"
+            ]
+        },
+        {
+            "id": "https://blog.udon.eu.org/archives/9732665c.html",
+            "url": "https://blog.udon.eu.org/archives/9732665c.html",
+            "title": "WebHorizon NAT JP",
+            "date_published": "2021-12-23T15:00:00.000Z",
+            "content_html": "<link rel=\"stylesheet\" class=\"aplayer-secondary-style-marker\" href=\"/assets/css/APlayer.min.css\"><script src=\"/assets/js/APlayer.min.js\" class=\"aplayer-secondary-script-marker\"></script><script class=\"meting-secondary-script-marker\" src=\"/assets/js/Meting.min.js\"></script><p>第一篇正式测评：来自印度的性价比商家 WebHorizon 的特价 NAT 小鸡。</p>\n<span id=\"more\"></span>\n\n<p>配置：1core 256Mb 4G-HDD 500G 1Gbps，机房位于日本，有 IPv6，仅有 NAT IPv4.</p>\n<p>价格：……4刀一年。</p>\n<p>先来个总结：买了吃灰的机器。</p>\n<h3 id=\"网络\"><a href=\"#网络\" class=\"headerlink\" title=\"网络\"></a>网络</h3><p><img src=\"/images/2021-12-23/WebHorizonJP.png\"></p>\n<p>小鸡号称的 G 口是货真价实的。</p>\n<p>没有独立 IPv4 带来的限制很大。WebHorizon 提供了四个 IPv4 地址用于转发 VPS 的端口。但经我的随机（随便）测试，我开不到任何能用的 TCP 转发端口，仅能开到 HTTP&#x2F;HTTPS 的转发（80&#x2F;443 端口）。</p>\n<p>因此，想要连接这台机器需要用到 IPv6，能提供的服务也仅限 HTTP。</p>\n<p>NAT 机器还有一点不好：若四个转发地址都被墙了，那这台机器在国内就没得用了。目前四个地址被墙了一个。</p>\n<p><img src=\"/images/2021-12-23/WebHorizonJPRoute.png\"></p>\n<p>从国内访问的线路是双向 NTT。白天效果尚可，晚高峰时间炸得厉害。全天高延迟 160-240ms。网络只是可以用的级别。</p>\n<h3 id=\"性能\"><a href=\"#性能\" class=\"headerlink\" title=\"性能\"></a>性能</h3><p><img src=\"/images/2021-12-23/WebHorizonBench.png\"></p>\n<p>从跑分上来看，这台机子的 CPU 性能出奇的可以。</p>\n<p><del>可能是买来的都吃灰了，没人抢性能</del></p>\n<p>硬盘的表现则是中规中矩，能用级别。</p>\n<hr>\n<p>总结上述来看，这台机子挺不行的。那为什么我买了呢？</p>\n<p>看到4刀一年的价格，我的捡垃圾之魂就按耐不住了啊！</p>\n<p><del>我现在只是非常的后悔。</del></p>\n<p>256Mb 的超迷你内存让这台机器承担不了什么任务。挂一点小脚本大概能吃得消。适合钱包真的很空&#x2F;垃圾佬购买。</p>\n<p>虽说不推荐购买，我还是厚着脸皮放一个 AFF 连接：</p>\n<p><a href=\"https://my.webhorizon.in/order/forms/a/MzQ1Nw==\">https://my.webhorizon.in/order/forms/a/MzQ1Nw==</a></p>\n<p>P.S. 4刀一年是黑五期间的 50% OFF 优惠。</p>\n<h3 id=\"附赠\"><a href=\"#附赠\" class=\"headerlink\" title=\"附赠\"></a>附赠</h3><p>这台机器的虚拟化技术是 OpenVZ，也带来了一些不足：</p>\n<ol>\n<li>超售严重，高峰期性能可能不如预期。</li>\n<li>与母鸡共用内核，因此无法自行修改内核。有一些服务，例如 BBR、锐速等，需要修改内核才能开启，在 OVZ 的机型上就无法使用。有此类需求可以购买 KVM 虚拟化的 VPS。母鸡内核可能没有开启某些功能，例如我在尝试通过 RClone 挂载虚拟硬盘时，被告知内核未开启 fuse，需要联系服务商开启（我没有去联系，不保证商家会同意开启）。</li>\n</ol>\n",
+            "tags": [
+                "小鸡测评"
+            ]
+        },
+        {
+            "id": "https://blog.udon.eu.org/archives/6f963444.html",
+            "url": "https://blog.udon.eu.org/archives/6f963444.html",
+            "title": "Virmach 7.5刀年付特价机",
+            "date_published": "2021-12-22T09:30:00.000Z",
+            "content_html": "<link rel=\"stylesheet\" class=\"aplayer-secondary-style-marker\" href=\"/assets/css/APlayer.min.css\"><script src=\"/assets/js/APlayer.min.js\" class=\"aplayer-secondary-script-marker\"></script><script class=\"meting-secondary-script-marker\" src=\"/assets/js/Meting.min.js\"></script><p>虽然我在前文的结尾奉劝大家不要买太廉价的机器……</p>\n<p>但是我一介学生是真的穷啊！</p>\n<p>所以今天来谈一谈一家以性价比著称的 VPS 服务商：Virmach。</p>\n<span id=\"more\"></span>\n\n<hr>\n<p>开门见山，先说直观感受：网络很一般、机器性能差。机器适合穷苦学生党使用。</p>\n<p>我开的机型是 Virmach 黑五特价机型：年付7.5刀，1core 256Mb（免费升级至 384mb）10Gb-SSD 1Gbps。</p>\n<p>这台机器在上个月到期，我又有了新欢就没有续费，因此还是没有跑分截图。</p>\n<p>这机子的性能差到 apt 都嫌慢，网络情况也很是糟糕，应该就是最普通的国际线路 + 国内163，丢包率高，全天 SSH 连接皆不稳定。</p>\n<p>不过一年50块左右的价格也没什么好抱怨的了，用来挂点需要访问世界互联网的服务，例如 Telegram Bot、RSSHub 等；或者建个站，套一层 Cloudflare CDN 之后众生平等，可以说勉强能用。</p>\n<p>较小的内存有时也会带来不便，可能遇到部分应用、组件无法安装&#x2F;编译的情况。据观察 RSSHub 运行时即占用 300Mb 左右内存，因此我还是建议内存在 512Mb 以上的 VPS，1Gb 为佳。</p>\n<p>多提一嘴，现在不少应用都能以 PaaS 的形式部署在诸如 Heroku 的平台上，完全可以做到免费运行一个服务，没有必要租用 VPS、配置环境。</p>\n<p>VPS 的硬盘也是一个挺重要的指标。按我的经验，VPS 至少要有 20G 的硬盘才够用。Debian 11 系统 + LNMP + NodeJS 环境就占用了 7-8G 的硬盘空间，剩下的 10G 可以用于存储应用数据。至于硬盘性能，只要不是太可怜，影响都不大。</p>\n",
+            "tags": [
+                "小鸡测评"
+            ]
+        },
+        {
+            "id": "https://blog.udon.eu.org/archives/afe45e8a.html",
+            "url": "https://blog.udon.eu.org/archives/afe45e8a.html",
+            "title": "我的第一台 VPS",
+            "date_published": "2021-12-21T15:30:00.000Z",
+            "content_html": "<link rel=\"stylesheet\" class=\"aplayer-secondary-style-marker\" href=\"/assets/css/APlayer.min.css\"><script src=\"/assets/js/APlayer.min.js\" class=\"aplayer-secondary-script-marker\"></script><script class=\"meting-secondary-script-marker\" src=\"/assets/js/Meting.min.js\"></script><p>开一个新坑，测评一下所有我用过的小鸡，<del>如果能赚到点 AFF 就更好了。</del></p>\n<span id=\"more\"></span>\n\n<p>来谈一谈我的第一台 VPS 吧。</p>\n<p>我的第一台 VPS 购于初中，仅用了一年便没有再续费了。因此没有任何性能、网络方面的测评，仅剩下我的感想了。没有续费的原因很简单：太™垃圾了。</p>\n<p><del>年幼无知</del>，对 VPS 性能、路由线路都一无所知的我被超低的价格蒙骗，入手了一台来自无名国人商家的小鸡。</p>\n<p>印象中，那是一台 1core 512Mb 的小鸡，位于太平洋彼岸、再跨过美国全境的美东海岸。VPS 的网络差到经常连接不上 SSH。</p>\n<p>说了这么多（并不多），就是想奉劝各位：别贪便宜。</p>\n",
+            "tags": [
+                "小鸡测评"
+            ]
+        }
+    ]
+}

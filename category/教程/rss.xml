@@ -1,0 +1,1011 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>カレーうどん屋 • Posts by &#34;教程&#34; category</title>
+        <link>https://blog.udon.eu.org</link>
+        <description>カレーうどん屋.</description>
+        <language>zh-CN</language>
+        <pubDate>Sun, 16 Apr 2023 00:00:00 +0800</pubDate>
+        <lastBuildDate>Sun, 16 Apr 2023 00:00:00 +0800</lastBuildDate>
+        <category>教程</category>
+        <category>随笔</category>
+        <category>软件</category>
+        <category>小鸡测评</category>
+        <category>3D 打印</category>
+        <category>嵌入式开发</category>
+        <category>GitHub Actions</category>
+        <category>Hexo</category>
+        <category>DIY</category>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/8b68ddd6.html</guid>
+            <title>修复 UEFI 引导的 GRUB</title>
+            <link>https://blog.udon.eu.org/archives/8b68ddd6.html</link>
+            <category>教程</category>
+            <pubDate>Sun, 16 Apr 2023 00:00:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;h2 id=&#34;问题与解决方法&#34;&gt;&lt;a href=&#34;#问题与解决方法&#34; class=&#34;headerlink&#34; title=&#34;问题与解决方法&#34;&gt;&lt;/a&gt;问题与解决方法&lt;/h2&gt;&lt;h3 id=&#34;环境&#34;&gt;&lt;a href=&#34;#环境&#34; class=&#34;headerlink&#34; title=&#34;环境&#34;&gt;&lt;/a&gt;环境&lt;/h3&gt;&lt;p&gt;Manjaro Linux x86_64&lt;/p&gt;
+&lt;p&gt;Kernel: 6.2.10-1-MANJARO&lt;/p&gt;
+&lt;p&gt;使用 UEFI 引导&lt;/p&gt;
+&lt;h3 id=&#34;问题&#34;&gt;&lt;a href=&#34;#问题&#34; class=&#34;headerlink&#34; title=&#34;问题&#34;&gt;&lt;/a&gt;问题&lt;/h3&gt;&lt;p&gt;在 GRUB 尝试引导 Linux 内核时，出现如下错误：&lt;/p&gt;
+&lt;figure class=&#34;highlight smali&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs smali&#34;&gt;error:&lt;span class=&#34;hljs-built_in&#34;&gt; sparse &lt;/span&gt;file&lt;span class=&#34;hljs-built_in&#34;&gt; not &lt;/span&gt;allowed.&lt;br&gt;&lt;br&gt;452: out of range pointer: xxxxxxxxxx&lt;br&gt;&lt;br&gt;Aborted. Press any key to exit.&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;用户将无法进入系统。&lt;/p&gt;
+&lt;h3 id=&#34;解决方法&#34;&gt;&lt;a href=&#34;#解决方法&#34; class=&#34;headerlink&#34; title=&#34;解决方法&#34;&gt;&lt;/a&gt;解决方法&lt;/h3&gt;&lt;h4 id=&#34;进入恢复系统&#34;&gt;&lt;a href=&#34;#进入恢复系统&#34; class=&#34;headerlink&#34; title=&#34;进入恢复系统&#34;&gt;&lt;/a&gt;进入恢复系统&lt;/h4&gt;&lt;p&gt;插入 Manjaro LiveCD, 启动 Live 系统。&lt;/p&gt;
+&lt;h4 id=&#34;确定磁盘分区&#34;&gt;&lt;a href=&#34;#确定磁盘分区&#34; class=&#34;headerlink&#34; title=&#34;确定磁盘分区&#34;&gt;&lt;/a&gt;确定磁盘分区&lt;/h4&gt;&lt;p&gt;在 Live 系统中，使用 &lt;code&gt;fdisk -l&lt;/code&gt; 查看磁盘分区情况，找到安装 Manjaro 的磁盘，假设为 &lt;code&gt;/dev/sda&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;我的磁盘分区如下：&lt;/p&gt;
+&lt;figure class=&#34;highlight tap&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs tap&#34;&gt;设备            起点       末尾      扇区   大小    类型&lt;br&gt;/dev/sda1      &lt;span class=&#34;hljs-number&#34;&gt; 2048 &lt;/span&gt;   &lt;span class=&#34;hljs-number&#34;&gt; 821247 &lt;/span&gt;  &lt;span class=&#34;hljs-number&#34;&gt; 819200 &lt;/span&gt;  400M EFI 系统&lt;br&gt;/dev/sda2    &lt;span class=&#34;hljs-number&#34;&gt; 821248 &lt;/span&gt;&lt;span class=&#34;hljs-number&#34;&gt; 723390463 &lt;/span&gt;722569216 344.5G Linux 文件系统&lt;br&gt;/dev/sda3 &lt;span class=&#34;hljs-number&#34;&gt; 723390464 &lt;/span&gt;&lt;span class=&#34;hljs-number&#34;&gt; 983437311 &lt;/span&gt;260046848   124G Linux 文件系统&lt;br&gt;/dev/sda4 &lt;span class=&#34;hljs-number&#34;&gt; 983437312 &lt;/span&gt;1000214527 &lt;span class=&#34;hljs-number&#34;&gt; 16777216 &lt;/span&gt;    8G Linux 文件系统&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;可以确定，&lt;code&gt;/dev/sda1&lt;/code&gt; 是 EFI 系统分区，&lt;code&gt;/dev/sda2&lt;/code&gt; 是系统所在分区。&lt;/p&gt;
+&lt;h4 id=&#34;挂载分区&#34;&gt;&lt;a href=&#34;#挂载分区&#34; class=&#34;headerlink&#34; title=&#34;挂载分区&#34;&gt;&lt;/a&gt;挂载分区&lt;/h4&gt;&lt;p&gt;挂载系统分区:&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;mount /dev/sda2 /mnt&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;将当前系统的工具分区挂载到 &lt;code&gt;/mnt&lt;/code&gt; 下:&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;mount --&lt;span class=&#34;hljs-built_in&#34;&gt;bind&lt;/span&gt; /dev /mnt/dev&lt;br&gt;mount --&lt;span class=&#34;hljs-built_in&#34;&gt;bind&lt;/span&gt; /proc /mnt/proc&lt;br&gt;mount --&lt;span class=&#34;hljs-built_in&#34;&gt;bind&lt;/span&gt; /sys /mnt/sys&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;将 EFI 分区挂载到 &lt;code&gt;/mnt/boot/efi&lt;/code&gt; 下:&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;mount /dev/sda1 /mnt/boot/efi&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h4 id=&#34;进入系统&#34;&gt;&lt;a href=&#34;#进入系统&#34; class=&#34;headerlink&#34; title=&#34;进入系统&#34;&gt;&lt;/a&gt;进入系统&lt;/h4&gt;&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;&lt;span class=&#34;hljs-built_in&#34;&gt;chroot&lt;/span&gt; /mnt&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h4 id=&#34;重新安装-GRUB&#34;&gt;&lt;a href=&#34;#重新安装-GRUB&#34; class=&#34;headerlink&#34; title=&#34;重新安装 GRUB&#34;&gt;&lt;/a&gt;重新安装 GRUB&lt;/h4&gt;&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;grub-install --target=x86_64-efi --efi-directory=/boot/efi --removable&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;具体参数需要根据实际情况进行修改。&lt;/p&gt;
+&lt;h4 id=&#34;在这之后&#34;&gt;&lt;a href=&#34;#在这之后&#34; class=&#34;headerlink&#34; title=&#34;在这之后&#34;&gt;&lt;/a&gt;在这之后&lt;/h4&gt;&lt;p&gt;重启，进入通过 GRUB 引导系统。&lt;/p&gt;
+&lt;p&gt;在系统中使用 &lt;code&gt;sudo grub-install --recheck /dev/sda&lt;/code&gt; 命令再次安装 GRUB，确保系统能够正常启动。&lt;/p&gt;
+&lt;h2 id=&#34;一些思考&#34;&gt;&lt;a href=&#34;#一些思考&#34; class=&#34;headerlink&#34; title=&#34;一些思考&#34;&gt;&lt;/a&gt;一些思考&lt;/h2&gt;&lt;p&gt;接下来的内容是我的整个修复流程，包含了如何在搜索引擎查找问题、根据文章内容调整目标等杂碎的内容，和我在修复过程中的一些感想。&lt;/p&gt;
+&lt;h3 id=&#34;为什么会出现这个问题&#34;&gt;&lt;a href=&#34;#为什么会出现这个问题&#34; class=&#34;headerlink&#34; title=&#34;为什么会出现这个问题&#34;&gt;&lt;/a&gt;为什么会出现这个问题&lt;/h3&gt;&lt;p&gt;不是很清楚。&lt;/p&gt;
+&lt;p&gt;在启动 Manjaro 前我不小心打开了电脑里的 Windows 系统，但没有连接移动硬盘。&lt;/p&gt;
+&lt;p&gt;按照以往的经验，这最多只会导致找不到 GRUB 的位置，手动指定 GRUB 所在分区就可以启动系统。&lt;/p&gt;
+&lt;p&gt;但这次不大一样。&lt;/p&gt;
+&lt;p&gt;在打开 GRUB 之后，尝试引导内核，就发现了这个问题。&lt;/p&gt;
+&lt;h3 id=&#34;初步解决思路&#34;&gt;&lt;a href=&#34;#初步解决思路&#34; class=&#34;headerlink&#34; title=&#34;初步解决思路&#34;&gt;&lt;/a&gt;初步解决思路&lt;/h3&gt;&lt;p&gt;&lt;del&gt;立刻格式化磁盘，重新安装 Manjaro。&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;我已经不是曾经那个只会重装的我了，这次我希望可以解决问题，而不是简单地重装。&lt;/p&gt;
+&lt;p&gt;首先，我 Google 了这个错误，发现了几篇内容相关的文章。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://forum.artixlinux.org/index.php/topic,4668.0.html&#34;&gt;报错与我一致的文章&lt;/a&gt;，但没有给出解决方案。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.reddit.com/r/archlinux/comments/x2qb4w/grub_aborts_loading_linux_because_of_an_out_of/&#34;&gt;要我删除 GRUB 和 UEFI 所在分区所有内容的文章&lt;/a&gt;，有点可怕，不敢这么干。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://bbs.archlinux.org/viewtopic.php?id=280230&#34;&gt;提到应该重新安装 GRUB 的文章&lt;/a&gt;，这还有点道理。&lt;/p&gt;
+&lt;p&gt;于是，我的目标转变为重新安装 GRUB。&lt;/p&gt;
+&lt;h3 id=&#34;重新安装-GRUB-1&#34;&gt;&lt;a href=&#34;#重新安装-GRUB-1&#34; class=&#34;headerlink&#34; title=&#34;重新安装 GRUB&#34;&gt;&lt;/a&gt;重新安装 GRUB&lt;/h3&gt;&lt;p&gt;在之前遇到找不到 GRUB 分区的问题时，在手动引导然后进入系统后，我会执行 &lt;code&gt;sudo grub-install --recheck /dev/sda&lt;/code&gt; 重新安装 GRUB，解决这个问题。&lt;/p&gt;
+&lt;p&gt;那这次的觉得方案应该是差不多的……吧？&lt;/p&gt;
+&lt;p&gt;不对啊，这次是在 LiveCD 的系统里操作，怎么能直接安装 GRUB 呢？&lt;/p&gt;
+&lt;p&gt;这个问题比较难描述。&lt;/p&gt;
+&lt;p&gt;我先是 Google &lt;code&gt;grub-install 修复 GRUB&lt;/code&gt;，中文网站的内容都是关于在可以启动的系统下修复 GRUB 的，没有我需要的内容。&lt;/p&gt;
+&lt;p&gt;然后我开始求助于 ChatGPT，输入的 Prompts 是：&lt;/p&gt;
+&lt;figure class=&#34;highlight livecodeserver&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs livecodeserver&#34;&gt;I am &lt;span class=&#34;hljs-keyword&#34;&gt;using&lt;/span&gt; Manjaro &lt;span class=&#34;hljs-keyword&#34;&gt;with&lt;/span&gt; GRUB.&lt;br&gt;When I booted &lt;span class=&#34;hljs-keyword&#34;&gt;into&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;the&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;system&lt;/span&gt;, &lt;span class=&#34;hljs-keyword&#34;&gt;it&lt;/span&gt; says &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;sparse file not allowed 452 out of range pointer&amp;quot;&lt;/span&gt;. How &lt;span class=&#34;hljs-built_in&#34;&gt;to&lt;/span&gt; fix &lt;span class=&#34;hljs-keyword&#34;&gt;it&lt;/span&gt;?&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;不难发现，我并没有说明我使用的是 UEFI 引导，这直接影响到了 ChatGPT 回复的准确性。&lt;/p&gt;
+&lt;p&gt;ChatGPT 给出的修复步骤与上述的相差不大，只是在挂载系统分区和工具分区后，直接尝试执行 &lt;code&gt;grub-install&lt;/code&gt; 命令，尝试修复。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;grub-install&lt;/code&gt; 返回错误 &lt;code&gt;this gpt partition label contains no bios boot partition&lt;/code&gt; 把我弄得更懵了。&lt;/p&gt;
+&lt;p&gt;再次 Google 这个问题，发现了 &lt;a href=&#34;https://superuser.com/questions/903112/grub2-install-this-gpt-partition-label-contains-no-bios-boot-partition&#34;&gt;这篇在长篇大论讲 GRUB 的文章&lt;/a&gt;，虽然没有给出解决方案，但它让我意识到 UEFI 和 Legacy BIOS 两种启动方式的区别。&lt;/p&gt;
+&lt;h3 id=&#34;UEFI-和-Legacy-BIOS&#34;&gt;&lt;a href=&#34;#UEFI-和-Legacy-BIOS&#34; class=&#34;headerlink&#34; title=&#34;UEFI 和 Legacy BIOS&#34;&gt;&lt;/a&gt;UEFI 和 Legacy BIOS&lt;/h3&gt;&lt;p&gt;UEFI 和 Legacy BIOS 是两种启动方式，它们的区别在于，Legacy BIOS 是在 BIOS 中直接加载内核，而 UEFI 是在 BIOS 中加载 EFI 系统，然后由 EFI 系统加载内核。&lt;/p&gt;
+&lt;p&gt;使用 UEFI 引导的系统一般都有一个 200MB 到 400MB 的 EFI 系统分区，用于存放 EFI 系统。在上述的，我的硬盘分区中可以看到。&lt;/p&gt;
+&lt;p&gt;使用 &lt;code&gt;findmnt&lt;/code&gt; 命令可以查看当前系统的挂载情况，其中 &lt;code&gt;TARGET&lt;/code&gt; 列就是挂载点，&lt;code&gt;SOURCE&lt;/code&gt; 列就是挂载的分区。&lt;/p&gt;
+&lt;p&gt;EFI 分区的挂载情况为：&lt;/p&gt;
+&lt;figure class=&#34;highlight gradle&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs gradle&#34;&gt;TARGET      &lt;span class=&#34;hljs-keyword&#34;&gt;SOURCE&lt;/span&gt;      FSTYPE  &lt;span class=&#34;hljs-keyword&#34;&gt;OPTIONS&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-regexp&#34;&gt;/boot/&lt;/span&gt;efi   &lt;span class=&#34;hljs-regexp&#34;&gt;/dev/&lt;/span&gt;sda1   vfat    rw,relatime,fm&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;可以看到，&lt;code&gt;/boot/efi&lt;/code&gt; 里的内容正是 EFI 系统分区的内容。（我也是刚学到这个知识的）&lt;/p&gt;
+&lt;h3 id=&#34;解决-UEFI-相关问题&#34;&gt;&lt;a href=&#34;#解决-UEFI-相关问题&#34; class=&#34;headerlink&#34; title=&#34;解决 UEFI 相关问题&#34;&gt;&lt;/a&gt;解决 UEFI 相关问题&lt;/h3&gt;&lt;p&gt;在修复过程中，我是通过 Google 发现上述的问题。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://superuser.com/questions/1390428/grub-install-warning-this-gpt-partition-label-contains-no-bios-boot-partition&#34;&gt;这篇文章&lt;/a&gt; 给了我莫大的帮助。&lt;/p&gt;
+&lt;p&gt;其中提到了 EFI 分区，也提到了如何正确安装 UEFI 引导的 GRUB：&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;&lt;span class=&#34;hljs-built_in&#34;&gt;sudo&lt;/span&gt; grub-install --target=x86_64-efi --efi-directory=/boot/efi&lt;br&gt;&lt;span class=&#34;hljs-built_in&#34;&gt;sudo&lt;/span&gt; grub-install --target=x86_64-efi --efi-directory=/boot/efi --removable&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;在补充挂载 EFI 分区、切换 Root 目录后，执行第一条命令，发现有错误。尝试执行第二条命令，发现没有错误，代表 GRUB 已经重新安装成功。&lt;/p&gt;
+&lt;p&gt;此时我想起来，在之前安装 GRUB 时，会提示 &lt;code&gt;正在为 x86_64-efi 平台进行安装&lt;/code&gt;，我才意识到前面的修复过程并没有去指定平台。&lt;/p&gt;
+&lt;h3 id=&#34;总结一下&#34;&gt;&lt;a href=&#34;#总结一下&#34; class=&#34;headerlink&#34; title=&#34;总结一下&#34;&gt;&lt;/a&gt;总结一下&lt;/h3&gt;&lt;p&gt;总之，这就是我此次修复的心路历程。我没有研究过 UEFI 和 Legacy BIOS 的区别，也没有研究过 GRUB 的安装过程，所以在修复过程中，我是通过 Google 和 ChatGPT 的帮助才解决了这个问题。&lt;/p&gt;
+&lt;p&gt;希望这个探索过程能给你一些启发吧。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;此文章以 &lt;em&gt;我无所谓 By 不 By 什么 AI，对我有帮助的文章就是好文章&lt;/em&gt; 标识发布。&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/8b115688.html</guid>
+            <title>使用 Docker Compose 部署音乐服务器 Navidrome</title>
+            <link>https://blog.udon.eu.org/archives/8b115688.html</link>
+            <category>教程</category>
+            <pubDate>Tue, 31 Jan 2023 12:00:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;h2 id=&#34;服务介绍&#34;&gt;&lt;a href=&#34;#服务介绍&#34; class=&#34;headerlink&#34; title=&#34;服务介绍&#34;&gt;&lt;/a&gt;服务介绍&lt;/h2&gt;&lt;p&gt;Navidrome 是一款兼容 Subsonic API 的开源音乐服务器软件，它提供了一个不错的 WebUI，也可以将支持 Subsonic API 的客户端接入。&lt;/p&gt;
+&lt;p&gt;目前项目正处在活跃开发中，各种各样的新功能正在陆续加入。&lt;/p&gt;
+&lt;h2 id=&#34;我的客户端选择&#34;&gt;&lt;a href=&#34;#我的客户端选择&#34; class=&#34;headerlink&#34; title=&#34;我的客户端选择&#34;&gt;&lt;/a&gt;我的客户端选择&lt;/h2&gt;&lt;h3 id=&#34;电脑端&#34;&gt;&lt;a href=&#34;#电脑端&#34; class=&#34;headerlink&#34; title=&#34;电脑端&#34;&gt;&lt;/a&gt;电脑端&lt;/h3&gt;&lt;p&gt;自带 WebUI, &lt;a href=&#34;https://github.com/jeffvli/sonixd&#34;&gt;Sonixd&lt;/a&gt; 【跨平台】&lt;/p&gt;
+&lt;h3 id=&#34;iOS&#34;&gt;&lt;a href=&#34;#iOS&#34; class=&#34;headerlink&#34; title=&#34;iOS&#34;&gt;&lt;/a&gt;iOS&lt;/h3&gt;&lt;p&gt;&lt;a href=&#34;https://apps.apple.com/us/app/play-sub-music-streamer/id955329386&#34;&gt;play:sub&lt;/a&gt; 【付费软件 4.99$】&lt;/p&gt;
+&lt;h2 id=&#34;部署方式&#34;&gt;&lt;a href=&#34;#部署方式&#34; class=&#34;headerlink&#34; title=&#34;部署方式&#34;&gt;&lt;/a&gt;部署方式&lt;/h2&gt;&lt;p&gt;采用 Docker Compose 部署 Navidrome，使用 Nginx 作为反向代理。&lt;/p&gt;
+&lt;h2 id=&#34;Docker-Compose-配置文件&#34;&gt;&lt;a href=&#34;#Docker-Compose-配置文件&#34; class=&#34;headerlink&#34; title=&#34;Docker Compose 配置文件&#34;&gt;&lt;/a&gt;Docker Compose 配置文件&lt;/h2&gt;&lt;figure class=&#34;highlight yaml&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;25&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs yaml&#34;&gt;&lt;span class=&#34;hljs-attr&#34;&gt;version:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;3&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-attr&#34;&gt;services:&lt;/span&gt;&lt;br&gt;  &lt;span class=&#34;hljs-attr&#34;&gt;navidrome:&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;image:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;deluan/navidrome:latest&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;container_name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;navidrome&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;user:&lt;/span&gt; &lt;span class=&#34;hljs-number&#34;&gt;1000&lt;/span&gt;&lt;span class=&#34;hljs-string&#34;&gt;:1000&lt;/span&gt; &lt;span class=&#34;hljs-comment&#34;&gt;# should be owner of volumes&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;ports:&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;127.0.0.1:4533:4533&amp;quot;&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;restart:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;unless-stopped&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;environment:&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;ND_SCANSCHEDULE:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;1h&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;ND_LOGLEVEL:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;info&lt;/span&gt;  &lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;ND_SESSIONTIMEOUT:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;24h&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;ND_BASEURL:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;ND_SEARCHFULLSTRING:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-comment&#34;&gt;# Optional: fetch artist images from spotify&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;ND_SPOTIFY_ID:&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;ND_SPOTIFY_SECRET:&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-comment&#34;&gt;# Optional: fetch artist information from last.fm&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;ND_LASTFM_APIKEY:&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;ND_LASTFM_SECRET:&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;ND_LASTFM_LANGUAGE:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;en&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;volumes:&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;./data:/data&amp;quot;&lt;/span&gt;      &lt;span class=&#34;hljs-comment&#34;&gt;# Navidrome data&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;/APTH-TO/navidrome-music:/music:ro&amp;quot;&lt;/span&gt; &lt;span class=&#34;hljs-comment&#34;&gt;# Music folder&lt;/span&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;使用命令 &lt;code&gt;docker compose up -d&lt;/code&gt; 启动服务。&lt;/p&gt;
+&lt;h2 id=&#34;Nginx-配置文件&#34;&gt;&lt;a href=&#34;#Nginx-配置文件&#34; class=&#34;headerlink&#34; title=&#34;Nginx 配置文件&#34;&gt;&lt;/a&gt;Nginx 配置文件&lt;/h2&gt;&lt;p&gt;我建议使用 DigitalOcean 的 Nginx 配置生产工具，示例配置如下：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.digitalocean.com/community/tools/nginx?domains.0.server.domain=music.example.com&amp;domains.0.php.php=false&amp;domains.0.reverseProxy.reverseProxy=true&amp;domains.0.reverseProxy.proxyPass=http://127.0.0.1:4533&amp;domains.0.routing.root=false&amp;domains.0.routing.index=index.html&amp;domains.0.routing.fallbackHtml=true&amp;global.app.lang=zhCN%5C&#34;&gt;示例配置&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;也可参考下述配置，此为 DigitalOcean 生成配置的简化版：&lt;/p&gt;
+&lt;figure class=&#34;highlight nginx&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;33&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs nginx&#34;&gt;&lt;span class=&#34;hljs-section&#34;&gt;server&lt;/span&gt; &amp;#123;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;listen&lt;/span&gt;                  &lt;span class=&#34;hljs-number&#34;&gt;443&lt;/span&gt; ssl http2;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;listen&lt;/span&gt;                  [::]:&lt;span class=&#34;hljs-number&#34;&gt;443&lt;/span&gt; ssl http2;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;server_name&lt;/span&gt;             music.example.com;&lt;br&gt;&lt;br&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;# SSL&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;ssl_certificate&lt;/span&gt;         /etc/letsencrypt/live/music.example.com/fullchain.pem;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;ssl_certificate_key&lt;/span&gt;     /etc/letsencrypt/live/music.example.com/privkey.pem;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;ssl_trusted_certificate&lt;/span&gt; /etc/letsencrypt/live/music.example.com/chain.pem;&lt;br&gt;&lt;br&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;# logging&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;access_log&lt;/span&gt;              /var/log/nginx/access.log combined buffer=&lt;span class=&#34;hljs-number&#34;&gt;512k&lt;/span&gt; flush=&lt;span class=&#34;hljs-number&#34;&gt;1m&lt;/span&gt;;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;error_log&lt;/span&gt;               /var/log/nginx/&lt;span class=&#34;hljs-literal&#34;&gt;error&lt;/span&gt;.log &lt;span class=&#34;hljs-literal&#34;&gt;warn&lt;/span&gt;;&lt;br&gt;&lt;br&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;# reverse proxy&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-section&#34;&gt;location&lt;/span&gt; / &amp;#123;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; Host     &lt;span class=&#34;hljs-variable&#34;&gt;$host&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_pass&lt;/span&gt;                http://127.0.0.1:4533;&lt;br&gt;    &amp;#125;&lt;br&gt;&amp;#125;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-comment&#34;&gt;# subdomains redirect&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-section&#34;&gt;server&lt;/span&gt; &amp;#123;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;listen&lt;/span&gt;                  &lt;span class=&#34;hljs-number&#34;&gt;443&lt;/span&gt; ssl http2;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;listen&lt;/span&gt;                  [::]:&lt;span class=&#34;hljs-number&#34;&gt;443&lt;/span&gt; ssl http2;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;server_name&lt;/span&gt;             &lt;span class=&#34;hljs-regexp&#34;&gt;*.music.example.com&lt;/span&gt;;&lt;br&gt;&lt;br&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;# SSL&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;ssl_certificate&lt;/span&gt;         /etc/letsencrypt/live/music.example.com/fullchain.pem;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;ssl_certificate_key&lt;/span&gt;     /etc/letsencrypt/live/music.example.com/privkey.pem;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;ssl_trusted_certificate&lt;/span&gt; /etc/letsencrypt/live/music.example.com/chain.pem;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;return&lt;/span&gt;                  &lt;span class=&#34;hljs-number&#34;&gt;301&lt;/span&gt; https://music.example.com&lt;span class=&#34;hljs-variable&#34;&gt;$request_uri&lt;/span&gt;;&lt;br&gt;&amp;#125;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h2 id=&#34;音乐管理&#34;&gt;&lt;a href=&#34;#音乐管理&#34; class=&#34;headerlink&#34; title=&#34;音乐管理&#34;&gt;&lt;/a&gt;音乐管理&lt;/h2&gt;&lt;p&gt;我一直以文件夹分类的方式管理音乐，但 Navidrome 并不支持文件夹分类。它是根据音乐标签来分类的，例如按照歌手、专辑等依据分类歌曲。&lt;/p&gt;
+&lt;p&gt;因此，若想使用 Navidrome，需要对音乐进行标签管理。&lt;/p&gt;
+&lt;p&gt;大约两年前，我写了 &lt;a href=&#34;https://blog.udon.eu.org/archives/6b40e5ad.html&#34;&gt;一篇文章&lt;/a&gt; 介绍使用 Music Tag 和 Foobar2000 两款软件来管理音乐。&lt;/p&gt;
+&lt;p&gt;Music Tag 的标签源是网易云音乐、豆瓣音乐、QQ 音乐等国内音乐平台，说实话，这些平台的音乐标签质量都不是很好，所以我一直在寻找更好的音乐标签源。&lt;/p&gt;
+&lt;p&gt;直到我发现了 &lt;a href=&#34;https://musicbrainz.org/&#34;&gt;MusicBrainz&lt;/a&gt;，这是一个开源的音乐标签数据库，任何人都可以为它贡献标签。在体验之后，我发现 MusicBrainz 的音乐标签质量要比国内音乐平台的标签质量好很多，所以我决定将 MusicBrainz 作为我的音乐标签源。&lt;/p&gt;
+&lt;p&gt;我使用 &lt;a href=&#34;https://picard.musicbrainz.org/&#34;&gt;Picard&lt;/a&gt; 这款软件来从 MusicBrainz 获取音乐标签。&lt;/p&gt;
+&lt;p&gt;将音乐导入 Picard 后，它会自动从 MusicBrainz 获取音乐标签，然后将标签写入音乐文件，十分方便。&lt;/p&gt;
+&lt;h2 id=&#34;开始使用&#34;&gt;&lt;a href=&#34;#开始使用&#34; class=&#34;headerlink&#34; title=&#34;开始使用&#34;&gt;&lt;/a&gt;开始使用&lt;/h2&gt;&lt;p&gt;不论是使用 Navidrome 自带的 Web 界面，还是使用兼容 Subsonic API 的客户端，只要连接到 Navidrome，便可开始享受你的私人音乐库。&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/f9bfe16a.html</guid>
+            <title>使用 Docker Compose 部署 Keycloak 20</title>
+            <link>https://blog.udon.eu.org/archives/f9bfe16a.html</link>
+            <category>教程</category>
+            <pubDate>Sun, 22 Jan 2023 20:00:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;h2 id=&#34;部署方式&#34;&gt;&lt;a href=&#34;#部署方式&#34; class=&#34;headerlink&#34; title=&#34;部署方式&#34;&gt;&lt;/a&gt;部署方式&lt;/h2&gt;&lt;p&gt;采用 Docker Compose 部署，使用 Postgres 作为数据库，使用 Nginx 作为反向代理。&lt;/p&gt;
+&lt;h2 id=&#34;Docker-Compose-配置文件&#34;&gt;&lt;a href=&#34;#Docker-Compose-配置文件&#34; class=&#34;headerlink&#34; title=&#34;Docker Compose 配置文件&#34;&gt;&lt;/a&gt;Docker Compose 配置文件&lt;/h2&gt;&lt;figure class=&#34;highlight yaml&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;32&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs yaml&#34;&gt;&lt;span class=&#34;hljs-attr&#34;&gt;version:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;3&amp;#x27;&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-attr&#34;&gt;services:&lt;/span&gt;&lt;br&gt;  &lt;span class=&#34;hljs-attr&#34;&gt;keycloak:&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;image:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;quay.io/keycloak/keycloak:latest&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;environment:&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;KC_DB:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;postgres&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;KC_DB_URL:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;jdbc:postgresql://db:5432/keycloak&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;KC_DB_USERNAME:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;keycloak&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;KC_DB_PASSWORD:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;keycloak&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;KC_HTTP_ENABLED:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;                   &lt;span class=&#34;hljs-comment&#34;&gt;# 开启 HTTP&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;KC_HOSTNAME_STRICT:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;false&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;KC_HOSTNAME_STRICT_HTTPS:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;false&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;KC_HTTP_RELATIVE_PATH:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;/&amp;#x27;&lt;/span&gt;              &lt;span class=&#34;hljs-comment&#34;&gt;# Keycloak 应用的相对路径&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;KC_HTTP_PORT:&lt;/span&gt; &lt;span class=&#34;hljs-number&#34;&gt;8080&lt;/span&gt;                      &lt;span class=&#34;hljs-comment&#34;&gt;# HTTP 端口&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;KEYCLOAK_ADMIN:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;MY_USERNAME&lt;/span&gt;             &lt;span class=&#34;hljs-comment&#34;&gt;# 管理员账号，仅初始化时使用&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;KEYCLOAK_ADMIN_PASSWORD:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;MY_PASSWORD&lt;/span&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;# 管理员密码，仅初始化时使用&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;PROXY_ADDRESS_FORWARDING:&lt;/span&gt; &lt;span class=&#34;hljs-literal&#34;&gt;true&lt;/span&gt;          &lt;span class=&#34;hljs-comment&#34;&gt;# 使用反向代理必须开启&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;KC_PROXY:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;edge&lt;/span&gt;                          &lt;span class=&#34;hljs-comment&#34;&gt;# 反向代理模式，详见文档&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;entrypoint:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;/opt/keycloak/bin/kc.sh&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;start&lt;/span&gt; &lt;span class=&#34;hljs-comment&#34;&gt;# 第一次运行后可以加上 --optimized 参数，加快二次启动速度&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;ports:&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-number&#34;&gt;127.0&lt;/span&gt;&lt;span class=&#34;hljs-number&#34;&gt;.0&lt;/span&gt;&lt;span class=&#34;hljs-number&#34;&gt;.1&lt;/span&gt;&lt;span class=&#34;hljs-string&#34;&gt;:18080:8080&lt;/span&gt;      &lt;span class=&#34;hljs-comment&#34;&gt;# Keycloak 应用端口&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;restart:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;unless-stopped&lt;/span&gt;&lt;br&gt;  &lt;span class=&#34;hljs-attr&#34;&gt;db:&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;image:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;postgres:14&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;restart:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;unless-stopped&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;environment:&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;POSTGRES_USER=keycloak&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;POSTGRES_PASSWORD=keycloak&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;POSTGRES_DB=keycloak&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;volumes:&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;./postgres-data:/var/lib/postgresql/data&lt;/span&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;# 数据库数据保存位置&lt;/span&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;使用命令 &lt;code&gt;docker compose up -d&lt;/code&gt; 启动服务。&lt;/p&gt;
+&lt;h2 id=&#34;Nginx-配置&#34;&gt;&lt;a href=&#34;#Nginx-配置&#34; class=&#34;headerlink&#34; title=&#34;Nginx 配置&#34;&gt;&lt;/a&gt;Nginx 配置&lt;/h2&gt;&lt;p&gt;我建议使用 DigitalOcean 的 Nginx 配置生产工具，示例配置如下：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.digitalocean.com/community/tools/nginx?domains.0.server.domain=auth.example.com&amp;domains.0.php.php=false&amp;domains.0.reverseProxy.reverseProxy=true&amp;domains.0.reverseProxy.proxyPass=http://127.0.0.1:18080&amp;domains.0.routing.root=false&amp;global.app.lang=zhCN&#34;&gt;示例配置&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;也可参考下述配置，此为 DigitalOcean 生成配置的简化版：&lt;/p&gt;
+&lt;figure class=&#34;highlight nginx&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;51&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;52&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;53&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;54&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;55&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;56&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;57&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;58&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;59&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;60&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;61&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;62&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;63&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs nginx&#34;&gt;&lt;span class=&#34;hljs-section&#34;&gt;server&lt;/span&gt; &amp;#123;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;listen&lt;/span&gt;                  &lt;span class=&#34;hljs-number&#34;&gt;443&lt;/span&gt; ssl http2;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;listen&lt;/span&gt;                  [::]:&lt;span class=&#34;hljs-number&#34;&gt;443&lt;/span&gt; ssl http2;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;server_name&lt;/span&gt;             auth.example.com;&lt;br&gt;&lt;br&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;# SSL&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;ssl_certificate&lt;/span&gt;         /etc/letsencrypt/live/auth.example.com/fullchain.pem;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;ssl_certificate_key&lt;/span&gt;     /etc/letsencrypt/live/auth.example.com/privkey.pem;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;ssl_trusted_certificate&lt;/span&gt; /etc/letsencrypt/live/auth.example.com/chain.pem;&lt;br&gt;&lt;br&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;# logging&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;access_log&lt;/span&gt;              /var/log/nginx/access.log combined buffer=&lt;span class=&#34;hljs-number&#34;&gt;512k&lt;/span&gt; flush=&lt;span class=&#34;hljs-number&#34;&gt;1m&lt;/span&gt;;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;error_log&lt;/span&gt;               /var/log/nginx/&lt;span class=&#34;hljs-literal&#34;&gt;error&lt;/span&gt;.log &lt;span class=&#34;hljs-literal&#34;&gt;warn&lt;/span&gt;;&lt;br&gt;&lt;br&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;# reverse proxy&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-section&#34;&gt;location&lt;/span&gt; / &amp;#123;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; Host       &lt;span class=&#34;hljs-variable&#34;&gt;$host&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; X-Real-IP  &lt;span class=&#34;hljs-variable&#34;&gt;$remote_addr&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; X-Forwarded-Proto &lt;span class=&#34;hljs-variable&#34;&gt;$scheme&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; X-Auth-Request-Redirect &lt;span class=&#34;hljs-variable&#34;&gt;$request_uri&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_buffer_size&lt;/span&gt;   &lt;span class=&#34;hljs-number&#34;&gt;128k&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_buffers&lt;/span&gt;   &lt;span class=&#34;hljs-number&#34;&gt;4&lt;/span&gt; &lt;span class=&#34;hljs-number&#34;&gt;256k&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_busy_buffers_size&lt;/span&gt;   &lt;span class=&#34;hljs-number&#34;&gt;256k&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_pass&lt;/span&gt;            http://127.0.0.1:18080;&lt;br&gt;    &amp;#125;&lt;br&gt;&lt;br&gt;    &lt;span class=&#34;hljs-section&#34;&gt;location&lt;/span&gt; /auth/realms &amp;#123;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; Host       &lt;span class=&#34;hljs-variable&#34;&gt;$host&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; X-Real-IP  &lt;span class=&#34;hljs-variable&#34;&gt;$remote_addr&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; X-Forwarded-Proto &lt;span class=&#34;hljs-variable&#34;&gt;$scheme&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; X-Auth-Request-Redirect &lt;span class=&#34;hljs-variable&#34;&gt;$request_uri&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_pass&lt;/span&gt; http://127.0.0.1:18080;&lt;br&gt;    &amp;#125;&lt;br&gt;&lt;br&gt;    &lt;span class=&#34;hljs-section&#34;&gt;location&lt;/span&gt; /auth/resources &amp;#123;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; Host       &lt;span class=&#34;hljs-variable&#34;&gt;$host&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; X-Real-IP  &lt;span class=&#34;hljs-variable&#34;&gt;$remote_addr&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; X-Forwarded-Proto &lt;span class=&#34;hljs-variable&#34;&gt;$scheme&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; X-Auth-Request-Redirect &lt;span class=&#34;hljs-variable&#34;&gt;$request_uri&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_pass&lt;/span&gt; http://127.0.0.1:18080;&lt;br&gt;     &amp;#125;&lt;br&gt;&lt;br&gt;    &lt;span class=&#34;hljs-section&#34;&gt;location&lt;/span&gt; /auth/js &amp;#123;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; Host       &lt;span class=&#34;hljs-variable&#34;&gt;$host&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; X-Real-IP  &lt;span class=&#34;hljs-variable&#34;&gt;$remote_addr&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; X-Forwarded-Proto &lt;span class=&#34;hljs-variable&#34;&gt;$scheme&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_set_header&lt;/span&gt; X-Auth-Request-Redirect &lt;span class=&#34;hljs-variable&#34;&gt;$request_uri&lt;/span&gt;;&lt;br&gt;      &lt;span class=&#34;hljs-attribute&#34;&gt;proxy_pass&lt;/span&gt; http://127.0.0.1:18080;&lt;br&gt;    &amp;#125;&lt;br&gt;&amp;#125;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-comment&#34;&gt;# subdomains redirect&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-section&#34;&gt;server&lt;/span&gt; &amp;#123;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;listen&lt;/span&gt;                  &lt;span class=&#34;hljs-number&#34;&gt;443&lt;/span&gt; ssl http2;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;listen&lt;/span&gt;                  [::]:&lt;span class=&#34;hljs-number&#34;&gt;443&lt;/span&gt; ssl http2;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;server_name&lt;/span&gt;             &lt;span class=&#34;hljs-regexp&#34;&gt;*.auth.example.com&lt;/span&gt;;&lt;br&gt;&lt;br&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;# SSL&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;ssl_certificate&lt;/span&gt;         /etc/letsencrypt/live/auth.example.com/fullchain.pem;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;ssl_certificate_key&lt;/span&gt;     /etc/letsencrypt/live/auth.example.com/privkey.pem;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;ssl_trusted_certificate&lt;/span&gt; /etc/letsencrypt/live/auth.example.com/chain.pem;&lt;br&gt;    &lt;span class=&#34;hljs-attribute&#34;&gt;return&lt;/span&gt;                  &lt;span class=&#34;hljs-number&#34;&gt;301&lt;/span&gt; https://auth.example.com&lt;span class=&#34;hljs-variable&#34;&gt;$request_uri&lt;/span&gt;;&lt;br&gt;&amp;#125;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h2 id=&#34;配置-Keycloak&#34;&gt;&lt;a href=&#34;#配置-Keycloak&#34; class=&#34;headerlink&#34; title=&#34;配置 Keycloak&#34;&gt;&lt;/a&gt;配置 Keycloak&lt;/h2&gt;&lt;h3 id=&#34;创建-Realm&#34;&gt;&lt;a href=&#34;#创建-Realm&#34; class=&#34;headerlink&#34; title=&#34;创建 Realm&#34;&gt;&lt;/a&gt;创建 Realm&lt;/h3&gt;&lt;p&gt;打开 &lt;a href=&#34;http://127.0.0.1:18080/&#34;&gt;Keycloak 地址&lt;/a&gt;，界面如下。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2023-01-22/01.jpg&#34; alt=&#34;Keycloak 界面&#34;&gt;&lt;/p&gt;
+&lt;p&gt;选择 &lt;code&gt;Administration Console&lt;/code&gt;，进入管理界面。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2023-01-22/02.jpg&#34; alt=&#34;管理界面&#34;&gt;&lt;/p&gt;
+&lt;p&gt;选择箭头指向的下拉菜单，选择 &lt;code&gt;Add realm&lt;/code&gt;，创建一个新的 Realm。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2023-01-22/03.jpg&#34; alt=&#34;创建 Realm&#34;&gt;&lt;/p&gt;
+&lt;p&gt;填写 Realm 名称，点击 &lt;code&gt;Create&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;创建-Client&#34;&gt;&lt;a href=&#34;#创建-Client&#34; class=&#34;headerlink&#34; title=&#34;创建 Client&#34;&gt;&lt;/a&gt;创建 Client&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;/images/2023-01-22/04.jpg&#34; alt=&#34;管理界面&#34;&gt;&lt;/p&gt;
+&lt;p&gt;选择 &lt;code&gt;Clients&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2023-01-22/05.jpg&#34; alt=&#34;Client 管理界面&#34;&gt;&lt;/p&gt;
+&lt;p&gt;点击 &lt;code&gt;Create client&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2023-01-22/06.jpg&#34; alt=&#34;创建 Client&#34;&gt;&lt;/p&gt;
+&lt;p&gt;填写 Client 相关信息，点击 &lt;code&gt;Next&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2023-01-22/07.jpg&#34; alt=&#34;配置 Client&#34;&gt;&lt;/p&gt;
+&lt;p&gt;按需求选择 Client 的配置，点击 &lt;code&gt;Save&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2023-01-22/08.jpg&#34; alt=&#34;Client 创建完成&#34;&gt;&lt;/p&gt;
+&lt;p&gt;至此，Keycloak 配置完成，且创建了第一个测试用 Client。&lt;/p&gt;
+&lt;h3 id=&#34;测试-Client&#34;&gt;&lt;a href=&#34;#测试-Client&#34; class=&#34;headerlink&#34; title=&#34;测试 Client&#34;&gt;&lt;/a&gt;测试 Client&lt;/h3&gt;&lt;p&gt;可根据 &lt;a href=&#34;https://www.keycloak.org/getting-started/getting-started-docker#_secure_your_first_app&#34;&gt;官方教程&lt;/a&gt; 测试该 Client。&lt;/p&gt;
+&lt;h2 id=&#34;尾声&#34;&gt;&lt;a href=&#34;#尾声&#34; class=&#34;headerlink&#34; title=&#34;尾声&#34;&gt;&lt;/a&gt;尾声&lt;/h2&gt;&lt;p&gt;上述便是使用 Docker Compose 部署 Keycloak 20 的方法，我们顺利创建了第一个测试用 Client，接下来可以根据自己的需求进行配置。&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/e74a90f2.html</guid>
+            <title>使用再生龙 Clonezilla 备份操作系统</title>
+            <link>https://blog.udon.eu.org/archives/e74a90f2.html</link>
+            <category>教程</category>
+            <pubDate>Fri, 12 Aug 2022 12:30:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;近日购入了一只闪迪的 CZ880 Ｅｘｔｒｅｍｅ ＰＲＯ 固态U盘来装 Manjaro。&lt;/p&gt;
+&lt;p&gt;虽然U盘本体是终身质保的，但数据无价，配置一遍系统就要花大把的时间。遂有了备份U盘内整个系统的念头。&lt;/p&gt;
+&lt;p&gt;下面跟着我使用再生龙 Clonezilla 把U盘里的系统备份一下吧！&lt;/p&gt;
+&lt;h3 id=&#34;事先准备&#34;&gt;&lt;a href=&#34;#事先准备&#34; class=&#34;headerlink&#34; title=&#34;事先准备&#34;&gt;&lt;/a&gt;事先准备&lt;/h3&gt;&lt;p&gt;再生龙是运行在独立操作系统 (Debian&amp;#x2F;Ubuntu) 上的一套软件，因此需要制作启动盘，或使用 Ventoy 等多系统启动方案。（实测 YUMI 无法启动再生龙，故建议使用 Ventoy）&lt;/p&gt;
+&lt;h4 id=&#34;制作启动盘&#34;&gt;&lt;a href=&#34;#制作启动盘&#34; class=&#34;headerlink&#34; title=&#34;制作启动盘&#34;&gt;&lt;/a&gt;制作启动盘&lt;/h4&gt;&lt;p&gt;前往 &lt;a href=&#34;https://rufus.ie/zh/&#34;&gt;Rufus 官网&lt;/a&gt; 下载 Rufus 启动盘制作工具。&lt;/p&gt;
+&lt;p&gt;前往 &lt;a href=&#34;https://clonezilla.org/downloads/download.php?branch=stable&#34;&gt;Clonezilla 官网&lt;/a&gt; 下载再生龙映像。&lt;/p&gt;
+&lt;p&gt;使用 Rufus 将再生龙映像烧写进另一个U盘即可。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;U盘内数据将丢失，请做好备份！&lt;/strong&gt;&lt;/p&gt;
+&lt;h4 id=&#34;使用多系统启动&#34;&gt;&lt;a href=&#34;#使用多系统启动&#34; class=&#34;headerlink&#34; title=&#34;使用多系统启动&#34;&gt;&lt;/a&gt;使用多系统启动&lt;/h4&gt;&lt;p&gt;前往 &lt;a href=&#34;https://www.ventoy.net/&#34;&gt;Ventoy 官网&lt;/a&gt; 下载安装包（兼容 Windows 与 Linux），将你的另一个U盘制作为 Ventoy 多启动盘。&lt;/p&gt;
+&lt;p&gt;前往 &lt;a href=&#34;https://clonezilla.org/downloads/download.php?branch=stable&#34;&gt;Clonezilla 官网&lt;/a&gt; 下载再生龙映像。&lt;/p&gt;
+&lt;p&gt;将再生龙映像拷贝至 Ventoy 多启动盘中。&lt;/p&gt;
+&lt;p&gt;选择你想存放备份数据的目的地，创建一个存放备份映像的文件夹（注意目录名称中不能带有空格）。&lt;/p&gt;
+&lt;p&gt;剧透一下，40G 的系统盘备份之后大约占了 16-17G. 请留出足够的空间（建议和待备份的数据等大小）。&lt;/p&gt;
+&lt;h3 id=&#34;开始备份&#34;&gt;&lt;a href=&#34;#开始备份&#34; class=&#34;headerlink&#34; title=&#34;开始备份&#34;&gt;&lt;/a&gt;开始备份&lt;/h3&gt;&lt;p&gt;瞎眼警告：由于没有合适的截屏方式，我很不愿意地采取了 拍 屏 的方式，敬请谅解。&lt;/p&gt;
+&lt;h4 id=&#34;启动再生龙系统&#34;&gt;&lt;a href=&#34;#启动再生龙系统&#34; class=&#34;headerlink&#34; title=&#34;启动再生龙系统&#34;&gt;&lt;/a&gt;启动再生龙系统&lt;/h4&gt;&lt;p&gt;确保你的电脑关闭了安全启动，若还打开着，需要在 BIOS 中将其关闭。&lt;/p&gt;
+&lt;p&gt;插入刚刚制作好的启动盘&amp;#x2F;Ventoy 多启动盘，在电脑启动时猛敲键盘的…某个键，这因电脑型号而异，打开启动菜单。&lt;/p&gt;
+&lt;p&gt;选择插入的启动盘&amp;#x2F;多启动盘。&lt;/p&gt;
+&lt;p&gt;启动盘用户若没有太大的兼容性问题，就能看到再生龙的启动菜单。&lt;/p&gt;
+&lt;p&gt;多启动盘用户还要再多一步，在 Ventoy 菜单内选中再生龙的映像，如下图所示，即可打开再生龙的启动菜单。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/1.jpeg&#34; alt=&#34;Ventoy 多启动菜单&#34;&gt;&lt;/p&gt;
+&lt;p&gt;P.S. 我的笔记本兴许和 Ventoy 的 UEFI 模式相性不大好，在 BIOS 中开启了 Lagacy 兼容模式后，使用 Legacy 模式才能开启 Ventoy。&lt;/p&gt;
+&lt;h4 id=&#34;选择再生龙启动方式&#34;&gt;&lt;a href=&#34;#选择再生龙启动方式&#34; class=&#34;headerlink&#34; title=&#34;选择再生龙启动方式&#34;&gt;&lt;/a&gt;选择再生龙启动方式&lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/2.jpeg&#34; alt=&#34;再生龙启动菜单&#34;&gt;&lt;/p&gt;
+&lt;p&gt;经典的 GRUB 启动菜单，一般来说选择默认的第一项启动方式即可。&lt;/p&gt;
+&lt;h5 id=&#34;VGA-启动花屏&#34;&gt;&lt;a href=&#34;#VGA-启动花屏&#34; class=&#34;headerlink&#34; title=&#34;VGA 启动花屏&#34;&gt;&lt;/a&gt;VGA 启动花屏&lt;/h5&gt;&lt;p&gt;我的电脑遇到了在 VGA 800x600 模式下花屏的问题。&lt;/p&gt;
+&lt;p&gt;最终进入 &lt;code&gt;Other mods of Clonezilla live&lt;/code&gt; 菜单，&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/3.jpeg&#34; alt=&#34;其他启动模式&#34;&gt;&lt;/p&gt;
+&lt;p&gt;选择了上图中的 KVM &amp;amp; To RAM 模式，可以正常启动了。&lt;/p&gt;
+&lt;h5 id=&#34;USB-口不够用的用户&#34;&gt;&lt;a href=&#34;#USB-口不够用的用户&#34; class=&#34;headerlink&#34; title=&#34;USB 口不够用的用户&#34;&gt;&lt;/a&gt;USB 口不够用的用户&lt;/h5&gt;&lt;p&gt;我这台笔记本只有两个 USB 口，其中一个要给备份源头 CZ880,另一个则要给移动硬盘，故选择了 &lt;code&gt;To RAM&lt;/code&gt; 模式，将再生龙载入内存，就可以拔掉多启动U盘，空出 USB 口给移动硬盘了。&lt;/p&gt;
+&lt;h4 id=&#34;语言配置&#34;&gt;&lt;a href=&#34;#语言配置&#34; class=&#34;headerlink&#34; title=&#34;语言配置&#34;&gt;&lt;/a&gt;语言配置&lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/4.jpeg&#34; alt=&#34;语言配置&#34;&gt;&lt;/p&gt;
+&lt;p&gt;选择自己想用的语言即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/5.jpeg&#34; alt=&#34;键盘配置&#34;&gt;&lt;/p&gt;
+&lt;p&gt;保持默认配置即可。&lt;/p&gt;
+&lt;h4 id=&#34;备份配置&#34;&gt;&lt;a href=&#34;#备份配置&#34; class=&#34;headerlink&#34; title=&#34;备份配置&#34;&gt;&lt;/a&gt;备份配置&lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/6.jpeg&#34; alt=&#34;功能选择&#34;&gt;&lt;/p&gt;
+&lt;p&gt;我们选 &lt;code&gt;Start Clonezilla 使用再生龙&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;命令行可以在熟悉了配置之后使用。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/7.jpeg&#34; alt=&#34;备份模式选择&#34;&gt;&lt;/p&gt;
+&lt;p&gt;此处我们选择第一项 &lt;code&gt;device-image 硬盘/分区[存到/来自]镜像文件&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;若想进行两盘对拷，可以选择第二项。我还没有尝试过。&lt;/p&gt;
+&lt;h4 id=&#34;挂载存储目录&#34;&gt;&lt;a href=&#34;#挂载存储目录&#34; class=&#34;headerlink&#34; title=&#34;挂载存储目录&#34;&gt;&lt;/a&gt;挂载存储目录&lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/8.jpeg&#34; alt=&#34;存储目录选择&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这次我打算使用移动硬盘备份系统，故选择第一项 &lt;code&gt;local dev 使用本机的分区&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/10.jpeg&#34; alt=&#34;插入 USB 设备提示&#34;&gt;&lt;/p&gt;
+&lt;p&gt;随后，再生龙会提示插入想要挂载的 USB 设备，按照提示做即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/11.jpeg&#34; alt=&#34;检测到的存储设备&#34;&gt;&lt;/p&gt;
+&lt;p&gt;此时画面会动态显示系统识别到的存储设备。看到期望的目标设备时，按下 &lt;code&gt;Ctrl-C&lt;/code&gt; 停止搜索。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/12.jpeg&#34; alt=&#34;分区选择&#34;&gt;&lt;/p&gt;
+&lt;p&gt;在扫描完电脑当前安装的所有硬盘的分区后，你需要选择备份镜像文件存放的那个分区。&lt;/p&gt;
+&lt;p&gt;如图，我希望备份到大小为 1.8T 的移动硬盘上，故选择最后一项 &lt;code&gt;sdc2&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/13.jpeg&#34; alt=&#34;是否检查并修复文件系统&#34;&gt;&lt;/p&gt;
+&lt;p&gt;随后，再生龙询问你是否需要检查并修复挂载的文件系统，我们选第一项否就好了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/14.jpeg&#34; alt=&#34;备份位置选择&#34;&gt;&lt;/p&gt;
+&lt;p&gt;接着，就是选择备份镜像存放的位置。&lt;/p&gt;
+&lt;p&gt;使用键盘的方向键选择目录，使用 &lt;code&gt;Tab&lt;/code&gt; 跳转到下方的选项，选择 &lt;code&gt;Browse&lt;/code&gt; 并敲击回车就可以进入到此目录。&lt;/p&gt;
+&lt;p&gt;若希望在选中目录下存放备份镜像文件（是一个文件夹），就可以选择 &lt;code&gt;Done&lt;/code&gt; 选项，回车确认。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/15.jpeg&#34; alt=&#34;是否检查镜像可还原性&#34;&gt;&lt;/p&gt;
+&lt;p&gt;系统询问是否检查生成的备份镜像的可还原性，这里我们选是，多花一点时间能确保备份的完整性。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/16.jpeg&#34; alt=&#34;是否对镜像加密&#34;&gt;&lt;/p&gt;
+&lt;p&gt;镜像加密，依个人喜好选择。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/18.jpeg&#34; alt=&#34;备份模式确认&#34;&gt;&lt;/p&gt;
+&lt;p&gt;待上述配置完成后，系统会向你再次确认备份的内容与目的地。&lt;/p&gt;
+&lt;p&gt;确认无误后输入 &lt;code&gt;y&lt;/code&gt; 并敲击回车继续。&lt;/p&gt;
+&lt;h4 id=&#34;简单模式-高级模式&#34;&gt;&lt;a href=&#34;#简单模式-高级模式&#34; class=&#34;headerlink&#34; title=&#34;简单模式&amp;#x2F;高级模式&#34;&gt;&lt;/a&gt;简单模式&amp;#x2F;高级模式&lt;/h4&gt;&lt;p&gt;此时应该有一个模式选择，问你想要使用简单模式还是专家模式。&lt;/p&gt;
+&lt;p&gt;我建议选择 专家模式，简单模式能选择的参数较少。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/20.jpeg&#34; alt=&#34;模式选择&#34;&gt;&lt;/p&gt;
+&lt;p&gt;接下来的三个选项，全部保持默认配置即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/21.jpeg&#34; alt=&#34;高级设置1&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/22.jpeg&#34; alt=&#34;高级设置2&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/23.jpeg&#34; alt=&#34;高级设置3&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;压缩方式选择&#34;&gt;&lt;a href=&#34;#压缩方式选择&#34; class=&#34;headerlink&#34; title=&#34;压缩方式选择&#34;&gt;&lt;/a&gt;压缩方式选择&lt;/h4&gt;&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/24.jpeg&#34; alt=&#34;压缩方式选择&#34;&gt;&lt;/p&gt;
+&lt;p&gt;此处选择第三项 &lt;code&gt;-z2p 使用并行 bzip2 压缩&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;实测 bzip2 压缩速度比较快，产生的备份镜像的体积也不算大。&lt;/p&gt;
+&lt;p&gt;下图为选择了第一项 &lt;code&gt;-z1p 使用并行的 gzip 压缩&lt;/code&gt; 的速度：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/19.jpeg&#34; alt=&#34;并行 gzip 压缩速度&#34;&gt;&lt;/p&gt;
+&lt;p&gt;下图为选择了第三项 &lt;code&gt;-z2p 使用并行 bzip2 压缩&lt;/code&gt; 的速度：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/26.jpeg&#34; alt=&#34;并行 bzip2 压缩速度&#34;&gt;&lt;/p&gt;
+&lt;p&gt;可以看出 bzip2 压缩速度比 gzip 快了8倍。&lt;/p&gt;
+&lt;p&gt;其他压缩方式的速度，待我测试之后更新文章。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/25.jpeg&#34; alt=&#34;分卷大小配置&#34;&gt;&lt;/p&gt;
+&lt;p&gt;分卷大小配置保持默认即可。&lt;/p&gt;
+&lt;h4 id=&#34;备份镜像检查&#34;&gt;&lt;a href=&#34;#备份镜像检查&#34; class=&#34;headerlink&#34; title=&#34;备份镜像检查&#34;&gt;&lt;/a&gt;备份镜像检查&lt;/h4&gt;&lt;p&gt;待备份完成后，再生龙还会进行一次备份镜像的可还原性检查，如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/27.jpeg&#34; alt=&#34;可还原性检查&#34;&gt;&lt;/p&gt;
+&lt;p&gt;若得到下图的提示，则备份镜像生成成功了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/28.jpeg&#34; alt=&#34;可还原性检查完成&#34;&gt;&lt;/p&gt;
+&lt;p&gt;随后，选择按照意愿选择备份结束后的操作即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/29.jpeg&#34; alt=&#34;备份结束后操作选择&#34;&gt;&lt;/p&gt;
+&lt;p&gt;至此，再生龙 CLonezilla 的基础教学就结束了，你已经学会了如何使用再生龙的图形界面进行备份。&lt;/p&gt;
+&lt;p&gt;下面是一些再生龙的高阶（大概很高级）使用方法。&lt;/p&gt;
+&lt;h3 id=&#34;高级操作&#34;&gt;&lt;a href=&#34;#高级操作&#34; class=&#34;headerlink&#34; title=&#34;高级操作&#34;&gt;&lt;/a&gt;高级操作&lt;/h3&gt;&lt;h4 id=&#34;使用无线网络备份&#34;&gt;&lt;a href=&#34;#使用无线网络备份&#34; class=&#34;headerlink&#34; title=&#34;使用无线网络备份&#34;&gt;&lt;/a&gt;使用无线网络备份&lt;/h4&gt;&lt;p&gt;上文中，我的电脑仅有两个 USB 口，为备份的流程增添了不必要的麻烦。&lt;/p&gt;
+&lt;p&gt;能否使用 Wi-Fi 将备份镜像推送至家中的 NAS 呢？&lt;/p&gt;
+&lt;p&gt;再生龙内置了许多通过无线&amp;#x2F;有线网络备份的方法，如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/30.jpeg&#34; alt=&#34;备份选项&#34;&gt;&lt;/p&gt;
+&lt;p&gt;我们尝试使用 Webdav 来远程备份吧！&lt;/p&gt;
+&lt;h5 id=&#34;利与弊&#34;&gt;&lt;a href=&#34;#利与弊&#34; class=&#34;headerlink&#34; title=&#34;利与弊&#34;&gt;&lt;/a&gt;利与弊&lt;/h5&gt;&lt;p&gt;使用 Wi-Fi 备份可以摆脱线缆，更加轻松而优雅地进行备份。&lt;/p&gt;
+&lt;p&gt;然而，由于通过 Wi-Fi 或者一切网络传输数据的速度仍然无法比肩有线传输，备份所消耗的时间将是备份至本地磁盘的 3-4 倍。&lt;/p&gt;
+&lt;p&gt;备份我U盘中的 40G 的 Manjaro 系统用时 30min 左右。&lt;/p&gt;
+&lt;p&gt;倘若你有大把的时间，或家中的内网速度足够快，大可使用无线备份。品着咖啡，看着数据上云（笑）。&lt;/p&gt;
+&lt;h5 id=&#34;预先准备&#34;&gt;&lt;a href=&#34;#预先准备&#34; class=&#34;headerlink&#34; title=&#34;预先准备&#34;&gt;&lt;/a&gt;预先准备&lt;/h5&gt;&lt;p&gt;上文中我们选择了基于 Debian 的 Clonezilla Stable 版本，遗憾的是 Debian 系统中并未携带太多驱动程序，因此识别不到我的 Intel AX200 无线网卡。&lt;/p&gt;
+&lt;p&gt;经过测试，基于 Ubuntu 的 &lt;a href=&#34;https://clonezilla.org/downloads/download.php?branch=alternative&#34;&gt;Clonezilla Alternative Stable&lt;/a&gt; 版本可以识别到 AX200 网卡。&lt;/p&gt;
+&lt;p&gt;点击上方链接即可下载 Clonezilla Alternative Stable 版本的映像。&lt;/p&gt;
+&lt;p&gt;重新烧写启动U盘&amp;#x2F;拷贝映像至多启动U盘即可。&lt;/p&gt;
+&lt;h6 id=&#34;又遇到了启动问题&#34;&gt;&lt;a href=&#34;#又遇到了启动问题&#34; class=&#34;headerlink&#34; title=&#34;又遇到了启动问题&#34;&gt;&lt;/a&gt;又遇到了启动问题&lt;/h6&gt;&lt;p&gt;使用基于 Ubuntu 的再生龙，上文中使用的 &lt;code&gt;KVM&lt;/code&gt; 模式变得无法打开了，且 &lt;code&gt;VGA 800x600&lt;/code&gt; 模式是一样的花屏。&lt;/p&gt;
+&lt;p&gt;在一番尝试之后，我发现藏在更多启动选项菜单里的 &lt;code&gt;VGA 1024x768&lt;/code&gt; 模式可以正常显示。看来基于 Debian 的再生龙也可以使用这个模式。&lt;/p&gt;
+&lt;h5 id=&#34;开始备份-1&#34;&gt;&lt;a href=&#34;#开始备份-1&#34; class=&#34;headerlink&#34; title=&#34;开始备份&#34;&gt;&lt;/a&gt;开始备份&lt;/h5&gt;&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/31.jpeg&#34; alt=&#34;网络管理&#34;&gt;&lt;/p&gt;
+&lt;p&gt;选择了非本地的镜像存储位置后，系统将开启上图的网络管理菜单。&lt;/p&gt;
+&lt;p&gt;选择第一项 &lt;code&gt;Edit a connection&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/32.jpeg&#34; alt=&#34;连接管理&#34;&gt;&lt;/p&gt;
+&lt;p&gt;选择 &lt;code&gt;Add&lt;/code&gt; 选项，在弹出菜单中 &lt;code&gt;Wi-Fi&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/33.jpeg&#34; alt=&#34;添加 Wi-Fi&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Profile name&lt;/code&gt; 随意填写；&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Device&lt;/code&gt; 一般填写 &lt;code&gt;wlan0&lt;/code&gt;，系统的第一块无线网卡；&lt;/p&gt;
+&lt;p&gt;接着，按照自己的情况填写图中划线的三个配置即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/34.jpeg&#34; alt=&#34;连接状态&#34;&gt;&lt;/p&gt;
+&lt;p&gt;保存 Wi-Fi 配置后，就能看到当前配置的连接状态。&lt;/p&gt;
+&lt;p&gt;若当前配置名前带 &lt;code&gt;*&lt;/code&gt;，且右侧选项为 &lt;code&gt;Deactivate&lt;/code&gt;，则 Wi-Fi 已连接成功。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/35.jpeg&#34; alt=&#34;填写 Webdav 服务器地址&#34;&gt;&lt;/p&gt;
+&lt;p&gt;接着，系统要求填写 Webdav 地址。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-08-12/36.jpeg&#34; alt=&#34;确认 Webdav 配置&#34;&gt;&lt;/p&gt;
+&lt;p&gt;最后，系统会向你确认 Webdav 是否正确。&lt;/p&gt;
+&lt;p&gt;若确认无误，即可敲击回车继续。&lt;/p&gt;
+&lt;p&gt;接下来的步骤和上述初级教程硬盘挂载之后的流程是完全一样的，请参考上文继续配置。&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/f82a3103.html</guid>
+            <title>BETAFPV 高频头固件编译 AttributeError</title>
+            <link>https://blog.udon.eu.org/archives/f82a3103.html</link>
+            <category>教程</category>
+            <category>DIY</category>
+            <pubDate>Sat, 06 Aug 2022 12:30:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;h2 id=&#34;错误原因&#34;&gt;&lt;a href=&#34;#错误原因&#34; class=&#34;headerlink&#34; title=&#34;错误原因&#34;&gt;&lt;/a&gt;错误原因&lt;/h2&gt;&lt;p&gt;Python 模块 &lt;code&gt;pypandoc&lt;/code&gt; 版本过新，1.8.0 及更高版本已移除了 BETAFPV 高频头固件中仍在使用的 &lt;code&gt;convert&lt;/code&gt; 函数。&lt;/p&gt;
+&lt;h2 id=&#34;解决方法&#34;&gt;&lt;a href=&#34;#解决方法&#34; class=&#34;headerlink&#34; title=&#34;解决方法&#34;&gt;&lt;/a&gt;解决方法&lt;/h2&gt;&lt;p&gt;安装旧版的 &lt;code&gt;pypandoc&lt;/code&gt; 模块。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pip install pypandoc==1.7.0&lt;/code&gt;&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/38942a16.html</guid>
+            <title>DIY 显示器音箱</title>
+            <link>https://blog.udon.eu.org/archives/38942a16.html</link>
+            <category>教程</category>
+            <category>DIY</category>
+            <pubDate>Fri, 03 Jun 2022 15:15:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;新买的显示器（LG 27UL500，虽然因为屏幕问题已经退货了）没有内置音箱，虽然大部分时间都在用耳机，但别人有的东西我不能没有嘛，就买了些材料，DIY 一个外接音箱。&lt;/p&gt;
+&lt;p&gt;写作此文章分享一下制作的过程~&lt;/p&gt;
+&lt;h3 id=&#34;物料清单&#34;&gt;&lt;a href=&#34;#物料清单&#34; class=&#34;headerlink&#34; title=&#34;物料清单&#34;&gt;&lt;/a&gt;物料清单&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/01.JPG&#34; alt=&#34;物料清单&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;PAM8403 数字功放板 5RMB&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;接受 5V 电压，可以驱动两个 3W 的喇叭。商品详情页面吹的很厉害，确实底噪很小，而且输出的音量非常高。相当 OK 的功放板。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;8Ω 3W 喇叭两只（带音腔） 2*4RMB + 运费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;音质很不错，声音很大也不会破音，因为是广告机用的喇叭么？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;3.5MM 公头 0.5RMB&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我选的型号是 PJ392，只要是 3.5MM 双声道的公头就行了。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Type C 母座 0.4RMB&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这个随意选。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;屏蔽线缆 2RMB&amp;#x2F;m&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我买的是4芯的屏蔽线，可供 Type C 头使用（2 power 2 data），音频线只需要三芯（2 data 1 GND），屏蔽线是为了更小的干扰、更好的音质。&lt;/p&gt;
+&lt;h3 id=&#34;开始组装&#34;&gt;&lt;a href=&#34;#开始组装&#34; class=&#34;headerlink&#34; title=&#34;开始组装&#34;&gt;&lt;/a&gt;开始组装&lt;/h3&gt;&lt;h4 id=&#34;3-5MM-线缆&#34;&gt;&lt;a href=&#34;#3-5MM-线缆&#34; class=&#34;headerlink&#34; title=&#34;3.5MM 线缆&#34;&gt;&lt;/a&gt;3.5MM 线缆&lt;/h4&gt;&lt;p&gt;剥除一段屏蔽线的外皮，做工还是很不错的，有金属丝和铝箔的屏蔽，塑料膜防水，还有一根抗拉扯的填充芯。&lt;/p&gt;
+&lt;p&gt;我选择使用红绿蓝三根线，黄线悬空。线色对应如下：&lt;/p&gt;
+&lt;p&gt;红 - 左声道；绿 - 右声道；蓝 - 接地。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/02.JPG&#34; alt=&#34;屏蔽线&#34;&gt;&lt;/p&gt;
+&lt;p&gt;可以预先套上一段热缩管。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/03.JPG&#34; alt=&#34;热缩管&#34;&gt;&lt;/p&gt;
+&lt;p&gt;取一枚 3.5mm 公头，旋下插头。&lt;/p&gt;
+&lt;p&gt;最长的一段一般是接地。若将接地朝下，我这款公头左侧为左声道，右侧为右声道。具体的接线方式可以用万用表测量接头和接口得知。&lt;/p&gt;
+&lt;p&gt;将线穿入孔中，上一坨焊锡即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/04.JPG&#34; alt=&#34;公头焊接&#34;&gt;&lt;/p&gt;
+&lt;p&gt;再使用万用表测量接头与线末端的连通性，注意不能与其他线短路了。&lt;/p&gt;
+&lt;p&gt;确认无误后可以打上热熔胶固定。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/05.JPG&#34; alt=&#34;热熔胶固定&#34;&gt;&lt;/p&gt;
+&lt;p&gt;再打点热熔胶，旋回外壳，将热缩管套好，加热热缩管使其收缩。&lt;/p&gt;
+&lt;p&gt;3.5mm 线缆就制作完成了。&lt;/p&gt;
+&lt;h4 id=&#34;驱动板焊接&#34;&gt;&lt;a href=&#34;#驱动板焊接&#34; class=&#34;headerlink&#34; title=&#34;驱动板焊接&#34;&gt;&lt;/a&gt;驱动板焊接&lt;/h4&gt;&lt;p&gt;驱动板上有三组线需要焊接：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;音频输入线（3.5mm 线缆）&lt;/li&gt;
+&lt;li&gt;电源输入线（Type C 线）&lt;/li&gt;
+&lt;li&gt;音频输出线（喇叭线）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Type C 线我没有再用屏蔽线，用两根导线连接 Type C 母头和驱动板即可。&lt;/p&gt;
+&lt;p&gt;焊接方法就不多说了，线穿过孔，上锡即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/06.JPG&#34; alt=&#34;焊接中的驱动板&#34;&gt;&lt;/p&gt;
+&lt;p&gt;全部线缆焊接完成如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/07.JPG&#34; alt=&#34;焊接完的驱动板&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;热熔胶填充&#34;&gt;&lt;a href=&#34;#热熔胶填充&#34; class=&#34;headerlink&#34; title=&#34;热熔胶填充&#34;&gt;&lt;/a&gt;热熔胶填充&lt;/h4&gt;&lt;p&gt;完成接线后，确认无短路，即可连接电脑测试音箱。&lt;/p&gt;
+&lt;p&gt;若没有问题，考虑到需要长期使用，就可以用热熔胶覆盖焊接处，防止焊点脱落。&lt;/p&gt;
+&lt;p&gt;用热熔胶覆盖之后的驱动板：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/08.JPG&#34; alt=&#34;热熔胶覆盖的驱动板&#34;&gt;&lt;/p&gt;
+&lt;p&gt;嘛…手艺不是很行。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;就此，外接音箱组装完成啦！&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/2e528779.html</guid>
+            <title>迁移 Hexo 渲染环境至 GitHub Actions</title>
+            <link>https://blog.udon.eu.org/archives/2e528779.html</link>
+            <category>教程</category>
+            <category>GitHub Actions</category>
+            <category>Hexo</category>
+            <pubDate>Mon, 23 May 2022 19:30:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;本博客使用的是 Hexo 静态博客框架，我将渲染环境搭建在家中 NAS 之上，部署了一个 Ubuntu Docker 并安装好了 Node.js 环境，正常使用了一两年。&lt;/p&gt;
+&lt;p&gt;上周末，写完新文章的我心血来潮，打算在更新博客的时候顺便更新一下老旧的 Node 和 Hexo（Node 12, Hexo 5.2）。&lt;/p&gt;
+&lt;p&gt;一番折腾之后，以 npm 和 hexo 环境全部被破坏（事后想想也许只是环境变量掉了）的下场结束。&lt;/p&gt;
+&lt;p&gt;鉴于 NAS 性能低下，更新一次 node module 都需要 30 分钟，我放弃了在 NAS 上重新部署渲染环境的念头，转而使用 GitHub Actions 渲染，并同时部署于 GitHub Pages 与 CloudFlare Pages。&lt;/p&gt;
+&lt;h2 id=&#34;将渲染环境迁至-GitHub-Actions&#34;&gt;&lt;a href=&#34;#将渲染环境迁至-GitHub-Actions&#34; class=&#34;headerlink&#34; title=&#34;将渲染环境迁至 GitHub Actions&#34;&gt;&lt;/a&gt;将渲染环境迁至 GitHub Actions&lt;/h2&gt;&lt;p&gt;不久之前，CloudFlare Pages 悄悄下架了 Hexo 框架的部署功能，只能用 GitHub Actions 渲染，然后再部署至 CloudFlare Pages 了。&lt;/p&gt;
+&lt;h3 id=&#34;项目结构的修改&#34;&gt;&lt;a href=&#34;#项目结构的修改&#34; class=&#34;headerlink&#34; title=&#34;项目结构的修改&#34;&gt;&lt;/a&gt;项目结构的修改&lt;/h3&gt;&lt;p&gt;若想使用 GitHub Actions，需要将博客的源码上传至 GitHub。考虑到隐私和安全的问题，建议创建一个私有仓库管理源码。&lt;/p&gt;
+&lt;p&gt;对于项目没有什么需要修改的，因为 Actions 渲染的流程和本地渲染的流程没有区别。&lt;/p&gt;
+&lt;p&gt;唯一需要改动的，是引入的主题。由于两个 Git 仓库不能嵌套，我们需要以 Git submodule 的形式引入主题仓库。&lt;/p&gt;
+&lt;p&gt;我使用的是 Fluid 主题。采用 &lt;a href=&#34;https://hexo.fluid-dev.com/docs/guide/#%E8%A6%86%E7%9B%96%E9%85%8D%E7%BD%AE&#34;&gt;覆盖配置&lt;/a&gt; 的方法，即在根目录之下有一份配置会覆盖主题内的配置文件，便于在 Actions 中渲染。&lt;/p&gt;
+&lt;p&gt;以下也将以 Fluid 为例，请根据你使用的主题修改命令或代码。&lt;/p&gt;
+&lt;p&gt;首先，删除原来的主题（若使用的是主题内的配置，注意备份配置文件！）&lt;/p&gt;
+&lt;p&gt;返回博客源码的根目录，执行：&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;git submodule add https://github.com/fluid-dev/hexo-theme-fluid.git themes/fluid&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;末尾的 &lt;code&gt;themes/fluid&lt;/code&gt; 为此 submodule 在项目中的位置与名字，与先前本地渲染时的配置相同即可。&lt;/p&gt;
+&lt;p&gt;删除子模块的过程较为繁琐，请参考网上的文章进行操作。&lt;/p&gt;
+&lt;p&gt;在 Clone 此项目时，submodule 默认不会被下载，需要使用指令：&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;git submodule update --init --recursive&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;下载 submodule。在下面会提到的 Actions 配置文件中会出现这条指令。&lt;/p&gt;
+&lt;p&gt;接着，就可以将博客源码上传至 GitHub。&lt;/p&gt;
+&lt;h3 id=&#34;GitHub-Actions-相关文件&#34;&gt;&lt;a href=&#34;#GitHub-Actions-相关文件&#34; class=&#34;headerlink&#34; title=&#34;GitHub Actions 相关文件&#34;&gt;&lt;/a&gt;GitHub Actions 相关文件&lt;/h3&gt;&lt;p&gt;在博客源码根目录创建 &lt;code&gt;.github/workflows/submit.yml&lt;/code&gt; 和 &lt;code&gt;.github/script/blog-update.sh&lt;/code&gt; 两个文件，填入下列代码。&lt;/p&gt;
+&lt;p&gt;以下代码参考文章 &lt;a href=&#34;https://blog.kukmoon.com/f8bb4ee.html#23-%E7%BC%96%E5%86%99-workflow&#34;&gt;GitHub Actions 自动部署 Hexo 博客到 cPanel 虚拟主机 - 谷中望月&lt;/a&gt;，有所修改。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;submit.yml&lt;/code&gt;:&lt;/p&gt;
+&lt;figure class=&#34;highlight yaml&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;51&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;52&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;53&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;54&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;55&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;56&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;57&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;58&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;59&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;60&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;61&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;62&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;63&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;64&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;65&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;66&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;67&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;68&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;69&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;70&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;71&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;72&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs yaml&#34;&gt;&lt;span class=&#34;hljs-attr&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;CI&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-comment&#34;&gt;# 监听 main 分支的改动与 Release 的发布&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-attr&#34;&gt;on:&lt;/span&gt;&lt;br&gt;  &lt;span class=&#34;hljs-attr&#34;&gt;push:&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;branches:&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;main&lt;/span&gt;&lt;br&gt;  &lt;span class=&#34;hljs-attr&#34;&gt;release:&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;types:&lt;/span&gt; [&lt;span class=&#34;hljs-string&#34;&gt;published&lt;/span&gt;]&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-comment&#34;&gt;# 自定义环境变量&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-attr&#34;&gt;env:&lt;/span&gt;&lt;br&gt;  &lt;span class=&#34;hljs-attr&#34;&gt;GIT_USER:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;Lao-Liu233&lt;/span&gt;  &lt;span class=&#34;hljs-comment&#34;&gt;# 改成你自己的 GitHub 用户名&lt;/span&gt;&lt;br&gt;  &lt;span class=&#34;hljs-attr&#34;&gt;GIT_EMAIL:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;blog@udon.eu.org&lt;/span&gt;  &lt;span class=&#34;hljs-comment&#34;&gt;# 改成你自己的 GitHub 注册邮箱&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-attr&#34;&gt;jobs:&lt;/span&gt;&lt;br&gt;  &lt;span class=&#34;hljs-attr&#34;&gt;build:&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;Build&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;on&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;node&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;$&amp;#123;&amp;#123;&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;matrix.node_version&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#125;&amp;#125;&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;and&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;$&amp;#123;&amp;#123;&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;matrix.os&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;runs-on:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;ubuntu-latest&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;strategy:&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-attr&#34;&gt;matrix:&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;os:&lt;/span&gt; [&lt;span class=&#34;hljs-string&#34;&gt;ubuntu-latest&lt;/span&gt;]&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;node_version:&lt;/span&gt; [&lt;span class=&#34;hljs-number&#34;&gt;16.15&lt;/span&gt;]  &lt;span class=&#34;hljs-comment&#34;&gt;# 改成你本地的 Node.js 版本，可以用 `node --version` 命令查询&lt;/span&gt;&lt;br&gt;&lt;br&gt;    &lt;span class=&#34;hljs-attr&#34;&gt;steps:&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-comment&#34;&gt;# 获取博客源码&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;Checkout&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;uses:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;actions/checkout@v2&lt;/span&gt;&lt;br&gt;      &lt;br&gt;      &lt;span class=&#34;hljs-comment&#34;&gt;# 用 Node.js 渲染&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;Use&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;Node.js&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;$&amp;#123;&amp;#123;&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;matrix.node_version&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;uses:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;actions/setup-node@v1&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;with:&lt;/span&gt;&lt;br&gt;          &lt;span class=&#34;hljs-attr&#34;&gt;node-version:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;$&amp;#123;&amp;#123;&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;matrix.node_version&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;br&gt;      &lt;span class=&#34;hljs-comment&#34;&gt;# 安装 Hexo-cli    &lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;Install&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;hexo&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;run:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;|&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;          npm install -g hexo-cli&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-comment&#34;&gt;# 安装依赖&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;Install&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;dependencies&lt;/span&gt;    &lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;run:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;|&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;          npm install&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-comment&#34;&gt;# 导入 submodule&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;Clone&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;submodule&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;run:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;|&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;          git submodule update --init --recursive&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-comment&#34;&gt;# 配置环境&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-comment&#34;&gt;# ssh-kenscan github.com &amp;gt;&amp;gt; ~/.ssh/known_hosts   # 从 GitHub 获取公钥并保存到 known_hosts 文件&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;Configuration&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;environment&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;run:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;|&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;          sudo timedatectl set-timezone &amp;quot;Asia/Shanghai&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;          mkdir -p ~/.ssh/&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;          echo &amp;quot;$HEXO_DEPLOY_PRI&amp;quot; &amp;gt; ~/.ssh/id_rsa&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;          chmod 600 ~/.ssh/id_rsa&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;          ssh-keyscan github.com &amp;gt;&amp;gt; ~/.ssh/known_hosts&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;          git config --global user.name $GIT_USER&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;          git config --global user.email $GIT_EMAIL&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-comment&#34;&gt;# 生成并部署&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;Deploy&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;hexo&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;run:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;|&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;          hexo clean&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;          hexo g -d&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-string&#34;&gt;&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-comment&#34;&gt;# 部署后更新博客源码，用于添加 abbrlink，如果不用 abbrlink，需要删除&lt;/span&gt;&lt;br&gt;      &lt;span class=&#34;hljs-bullet&#34;&gt;-&lt;/span&gt; &lt;span class=&#34;hljs-attr&#34;&gt;name:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;Update&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;Blog&lt;/span&gt;&lt;br&gt;        &lt;span class=&#34;hljs-attr&#34;&gt;run:&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;|&lt;/span&gt;&lt;br&gt;          &lt;span class=&#34;hljs-string&#34;&gt;sh&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;$&amp;#123;GITHUB_WORKSPACE&amp;#125;/.github/script/blog-update.sh&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;code&gt;.github/script/blog-update.sh&lt;/code&gt;:&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;#!/bin/sh&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;if&lt;/span&gt; [ -z &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;&lt;span class=&#34;hljs-subst&#34;&gt;$(git status --porcelain)&lt;/span&gt;&amp;quot;&lt;/span&gt; ]; &lt;span class=&#34;hljs-keyword&#34;&gt;then&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-built_in&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;nothing to update.&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;else&lt;/span&gt;&lt;br&gt;    git add &lt;span class=&#34;hljs-built_in&#34;&gt;source&lt;/span&gt;/_posts/	&lt;span class=&#34;hljs-comment&#34;&gt;#仅对文章源码所在文件夹进行修改&lt;/span&gt;&lt;br&gt;    git commit -m &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;triggle by commit &lt;span class=&#34;hljs-variable&#34;&gt;$&amp;#123;GITHUB_SHA&amp;#125;&lt;/span&gt;&amp;quot;&lt;/span&gt; -a&lt;br&gt;    git push origin main&lt;br&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;fi&lt;/span&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;Commit + Push，打开 Actions 界面，就能看到正在运行的 Action 啦。&lt;/p&gt;
+&lt;p&gt;不出意外，Action 成功执行，1分钟内博客就能渲染成功、部署至 GitHub Pages。&lt;/p&gt;
+&lt;h2 id=&#34;同时部署至-CloudFlare-Pages&#34;&gt;&lt;a href=&#34;#同时部署至-CloudFlare-Pages&#34; class=&#34;headerlink&#34; title=&#34;同时部署至 CloudFlare Pages&#34;&gt;&lt;/a&gt;同时部署至 CloudFlare Pages&lt;/h2&gt;&lt;p&gt;步骤较为简单，我简述一下。&lt;/p&gt;
+&lt;p&gt;打开 CloudFlare Pages， 连接至存放 &lt;strong&gt;渲染后&lt;/strong&gt; 的静态文件的仓库，渲染的框架选择 &lt;strong&gt;None&lt;/strong&gt;，执行的指令填写 &lt;code&gt;exit 0;&lt;/code&gt; 就可以了。&lt;/p&gt;
+&lt;p&gt;执行部署后，渲染后的静态文件就被部署至 CloudFlare Pages 啦。&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/dbf21067.html</guid>
+            <title>玩一玩 DN42</title>
+            <link>https://blog.udon.eu.org/archives/dbf21067.html</link>
+            <category>教程</category>
+            <pubDate>Fri, 01 Apr 2022 12:30:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;两个月前，我向 DN42 提交了申请，并于4个小时后通过了审核，获得了自己的 AS 和 IP。&lt;/p&gt;
+&lt;p&gt;作此文分享一下把玩 DN42 的心得，也作为我的备忘录。&lt;/p&gt;
+&lt;h2 id=&#34;我的信息&#34;&gt;&lt;a href=&#34;#我的信息&#34; class=&#34;headerlink&#34; title=&#34;我的信息&#34;&gt;&lt;/a&gt;我的信息&lt;/h2&gt;&lt;figure class=&#34;highlight maxima&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs maxima&#34;&gt;AS4242423490&lt;br&gt;IPv4: &lt;span class=&#34;hljs-number&#34;&gt;172.23&lt;/span&gt;&lt;span class=&#34;hljs-number&#34;&gt;.13&lt;/span&gt;&lt;span class=&#34;hljs-number&#34;&gt;.64&lt;/span&gt;/&lt;span class=&#34;hljs-number&#34;&gt;28&lt;/span&gt;&lt;br&gt;IPv6: fd44:&lt;span class=&#34;hljs-number&#34;&gt;6b93&lt;/span&gt;:4eaa::/&lt;span class=&#34;hljs-number&#34;&gt;48&lt;/span&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;目前仅一个洛杉矶节点开放 Peer，后期还将添加韩国和日本的节点。&lt;/p&gt;
+&lt;h2 id=&#34;如何把玩&#34;&gt;&lt;a href=&#34;#如何把玩&#34; class=&#34;headerlink&#34; title=&#34;如何把玩&#34;&gt;&lt;/a&gt;如何把玩&lt;/h2&gt;&lt;h3 id=&#34;注册&#34;&gt;&lt;a href=&#34;#注册&#34; class=&#34;headerlink&#34; title=&#34;注册&#34;&gt;&lt;/a&gt;注册&lt;/h3&gt;&lt;p&gt;有关注册的文章很多，推荐这两篇：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://lantian.pub/article/modify-website/dn42-experimental-network-2020.lantian/&#34;&gt;DN42 实验网络介绍及注册教程（2022-02 更新） | Lan Tian @ Blog&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://blog.baoshuo.ren/post/dn42-network/#&#34;&gt;初探 DN42 网络 - 宝硕博客 (baoshuo.ren)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;需要使用 Git 和 PGP，在 DN42 的 Git 仓库提交你的个人信息即可完成注册。&lt;/p&gt;
+&lt;h3 id=&#34;搭建内网&#34;&gt;&lt;a href=&#34;#搭建内网&#34; class=&#34;headerlink&#34; title=&#34;搭建内网&#34;&gt;&lt;/a&gt;搭建内网&lt;/h3&gt;&lt;p&gt;在和其他 AS 建立对等连接之前，我们先要把内网整理好：&lt;/p&gt;
+&lt;p&gt;各台服务器的地理位置和网络位置各不相同，需要使用 VPN 创建虚拟局域网。&lt;/p&gt;
+&lt;p&gt;课堂上讲了两种内网路由协议：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;RIP 是“真”内网用的，不适用于这种物理位置距离较远（路由跳数多）的虚拟内网；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;可以使用 OSPF，但我在配置的时候遇到了不少问题，因此也不建议你使用。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;有一位老朋友可以轻松解决以上两个问题：&lt;strong&gt;Zerotier&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;Zerotier 的虚拟网络可以使用自己的 IP，只需在 &lt;strong&gt;Managed Routes&lt;/strong&gt; 中设置你在 DN42 申请的 IPv4 和 IPv6，即可为每台加入虚拟网络的主机自动或手动配置 DN42 IP。&lt;/p&gt;
+&lt;p&gt;在机器之间使用 DN42 IP 互 ping 测试连通性。&lt;/p&gt;
+&lt;h3 id=&#34;准备-BGP-相关软件&#34;&gt;&lt;a href=&#34;#准备-BGP-相关软件&#34; class=&#34;headerlink&#34; title=&#34;准备 BGP 相关软件&#34;&gt;&lt;/a&gt;准备 BGP 相关软件&lt;/h3&gt;&lt;p&gt;搭建好内网之后，就可以开始配置 BGP 发言人啦。&lt;/p&gt;
+&lt;p&gt;选择一台或多台服务器，作为自治域向外宣告路由的发言人。&lt;/p&gt;
+&lt;p&gt;在每台服务器上都需要配置 BGP 相关的软件，以及和其他 BGP 发言人建立连接（一般是 VPN 连接）的软件。&lt;/p&gt;
+&lt;p&gt;目前在 DN42 网络用的比较多的 VPN 软件是 Wireguard，BGP 软件则可以从 bird 2、bird 1、quagga 等软件中选择。&lt;/p&gt;
+&lt;p&gt;我使用的是 bird 2。&lt;/p&gt;
+&lt;h4 id=&#34;安装与配置-BIRD-2&#34;&gt;&lt;a href=&#34;#安装与配置-BIRD-2&#34; class=&#34;headerlink&#34; title=&#34;安装与配置 BIRD 2&#34;&gt;&lt;/a&gt;安装与配置 BIRD 2&lt;/h4&gt;&lt;p&gt;安装命令：&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;apt update&lt;br&gt;apt install bird2 -y&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;bird 2 的配置文件位于 &lt;code&gt;/etc/bird&lt;/code&gt;，名为 &lt;code&gt;bird.conf&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;配置文件可以参考（&lt;del&gt;照抄&lt;/del&gt;）DN42 官方给出的配置：&lt;a href=&#34;https://dn42.dev/howto/Bird2#example-configuration&#34;&gt;howto&amp;#x2F;Bird2 (dn42.dev)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;喂到嘴边的配置方法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;将官方配置填入 &lt;code&gt;/etc/bird/bird.conf&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;在 &lt;code&gt;/etc/bird&lt;/code&gt; 目录下新建名为 &lt;code&gt;peers&lt;/code&gt; 的文件夹&lt;/li&gt;
+&lt;li&gt;下载 ROA 配置（命令来自&lt;a href=&#34;https://blog.baoshuo.ren/&#34;&gt;宝硕的博客&lt;/a&gt;）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;wget -4 -O /tmp/dn42_roa.conf https://dn42.burble.com/roa/dn42_roa_bird2_4.conf &amp;amp;&amp;amp; &lt;span class=&#34;hljs-built_in&#34;&gt;mv&lt;/span&gt; -f /tmp/dn42_roa.conf /etc/bird/dn42_roa.conf&lt;br&gt;wget -4 -O /tmp/dn42_roa_v6.conf https://dn42.burble.com/roa/dn42_roa_bird2_6.conf &amp;amp;&amp;amp; &lt;span class=&#34;hljs-built_in&#34;&gt;mv&lt;/span&gt; -f /tmp/dn42_roa_v6.conf /etc/bird/dn42_roa_v6.conf&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;​	并配置 crontab，每小时自动下载并重载新配置：&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;0 */1 * * * wget -4 -O /tmp/dn42_roa.conf https://dn42.burble.com/roa/dn42_roa_bird2_4.conf &amp;amp;&amp;amp; &lt;span class=&#34;hljs-built_in&#34;&gt;mv&lt;/span&gt; -f /tmp/dn42_roa.conf /etc/bird/dn42_roa.conf&lt;br&gt;0 */1 * * * wget -4 -O /tmp/dn42_roa_v6.conf https://dn42.burble.com/roa/dn42_roa_bird2_6.conf &amp;amp;&amp;amp; &lt;span class=&#34;hljs-built_in&#34;&gt;mv&lt;/span&gt; -f /tmp/dn42_roa_v6.conf /etc/bird/dn42_roa_v6.conf&lt;br&gt;0 */1 * * * birdc configure&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h4 id=&#34;安装并配置-Wireguard&#34;&gt;&lt;a href=&#34;#安装并配置-Wireguard&#34; class=&#34;headerlink&#34; title=&#34;安装并配置 Wireguard&#34;&gt;&lt;/a&gt;安装并配置 Wireguard&lt;/h4&gt;&lt;p&gt;安装命令：&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;apt update&lt;br&gt;apt install wireguard -y&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;这样就安装了 &lt;code&gt;Wireguard&lt;/code&gt; 和名为 &lt;code&gt;wg-quick&lt;/code&gt; 的管理工具。&lt;/p&gt;
+&lt;p&gt;使用命令：&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;wg genkey | &lt;span class=&#34;hljs-built_in&#34;&gt;tee&lt;/span&gt; privatekey | wg pubkey &amp;gt; publickey&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;在当前目录下创建 Wireguard 建立连接所用的密钥对（公钥和私钥）。&lt;/p&gt;
+&lt;p&gt;就此 Wireguard 安装完成。&lt;/p&gt;
+&lt;h4 id=&#34;配置系统内核&#34;&gt;&lt;a href=&#34;#配置系统内核&#34; class=&#34;headerlink&#34; title=&#34;配置系统内核&#34;&gt;&lt;/a&gt;配置系统内核&lt;/h4&gt;&lt;p&gt;打开内核的数据包转发功能：&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;&lt;span class=&#34;hljs-built_in&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;net.ipv4.ip_forward=1&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; /etc/sysctl.conf&lt;br&gt;&lt;span class=&#34;hljs-built_in&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;net.ipv6.conf.default.forwarding=1&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; /etc/sysctl.conf&lt;br&gt;&lt;span class=&#34;hljs-built_in&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;net.ipv6.conf.all.forwarding=1&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; /etc/sysctl.conf&lt;br&gt;sysctl -p&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;关闭内核 &lt;code&gt;rp_filter&lt;/code&gt; 的严格模式：&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;&lt;span class=&#34;hljs-built_in&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;net.ipv4.conf.default.rp_filter=0&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; /etc/sysctl.conf&lt;br&gt;&lt;span class=&#34;hljs-built_in&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;net.ipv4.conf.all.rp_filter=0&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; /etc/sysctl.conf&lt;br&gt;sysctl -p&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;如果有 ufw 等防火墙自动配置工具，务必关闭。&lt;/p&gt;
+&lt;p&gt;p.s. 我拿到任何机器后会立刻执行的指令是：&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;&lt;span class=&#34;hljs-built_in&#34;&gt;sudo&lt;/span&gt; ufw &lt;span class=&#34;hljs-built_in&#34;&gt;disable&lt;/span&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h4 id=&#34;创建-Dummy-网卡&#34;&gt;&lt;a href=&#34;#创建-Dummy-网卡&#34; class=&#34;headerlink&#34; title=&#34;创建 Dummy 网卡&#34;&gt;&lt;/a&gt;创建 Dummy 网卡&lt;/h4&gt;&lt;p&gt;dummy 网卡具体的作用我不是很清楚…&lt;/p&gt;
+&lt;p&gt;只知道如果要用链路本地地址进行通讯，要把 DN42 的 IP 地址绑定到 dummy 网卡上。&lt;/p&gt;
+&lt;p&gt;dummy 网卡配置指令如下：（[ ] 中为需要你填写的内容）&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;ip &lt;span class=&#34;hljs-built_in&#34;&gt;link&lt;/span&gt; del dummy&lt;br&gt;ip &lt;span class=&#34;hljs-built_in&#34;&gt;link&lt;/span&gt; add dummy &lt;span class=&#34;hljs-built_in&#34;&gt;type&lt;/span&gt; dummy&lt;br&gt;ip addr add [你的 DN42 IPv4 地址]/32 dev dummy&lt;br&gt;ip addr add [你的 DN42 IPv6 地址]/128 dev dummy&lt;br&gt;ip &lt;span class=&#34;hljs-built_in&#34;&gt;link&lt;/span&gt; &lt;span class=&#34;hljs-built_in&#34;&gt;set&lt;/span&gt; dummy up&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;h3 id=&#34;和小伙伴建立对等连接（peer）&#34;&gt;&lt;a href=&#34;#和小伙伴建立对等连接（peer）&#34; class=&#34;headerlink&#34; title=&#34;和小伙伴建立对等连接（peer）&#34;&gt;&lt;/a&gt;和小伙伴建立对等连接（peer）&lt;/h3&gt;&lt;h4 id=&#34;需要和对方分享的&#34;&gt;&lt;a href=&#34;#需要和对方分享的&#34; class=&#34;headerlink&#34; title=&#34;需要和对方分享的&#34;&gt;&lt;/a&gt;需要和对方分享的&lt;/h4&gt;&lt;ul&gt;
+&lt;li&gt;你的 DN42 信息，包括 AS 号和发言人的 DN42 IPv4（IPv6）地址；&lt;/li&gt;
+&lt;li&gt;若使用链路本地地址，还需提供这东西，一般为一个本地 IPv6 地址，常取 &lt;code&gt;fe80::[你的 AS 号后4位]&lt;/code&gt;；&lt;/li&gt;
+&lt;li&gt;发言人的外网 IPv4 地址（或域名）和 Wireguard 隧道的通讯端口；&lt;/li&gt;
+&lt;li&gt;Wireguard 公钥。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;有一些信息会在以下的配置中获得。&lt;/p&gt;
+&lt;h4 id=&#34;Wireguard-相关的&#34;&gt;&lt;a href=&#34;#Wireguard-相关的&#34; class=&#34;headerlink&#34; title=&#34;Wireguard 相关的&#34;&gt;&lt;/a&gt;Wireguard 相关的&lt;/h4&gt;&lt;p&gt;在 &lt;code&gt;/etc/wireguard&lt;/code&gt; 目录下创建 Wireguard 配置文件，每一个配置文件对应着一个 Wireguard 隧道。&lt;/p&gt;
+&lt;p&gt;例如你要和 AS114514 &lt;del&gt;臭&lt;/del&gt; 建立对等连接，可以在 &lt;code&gt;peers&lt;/code&gt; 文件夹下新建一个名为 &lt;code&gt;wg_114514.conf&lt;/code&gt; （文件名即为 wireguard 隧道名）的配置文件。&lt;/p&gt;
+&lt;p&gt;配置的模板如下：（[ ] 中为需要你填写的内容）&lt;/p&gt;
+&lt;figure class=&#34;highlight ini&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs ini&#34;&gt;&lt;span class=&#34;hljs-section&#34;&gt;[Interface]&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-attr&#34;&gt;Table&lt;/span&gt; = &lt;span class=&#34;hljs-literal&#34;&gt;off&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-attr&#34;&gt;ListenPort&lt;/span&gt; = [我们的监听端口，可以用对方 AS 号的后五位]&lt;br&gt;&lt;span class=&#34;hljs-attr&#34;&gt;PrivateKey&lt;/span&gt; = [刚刚生成的 Wireguard 私钥]&lt;br&gt;&lt;span class=&#34;hljs-attr&#34;&gt;PostUp&lt;/span&gt; = ip addr add [本机的 DN42 IPv4 地址]/&lt;span class=&#34;hljs-number&#34;&gt;32&lt;/span&gt; peer [对方机器的 DN42 IPv4 地址]/&lt;span class=&#34;hljs-number&#34;&gt;32&lt;/span&gt; dev %i&lt;br&gt;&lt;span class=&#34;hljs-attr&#34;&gt;PostUp&lt;/span&gt; = ip addr add [本机的链路本地地址（见 BIRD 相关配置）]/&lt;span class=&#34;hljs-number&#34;&gt;64&lt;/span&gt; dev %i&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-section&#34;&gt;[Peer]&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-attr&#34;&gt;PublicKey&lt;/span&gt; = [对方的 Wireguard 公钥]&lt;br&gt;&lt;span class=&#34;hljs-attr&#34;&gt;AllowedIPs&lt;/span&gt; = &lt;span class=&#34;hljs-number&#34;&gt;10.0&lt;/span&gt;.&lt;span class=&#34;hljs-number&#34;&gt;0.0&lt;/span&gt;/&lt;span class=&#34;hljs-number&#34;&gt;8&lt;/span&gt;, &lt;span class=&#34;hljs-number&#34;&gt;172.20&lt;/span&gt;.&lt;span class=&#34;hljs-number&#34;&gt;0.0&lt;/span&gt;/&lt;span class=&#34;hljs-number&#34;&gt;14&lt;/span&gt;, &lt;span class=&#34;hljs-number&#34;&gt;172.31&lt;/span&gt;.&lt;span class=&#34;hljs-number&#34;&gt;0.0&lt;/span&gt;/&lt;span class=&#34;hljs-number&#34;&gt;16&lt;/span&gt;, fd00::/&lt;span class=&#34;hljs-number&#34;&gt;8&lt;/span&gt;, fe80::/&lt;span class=&#34;hljs-number&#34;&gt;64&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-attr&#34;&gt;Endpoint&lt;/span&gt; = [对方机器的公网 IP 地址或域名 : 端口号]&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;然后使用 &lt;code&gt;wg-quick up [wireguard 隧道名（刚刚的配置文件名）]&lt;/code&gt; 启动 Wireguard 隧道。&lt;/p&gt;
+&lt;p&gt;可以 ping 一下对方的 DN42 IP 看看 Wireguard 隧道是否连接成功。&lt;/p&gt;
+&lt;p&gt;使用 &lt;code&gt;wg&lt;/code&gt; 命令查看各隧道的连接情况。若有显示 &lt;code&gt;last handshake&lt;/code&gt;，一般情况下隧道就已成功建立。&lt;/p&gt;
+&lt;h4 id=&#34;BIRD-相关的&#34;&gt;&lt;a href=&#34;#BIRD-相关的&#34; class=&#34;headerlink&#34; title=&#34;BIRD 相关的&#34;&gt;&lt;/a&gt;BIRD 相关的&lt;/h4&gt;&lt;p&gt;在先前导入的 bird 2 配置中定义了一个 &lt;code&gt;peers&lt;/code&gt; 文件夹，就是用来存放 peer 相关的配置。&lt;/p&gt;
+&lt;p&gt;例如你要和 AS114514 &lt;del&gt;又臭&lt;/del&gt; 建立对等连接，可以在 &lt;code&gt;peers&lt;/code&gt; 文件夹下新建一个名为 &lt;code&gt;114514.conf&lt;/code&gt; （文件名可自定义）的配置文件。&lt;/p&gt;
+&lt;p&gt;我采用的是&lt;a href=&#34;https://zh.wikipedia.org/wiki/%E9%93%BE%E8%B7%AF%E6%9C%AC%E5%9C%B0%E5%9C%B0%E5%9D%80&#34;&gt;链路本地地址（Link-Local）&lt;/a&gt;的配置方法。配置的模板如下：（[ ] 中为需要你填写的内容）&lt;/p&gt;
+&lt;figure class=&#34;highlight inform7&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs inform7&#34;&gt;protocol bgp &lt;span class=&#34;hljs-comment&#34;&gt;[peer的名字]&lt;/span&gt; from dnpeers &amp;#123;&lt;br&gt;    neighbor &lt;span class=&#34;hljs-comment&#34;&gt;[对方的链路本地地址]&lt;/span&gt; % &amp;#x27;&lt;span class=&#34;hljs-comment&#34;&gt;[通向对方的 Wiregurad 隧道名]&lt;/span&gt;&amp;#x27; as &lt;span class=&#34;hljs-comment&#34;&gt;[对方的 AS 号]&lt;/span&gt;;&lt;br&gt;&amp;#125;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;添加完配置之后别忘了用 &lt;code&gt;birdc configure&lt;/code&gt; 重载 bird 2 配置。&lt;/p&gt;
+&lt;p&gt;使用命令 &lt;code&gt;birdc s p&lt;/code&gt; 可以查看 BIRD 2 软件下所有协议的通信情况。&lt;/p&gt;
+&lt;p&gt;若显示为：&lt;/p&gt;
+&lt;figure class=&#34;highlight apache&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs apache&#34;&gt;&lt;span class=&#34;hljs-attribute&#34;&gt;dn42_xxxx&lt;/span&gt;   BGP    ---    up    &lt;span class=&#34;hljs-number&#34;&gt;20&lt;/span&gt;:&lt;span class=&#34;hljs-number&#34;&gt;36&lt;/span&gt;:&lt;span class=&#34;hljs-number&#34;&gt;30&lt;/span&gt;.&lt;span class=&#34;hljs-number&#34;&gt;984&lt;/span&gt;   Established&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;则表示 BGP 连接已建立。&lt;/p&gt;
+&lt;h2 id=&#34;尾声&#34;&gt;&lt;a href=&#34;#尾声&#34; class=&#34;headerlink&#34; title=&#34;尾声&#34;&gt;&lt;/a&gt;尾声&lt;/h2&gt;&lt;p&gt;我还在写 DN42 相关的站点，在上面分享节点信息，方便大家 peer。&lt;/p&gt;
+&lt;p&gt;但目前进度缓慢（悲）。&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/9b58c98e.html</guid>
+            <title>合宙 EPS32-C3 把玩记录（二）：WiFi 与一个 Web 程序</title>
+            <link>https://blog.udon.eu.org/archives/9b58c98e.html</link>
+            <category>教程</category>
+            <category>嵌入式开发</category>
+            <pubDate>Sun, 27 Mar 2022 00:15:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;h2 id=&#34;了解一下相关的库&#34;&gt;&lt;a href=&#34;#了解一下相关的库&#34; class=&#34;headerlink&#34; title=&#34;了解一下相关的库&#34;&gt;&lt;/a&gt;了解一下相关的库&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;h3 id=&#34;串口通信&#34;&gt;&lt;a href=&#34;#串口通信&#34; class=&#34;headerlink&#34; title=&#34;串口通信&#34;&gt;&lt;/a&gt;串口通信&lt;/h3&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这个库是自带的，不需要引入。&lt;/p&gt;
+&lt;p&gt;据我的理解，单片机的串口就是控制台程序的控制台，可以返回一些信息给上位机。&lt;/p&gt;
+&lt;p&gt;会用到的几个指令：&lt;/p&gt;
+&lt;figure class=&#34;highlight c&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs c&#34;&gt;Serial.begin(Baudrate);	&lt;span class=&#34;hljs-comment&#34;&gt;//参数为串口通信的波特率&lt;/span&gt;&lt;br&gt;Serial.end();&lt;br&gt;Serial.read();			&lt;span class=&#34;hljs-comment&#34;&gt;//读取串口收到数据的第一个字节&lt;/span&gt;&lt;br&gt;Serial.peek();			&lt;span class=&#34;hljs-comment&#34;&gt;//读取串口数据中下一字节的内容&lt;/span&gt;&lt;br&gt;Serial.flush();			&lt;span class=&#34;hljs-comment&#34;&gt;//清空缓冲区&lt;/span&gt;&lt;br&gt;Serial.print/println();	&lt;span class=&#34;hljs-comment&#34;&gt;//不用多说&lt;/span&gt;&lt;br&gt;Serial.write();			&lt;span class=&#34;hljs-comment&#34;&gt;//写二进制数据&lt;/span&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;h3 id=&#34;WiFi-h&#34;&gt;&lt;a href=&#34;#WiFi-h&#34; class=&#34;headerlink&#34; title=&#34;WiFi.h&#34;&gt;&lt;/a&gt;WiFi.h&lt;/h3&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;#include &amp;lt;WiFi.h&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;h4 id=&#34;AP（接入点）-Mode&#34;&gt;&lt;a href=&#34;#AP（接入点）-Mode&#34; class=&#34;headerlink&#34; title=&#34;AP（接入点） Mode&#34;&gt;&lt;/a&gt;AP（接入点） Mode&lt;/h4&gt;&lt;p&gt;创建一个接入点。&lt;/p&gt;
+&lt;figure class=&#34;highlight c&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs c&#34;&gt;WiFi.mode(WiFi_AP);			&lt;span class=&#34;hljs-comment&#34;&gt;//设置工作在 AP 模式&lt;/span&gt;&lt;br&gt;WiFi.softAPConfig(local_IP, gateway, subnet);&lt;br&gt;&lt;span class=&#34;hljs-comment&#34;&gt;//定义本机 IP（这个不大确定）、网关 IP 和子网掩码&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-comment&#34;&gt;//IPAddress 数据类型格式：IPAddress local_IP(192,168,4,22);&lt;/span&gt;&lt;br&gt;WiFi.softAP(SSID,PASSWD);	&lt;span class=&#34;hljs-comment&#34;&gt;//启动 AP，参数不多解释,返回 bool &lt;/span&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;更多函数见 &lt;a href=&#34;https://blog.csdn.net/Naisu_kun/article/details/86165403#_28&#34;&gt;WiFi.h AP 常用方法说明&lt;/a&gt;&lt;/p&gt;
+&lt;h4 id=&#34;STA（站点）-Mode&#34;&gt;&lt;a href=&#34;#STA（站点）-Mode&#34; class=&#34;headerlink&#34; title=&#34;STA（站点） Mode&#34;&gt;&lt;/a&gt;STA（站点） Mode&lt;/h4&gt;&lt;p&gt;接入一个 AP。&lt;/p&gt;
+&lt;figure class=&#34;highlight c&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs c&#34;&gt;WiFi.mode(WIFI_STA); 		&lt;span class=&#34;hljs-comment&#34;&gt;//设置工作在 STA 模式&lt;/span&gt;&lt;br&gt;WiFi.start(SSID,PASSWD)		&lt;span class=&#34;hljs-comment&#34;&gt;//连接至 AP，参数不多解释&lt;/span&gt;&lt;br&gt;Serial.println(WiFi.localIP());		&lt;span class=&#34;hljs-comment&#34;&gt;//打印本机 IP，省的去路由器管理界面看&lt;/span&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;更多函数见 &lt;a href=&#34;https://blog.csdn.net/Naisu_kun/article/details/86165403#_130&#34;&gt;WiFi.h STA 常用方法说明&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;h2 id=&#34;WebServer-h&#34;&gt;&lt;a href=&#34;#WebServer-h&#34; class=&#34;headerlink&#34; title=&#34;WebServer.h&#34;&gt;&lt;/a&gt;WebServer.h&lt;/h2&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;#include &amp;lt;WebServer.h&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;创建一个简单的网站服务器。真的很简单。&lt;/p&gt;
+&lt;p&gt;一个个函数讲有点难理解，我放在这节的例程里面说明。&lt;/p&gt;
+&lt;h2 id=&#34;写一个测试程序吧&#34;&gt;&lt;a href=&#34;#写一个测试程序吧&#34; class=&#34;headerlink&#34; title=&#34;写一个测试程序吧&#34;&gt;&lt;/a&gt;写一个测试程序吧&lt;/h2&gt;&lt;figure class=&#34;highlight c&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;44&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs c&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;#&lt;span class=&#34;hljs-keyword&#34;&gt;include&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;lt;WiFi.h&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-meta&#34;&gt;#&lt;span class=&#34;hljs-keyword&#34;&gt;include&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;lt;WebServer.h&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-comment&#34;&gt;//引入所需要的两个库&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-type&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-type&#34;&gt;char&lt;/span&gt; *SSID = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;YOUR_SSID&amp;quot;&lt;/span&gt;;&lt;br&gt;&lt;span class=&#34;hljs-type&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-type&#34;&gt;char&lt;/span&gt; *PASSWORD = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;YOUR_PASSWORD&amp;quot;&lt;/span&gt;;&lt;br&gt;&lt;br&gt;WebServer &lt;span class=&#34;hljs-title function_&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(&lt;span class=&#34;hljs-number&#34;&gt;80&lt;/span&gt;)&lt;/span&gt;;		&lt;span class=&#34;hljs-comment&#34;&gt;//网站服务器将运行在 80 端口&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-type&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;handleIndex&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;			&lt;span class=&#34;hljs-comment&#34;&gt;//收到 HTTP 请求的回调函数&lt;/span&gt;&lt;br&gt;&amp;#123;&lt;br&gt;    server.send(&lt;span class=&#34;hljs-number&#34;&gt;200&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;text/plain&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Hello from ESP32!&amp;quot;&lt;/span&gt;);&lt;br&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;//发送 HTTP 相应，内容分别为：状态码，Content-Type，响应体&lt;/span&gt;&lt;br&gt;&amp;#125;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-type&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;setup&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;br&gt;&amp;#123;&lt;br&gt;    Serial.begin(&lt;span class=&#34;hljs-number&#34;&gt;9600&lt;/span&gt;);		&lt;span class=&#34;hljs-comment&#34;&gt;//开启串口，波特率设置为 9600&lt;/span&gt;&lt;br&gt;    Serial.println();&lt;br&gt;&lt;br&gt;    WiFi.mode(WIFI_STA);	&lt;span class=&#34;hljs-comment&#34;&gt;//设置工作在 STA 模式&lt;/span&gt;&lt;br&gt;    WiFi.begin(SSID, PASSWORD);				&lt;span class=&#34;hljs-comment&#34;&gt;//连接至指定 AP&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-keyword&#34;&gt;while&lt;/span&gt; (WiFi.status() != WL_CONNECTED) 	&lt;span class=&#34;hljs-comment&#34;&gt;//等待网络连接成功&lt;/span&gt;&lt;br&gt;    &amp;#123;&lt;br&gt;        delay(&lt;span class=&#34;hljs-number&#34;&gt;500&lt;/span&gt;);&lt;br&gt;        Serial.print(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;.&amp;quot;&lt;/span&gt;);	&lt;span class=&#34;hljs-comment&#34;&gt;//将连接信息输出至串口&lt;/span&gt;&lt;br&gt;    &amp;#125;&lt;br&gt;    Serial.println(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;WiFi connected!&amp;quot;&lt;/span&gt;);&lt;br&gt;&lt;br&gt;    Serial.println(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;IP address: &amp;quot;&lt;/span&gt;);&lt;br&gt;    Serial.println(WiFi.localIP()); 		&lt;span class=&#34;hljs-comment&#34;&gt;//打印本机 IP&lt;/span&gt;&lt;br&gt;&lt;br&gt;    server.on(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;, handleIndex);			&lt;span class=&#34;hljs-comment&#34;&gt;//注册链接（类似与注册一个路由），并选择回调函数&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;//同样的，还可以注册别的链接，如&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;//server.on(&amp;quot;/test&amp;quot;, handleIndexTest);&lt;/span&gt;&lt;br&gt;  &lt;br&gt;    server.begin();			&lt;span class=&#34;hljs-comment&#34;&gt;//开启 HTTP 服务器&lt;/span&gt;&lt;br&gt;    Serial.println(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;WebServer begin!&amp;quot;&lt;/span&gt;);&lt;br&gt;&amp;#125;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-type&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;loop&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;br&gt;&amp;#123;&lt;br&gt;    server.handleClient();	&lt;span class=&#34;hljs-comment&#34;&gt;//不断相应 HTTP 请求&lt;/span&gt;&lt;br&gt;&amp;#125;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;访问串口返回的 IP，即可看到 &lt;code&gt;Hello from ESP32!&lt;/code&gt; 这句话啦。&lt;/p&gt;
+&lt;h2 id=&#34;还有个-Web-Server-叫-ESPAsyncWebServer&#34;&gt;&lt;a href=&#34;#还有个-Web-Server-叫-ESPAsyncWebServer&#34; class=&#34;headerlink&#34; title=&#34;还有个 Web Server 叫 ESPAsyncWebServer&#34;&gt;&lt;/a&gt;还有个 Web Server 叫 ESPAsyncWebServer&lt;/h2&gt;&lt;p&gt;自带的 WebServer 是同步的，只支持处理一个连接。对于这种体量的机器其实足够了。&lt;/p&gt;
+&lt;p&gt;顺便学习一下一个第三方库吧。&lt;/p&gt;
+&lt;h3 id=&#34;添加库&#34;&gt;&lt;a href=&#34;#添加库&#34; class=&#34;headerlink&#34; title=&#34;添加库&#34;&gt;&lt;/a&gt;添加库&lt;/h3&gt;&lt;p&gt;对于这款 ESP32，需要下载并导入两个库（源码 ZIP 即可）：&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/me-no-dev/AsyncTCP&#34;&gt;me-no-dev&amp;#x2F;AsyncTCP: Async TCP Library for ESP32&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/me-no-dev/ESPAsyncWebServer&#34;&gt;me-no-dev&amp;#x2F;ESPAsyncWebServer: Async Web Server for ESP8266 and ESP32&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;在 Arduino 的&lt;code&gt;项目 &amp;gt; 加载库 &amp;gt; 添加 .ZIP 库&lt;/code&gt;中导入这两个库。&lt;/p&gt;
+&lt;h3 id=&#34;用-ESPAsyncWebServer-重写刚刚的例程吧&#34;&gt;&lt;a href=&#34;#用-ESPAsyncWebServer-重写刚刚的例程吧&#34; class=&#34;headerlink&#34; title=&#34;用 ESPAsyncWebServer 重写刚刚的例程吧&#34;&gt;&lt;/a&gt;用 ESPAsyncWebServer 重写刚刚的例程吧&lt;/h3&gt;&lt;figure class=&#34;highlight c&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;44&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs c&#34;&gt;&lt;span class=&#34;hljs-meta&#34;&gt;#&lt;span class=&#34;hljs-keyword&#34;&gt;include&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;lt;WiFi.h&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-meta&#34;&gt;#&lt;span class=&#34;hljs-keyword&#34;&gt;include&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;lt;ESPAsyncWebServer.h&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-comment&#34;&gt;//注意替换为新的库&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-type&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-type&#34;&gt;char&lt;/span&gt; *SSID = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;YOUR_SSID&amp;quot;&lt;/span&gt;;&lt;br&gt;&lt;span class=&#34;hljs-type&#34;&gt;const&lt;/span&gt; &lt;span class=&#34;hljs-type&#34;&gt;char&lt;/span&gt; *PASSWORD = &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;YOUR_PASSWORD&amp;quot;&lt;/span&gt;;&lt;br&gt;&lt;br&gt;ESPAsyncWebServer &lt;span class=&#34;hljs-title function_&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(&lt;span class=&#34;hljs-number&#34;&gt;80&lt;/span&gt;)&lt;/span&gt;;		        &lt;span class=&#34;hljs-comment&#34;&gt;//同样替换为新的对象&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-type&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;handleIndex&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;(AsyncWebServerRequest *request)&lt;/span&gt;        &lt;span class=&#34;hljs-comment&#34;&gt;//回调函数有更改&lt;/span&gt;&lt;br&gt;&amp;#123;&lt;br&gt;    request-&amp;gt;send(&lt;span class=&#34;hljs-number&#34;&gt;200&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;text/plain&amp;quot;&lt;/span&gt;, &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;Hello, world!&amp;quot;&lt;/span&gt;);&lt;br&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;//发送 HTTP 相应，内容相同&lt;/span&gt;&lt;br&gt;&amp;#125;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-type&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;setup&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;br&gt;&amp;#123;&lt;br&gt;    Serial.begin(&lt;span class=&#34;hljs-number&#34;&gt;9600&lt;/span&gt;);		&lt;span class=&#34;hljs-comment&#34;&gt;//开启串口，波特率设置为 9600&lt;/span&gt;&lt;br&gt;    Serial.println();&lt;br&gt;&lt;br&gt;    WiFi.mode(WIFI_STA);	&lt;span class=&#34;hljs-comment&#34;&gt;//设置工作在 STA 模式&lt;/span&gt;&lt;br&gt;    WiFi.begin(SSID, PASSWORD);				&lt;span class=&#34;hljs-comment&#34;&gt;//连接至指定 AP&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-keyword&#34;&gt;while&lt;/span&gt; (WiFi.status() != WL_CONNECTED) 	&lt;span class=&#34;hljs-comment&#34;&gt;//等待网络连接成功&lt;/span&gt;&lt;br&gt;    &amp;#123;&lt;br&gt;        delay(&lt;span class=&#34;hljs-number&#34;&gt;500&lt;/span&gt;);&lt;br&gt;        Serial.print(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;.&amp;quot;&lt;/span&gt;);	&lt;span class=&#34;hljs-comment&#34;&gt;//将连接信息输出至串口&lt;/span&gt;&lt;br&gt;    &amp;#125;&lt;br&gt;    Serial.println(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;WiFi connected!&amp;quot;&lt;/span&gt;);&lt;br&gt;&lt;br&gt;    Serial.println(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;IP address: &amp;quot;&lt;/span&gt;);&lt;br&gt;    Serial.println(WiFi.localIP()); 		&lt;span class=&#34;hljs-comment&#34;&gt;//打印本机 IP&lt;/span&gt;&lt;br&gt;&lt;br&gt;    server.on(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;, handleIndex);			&lt;span class=&#34;hljs-comment&#34;&gt;//注册链接（类似与注册一个路由），并选择回调函数&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;//同样的，还可以注册别的链接，如&lt;/span&gt;&lt;br&gt;    &lt;span class=&#34;hljs-comment&#34;&gt;//server.on(&amp;quot;/test&amp;quot;, handleIndexTest);&lt;/span&gt;&lt;br&gt;  &lt;br&gt;    server.begin();			&lt;span class=&#34;hljs-comment&#34;&gt;//开启 HTTP 服务器&lt;/span&gt;&lt;br&gt;    Serial.println(&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;WebServer begin!&amp;quot;&lt;/span&gt;);&lt;br&gt;&amp;#125;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-type&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;loop&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;&lt;br&gt;&amp;#123;&lt;br&gt;&lt;span class=&#34;hljs-comment&#34;&gt;//不用在这儿监听 HTTP 请求了&lt;/span&gt;&lt;br&gt;&amp;#125;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;理论上来讲，上面的代码应该是正确的……&lt;/p&gt;
+&lt;p&gt;但 Arduino 在编译的时候报错，内容是 ESPAsyncWebServer 库中的某些代码。&lt;/p&gt;
+&lt;p&gt;有待我弄清楚出错的原因。&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/7f7bd4a5.html</guid>
+            <title>合宙 EPS32-C3 把玩记录（一）：环境搭建与第一个程序</title>
+            <link>https://blog.udon.eu.org/archives/7f7bd4a5.html</link>
+            <category>教程</category>
+            <category>嵌入式开发</category>
+            <pubDate>Sat, 26 Mar 2022 17:30:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;为了贯彻本博客最重要的关键词：&lt;strong&gt;性价比&lt;/strong&gt;，我看到性价如此高的开发板，想都没想就剁手了。&lt;/p&gt;
+&lt;p&gt;嘛其实也没有这么冲动，我在购买 3D 打印机之后就一直在计划着做一些网上现成的电子项目，但碍于这段时间 MCU 和大尺寸屏幕价格的飙升，一直没能开始动手。&lt;/p&gt;
+&lt;p&gt;正好最近我学习了 iPad 上的 3D 建模软件 Sharp3D，项目的外壳建模变得有可能；又遇到了这块便宜的板子，立即开工！&lt;/p&gt;
+&lt;p&gt;因为1.8寸的 TFT 显示屏还没到货，3D 建模就先放一边，先来研究一下这块开发板。&lt;/p&gt;
+&lt;h3 id=&#34;事先声明&#34;&gt;&lt;a href=&#34;#事先声明&#34; class=&#34;headerlink&#34; title=&#34;事先声明&#34;&gt;&lt;/a&gt;事先声明&lt;/h3&gt;&lt;p&gt;本教程是我一边从零开始学习嵌入式开发一边作成的，有逻辑混乱、内容浅显和成吨的错误，还请已经熟悉嵌入式开发的大佬多多包涵与斧正）&lt;/p&gt;
+&lt;h2 id=&#34;问题：什么？开发环境不是按语言分的嘛？&#34;&gt;&lt;a href=&#34;#问题：什么？开发环境不是按语言分的嘛？&#34; class=&#34;headerlink&#34; title=&#34;问题：什么？开发环境不是按语言分的嘛？&#34;&gt;&lt;/a&gt;问题：什么？开发环境不是按语言分的嘛？&lt;/h2&gt;&lt;p&gt;在开始学习嵌入式开发之前，我简单地认为嵌入式开发因语言而已，分为用 C&amp;#x2F;Cpp 开发（Arduino）和用 Python 开发（MicroPython）。&lt;/p&gt;
+&lt;p&gt;直到我遇见了 ESP-IDF 这个东西。&lt;/p&gt;
+&lt;p&gt;啥啊，为啥这家伙用的也是 C，代码我还一点都看不懂。&lt;/p&gt;
+&lt;h3 id=&#34;解答&#34;&gt;&lt;a href=&#34;#解答&#34; class=&#34;headerlink&#34; title=&#34;解答&#34;&gt;&lt;/a&gt;解答&lt;/h3&gt;&lt;p&gt;嵌入式开发选用的语言和语法因选择的框架而异。&lt;/p&gt;
+&lt;p&gt;ESP-EDF 更靠近底层，因而编写更复杂；Arduino 对底层进行封装，更靠上层且对用户更友好；MicroPython 则是在开发板上还原了一个 Python 的开发环境，继承了 Python 的诸多优点（简单的语法、无需编译就能执行新代码等）。&lt;/p&gt;
+&lt;p&gt;此外，还能用 JS、Java、Lua 等等语言进行开发。&lt;/p&gt;
+&lt;h3 id=&#34;我的选择&#34;&gt;&lt;a href=&#34;#我的选择&#34; class=&#34;headerlink&#34; title=&#34;我的选择&#34;&gt;&lt;/a&gt;我的选择&lt;/h3&gt;&lt;p&gt;我手上有两块板子，一块被我刷成了 MicroPython，但目前不打算去用它。&lt;/p&gt;
+&lt;p&gt;我打算用 Arduino + C 进行开发。&lt;/p&gt;
+&lt;h3 id=&#34;配置-VSCode-Arduino-开发环境&#34;&gt;&lt;a href=&#34;#配置-VSCode-Arduino-开发环境&#34; class=&#34;headerlink&#34; title=&#34;配置 VSCode + Arduino 开发环境&#34;&gt;&lt;/a&gt;配置 VSCode + Arduino 开发环境&lt;/h3&gt;&lt;p&gt;Arduino 没有代码补全，太难用。简述一下如何使用 VSCode 进行开发：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;VSC 安装 Arduino 插件；&lt;/li&gt;
+&lt;li&gt;在 首选项-设置 中配置 Arduino 的路径 &lt;code&gt;Arduino.path&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;打开项目后选择 MCU 类型和串口&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;就能用啦。&lt;/p&gt;
+&lt;h2 id=&#34;第一个项目&#34;&gt;&lt;a href=&#34;#第一个项目&#34; class=&#34;headerlink&#34; title=&#34;第一个项目&#34;&gt;&lt;/a&gt;第一个项目&lt;/h2&gt;&lt;p&gt;第一个项目就不选输出 Hello World 了，一点硬件的感觉都没有。&lt;/p&gt;
+&lt;p&gt;据&lt;a href=&#34;https://wiki.luatos.com/chips/esp32c3/board.html&#34;&gt; 官方文档 &lt;/a&gt;，主板板载的两个 LED 灯对应的 GPIO 为 &lt;code&gt;IO12 IO13&lt;/code&gt;，高电平有效。&lt;/p&gt;
+&lt;p&gt;就此编写一个&lt;del&gt;无稳态多协振荡电路&lt;/del&gt;让 LED 灯交替闪烁的程序：&lt;/p&gt;
+&lt;figure class=&#34;highlight c&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs c&#34;&gt;&lt;span class=&#34;hljs-type&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;setup&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;                 &lt;span class=&#34;hljs-comment&#34;&gt;//初始化函数，只会在开发板上电或复位时被调用一次&lt;/span&gt;&lt;br&gt;&amp;#123; &lt;br&gt;  pinMode(&lt;span class=&#34;hljs-number&#34;&gt;12&lt;/span&gt;, OUTPUT);       &lt;span class=&#34;hljs-comment&#34;&gt;//初始化 IO12 为输出口&lt;/span&gt;&lt;br&gt;  pinMode(&lt;span class=&#34;hljs-number&#34;&gt;13&lt;/span&gt;, OUTPUT);       &lt;span class=&#34;hljs-comment&#34;&gt;//初始化 IO13 为输出口&lt;/span&gt;&lt;br&gt;  digitalWrite(&lt;span class=&#34;hljs-number&#34;&gt;12&lt;/span&gt;, LOW);     &lt;span class=&#34;hljs-comment&#34;&gt;//初始化设为低电平，则灯灭&lt;/span&gt;&lt;br&gt;  digitalWrite(&lt;span class=&#34;hljs-number&#34;&gt;13&lt;/span&gt;, LOW);     &lt;span class=&#34;hljs-comment&#34;&gt;//初始化设为低电平，则灯灭&lt;/span&gt;&lt;br&gt;&amp;#125;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-type&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;hljs-title function_&#34;&gt;loop&lt;/span&gt;&lt;span class=&#34;hljs-params&#34;&gt;()&lt;/span&gt;                  &lt;span class=&#34;hljs-comment&#34;&gt;//上电之后一直循环执行的函数&lt;/span&gt;&lt;br&gt;&amp;#123; digitalWrite(&lt;span class=&#34;hljs-number&#34;&gt;12&lt;/span&gt;, HIGH);    &lt;span class=&#34;hljs-comment&#34;&gt;//亮左灯&lt;/span&gt;&lt;br&gt;  digitalWrite(&lt;span class=&#34;hljs-number&#34;&gt;13&lt;/span&gt;, LOW);     &lt;span class=&#34;hljs-comment&#34;&gt;//关右灯&lt;/span&gt;&lt;br&gt;  delay(&lt;span class=&#34;hljs-number&#34;&gt;1000&lt;/span&gt;);               &lt;span class=&#34;hljs-comment&#34;&gt;//等待1秒&lt;/span&gt;&lt;br&gt;  digitalWrite(&lt;span class=&#34;hljs-number&#34;&gt;12&lt;/span&gt;, LOW);     &lt;span class=&#34;hljs-comment&#34;&gt;//关左灯&lt;/span&gt;&lt;br&gt;  digitalWrite(&lt;span class=&#34;hljs-number&#34;&gt;13&lt;/span&gt;, HIGH);    &lt;span class=&#34;hljs-comment&#34;&gt;//亮右灯&lt;/span&gt;&lt;br&gt;  delay(&lt;span class=&#34;hljs-number&#34;&gt;1000&lt;/span&gt;);               &lt;span class=&#34;hljs-comment&#34;&gt;//等待1秒&lt;/span&gt;&lt;br&gt;&amp;#125;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;编译+上传即可。&lt;/p&gt;
+&lt;p&gt;结果就不展示了，两个灯在交替闪烁。&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/d01399e6.html</guid>
+            <title>Code-Server 的代理配置</title>
+            <link>https://blog.udon.eu.org/archives/d01399e6.html</link>
+            <category>教程</category>
+            <pubDate>Sat, 19 Mar 2022 22:30:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;一年前，我介绍了如何在群晖上使用 Docker 部署 Code-Server，在外也能轻松使用已经配置好的开发环境。&lt;a href=&#34;https://blog.udon.eu.org/archives/375e7789.html&#34;&gt;群晖搭建 VSCode 服务器与 Syncthing 服务&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;最近我换了 iPad，琢磨如何发挥她的生产力。除了使用网页版的 IDE（Codepen、Gitpod等），就是自建网页版的 VSCode 了。下面简要介绍一下我是如何给 Code-Server Docker 配置代理，使其成为一个完备的开发平台。&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+
+&lt;p&gt;将 Code-Server 部署在国内服务器（例如我家里的 NAS），可以获得稳定的连接，这对于开发平台是尤其重要的，VSCode 遇到连接不顺畅就会要求你刷新界面，很可能会丢失数据。&lt;/p&gt;
+&lt;p&gt;但由于众所周知的原因，在国内的网络环境做开发可以说是寸步难行，我便采用 Clash Docker 来给 Code-Server 加上代理。&lt;/p&gt;
+&lt;h3 id=&#34;Clash-Docker-安装&#34;&gt;&lt;a href=&#34;#Clash-Docker-安装&#34; class=&#34;headerlink&#34; title=&#34;Clash Docker 安装&#34;&gt;&lt;/a&gt;Clash Docker 安装&lt;/h3&gt;&lt;p&gt;Clash Core 普通版 Image：&lt;a href=&#34;https://hub.docker.com/r/dreamacro/clash&#34;&gt;dreamacro&amp;#x2F;clash - Docker Image | Docker Hub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Clash Core Premium Image：&lt;a href=&#34;https://hub.docker.com/r/dreamacro/clash-premium&#34;&gt;dreamacro&amp;#x2F;clash-premium - Docker Image | Docker Hub&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Clash Core Premium 二进制文件： &lt;a href=&#34;https://github.com/Dreamacro/clash/releases/tag/premium&#34;&gt;Premium release (github.com)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Clash Core 有普通版和 Premium 版之分，目前我能体验到的二者的区别是普通版的 Clash Core 不支持 RULE-SET 功能。&lt;/p&gt;
+&lt;p&gt;我常用的配置文件大量使用了 RULE-SET，所以我必须得用 Clash Core Premium。&lt;/p&gt;
+&lt;p&gt;但 Pre Build 的 Image 似乎不支持 X86-64 v3 之下的 CPU（例如我的 J1900），所以我采取了部署普通版 Image，然后 attach 进 Docker 手动更换 Premium 内核的曲线救国方法。（更换 &lt;code&gt;/&lt;/code&gt; 根目录下名为 &lt;code&gt;Clash&lt;/code&gt;的二进制文件）&lt;/p&gt;
+&lt;p&gt;部署 Docker 时注意一下几点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开放 7890（或你定义的代理端口）和 9090（Clash Core 管理面板）端口。&lt;/li&gt;
+&lt;li&gt;将 &lt;code&gt;/root/.config/clash&lt;/code&gt; 文件夹挂载到本地，存放 &lt;code&gt;config.yaml&lt;/code&gt; 及其他配置文件。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;请勿将 Clash Core 的管理面板暴露到公网。我选择用 Tailscale 建立 VPN 访问家中的服务器进行配置。&lt;/p&gt;
+&lt;h3 id=&#34;Code-Server-的配置&#34;&gt;&lt;a href=&#34;#Code-Server-的配置&#34; class=&#34;headerlink&#34; title=&#34;Code-Server 的配置&#34;&gt;&lt;/a&gt;Code-Server 的配置&lt;/h3&gt;&lt;p&gt;需要在 Code-Server Docker 里添加两个环境变量，实现开机自动连接代理：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;http_proxy=http://clash_docker_ip:7890&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;https_proxy=http://clash_docker_ip:7890&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;可以使用同样的方法给其他 Docker 添加代理。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;在一顿折腾之后，Code-Server 终于可以顺畅访问 Github 等网站了。&lt;/p&gt;
+&lt;p&gt;可喜可贺，可喜可贺。&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/7263a385.html</guid>
+            <title>Klipper 的外网访问</title>
+            <link>https://blog.udon.eu.org/archives/7263a385.html</link>
+            <category>教程</category>
+            <category>3D 打印</category>
+            <pubDate>Sat, 12 Feb 2022 14:50:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;网络上有关 Klipper 的中文教程少之又少，固作此教程介绍一下如何在外网优雅地访问家中装有 Klipper 的 3D 打印机。&lt;/p&gt;
+&lt;h2 id=&#34;方法一：端口转发&#34;&gt;&lt;a href=&#34;#方法一：端口转发&#34; class=&#34;headerlink&#34; title=&#34;方法一：端口转发&#34;&gt;&lt;/a&gt;方法一：端口转发&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;此方法仅适用于拥有公网 IP 的用户&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;首先，使用 DDNS 将家庭宽带动态变化的 IP 绑定至域名，教程如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog..eu.org/archives/87bacf3f.html&#34;&gt;群晖-外网访问一站式教程2 DDNS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog..eu.org/archives/27f2d840.html&#34;&gt;iPv6下绝佳的DDNS方法-dynv6&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在配置端口映射之前，先介绍一下 Klipper 的网络结构：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34; mermaid&#34;&gt;graph LR;
+	A(&amp;quot;你的设备&amp;quot;) &amp;lt;--80--&amp;gt;
+	B(&amp;quot;前端网页（Fluidd/Mainsail/Octoprint）&amp;quot;) &amp;lt;--7125--&amp;gt;
+	C(&amp;quot;API 服务器 Moonraker&amp;quot;) 	&amp;lt;--&amp;gt;
+	D(&amp;quot;你的 3D 打印机&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;线上的数字便是通讯的端口。&lt;/p&gt;
+&lt;p&gt;由上图，我们不难看出，若需要在外网访问家中的 Klipper，就需要映射 &lt;strong&gt;80&lt;/strong&gt; 和 &lt;strong&gt;7125&lt;/strong&gt; 两个端口。&lt;/p&gt;
+&lt;p&gt;于路由器的 &lt;strong&gt;端口转发&amp;#x2F;端口映射&lt;/strong&gt; 界面配置 80 和 7125 的转发即可。家庭宽带的公网 IP 不会开放 80 端口，可将外网端口配置为 8080，对应的内网端口为 80 即可。&lt;/p&gt;
+&lt;p&gt;接着，在 Moonraker 配置 &lt;code&gt;moonraker.conf&lt;/code&gt; &lt;code&gt;[authorization]&lt;/code&gt; 模块的 &lt;code&gt;cors_domains&lt;/code&gt; 模块中添加你的域名，格式为 &lt;code&gt;*://你们域名&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;也可以选择不使用自己搭建的前端网页，而使用 &lt;a href=&#34;http://app.fluidd.xyz/&#34;&gt;Fluidd&lt;/a&gt; 或者 &lt;a href=&#34;%5BMainsail%5D(http://my.mainsail.xyz/)&#34;&gt;Mainsail&lt;/a&gt; 作者搭建的前端网页。在 Moonraker 配置 &lt;code&gt;moonraker.conf&lt;/code&gt; &lt;code&gt;[authorization]&lt;/code&gt; 模块的 &lt;code&gt;cors_domains&lt;/code&gt; 模块中添加 &lt;code&gt;*://my.mainsail.xyz 与 *://app.fluidd.xyz&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;方法二：内网穿透&#34;&gt;&lt;a href=&#34;#方法二：内网穿透&#34; class=&#34;headerlink&#34; title=&#34;方法二：内网穿透&#34;&gt;&lt;/a&gt;方法二：内网穿透&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;本人不推荐使用这个方法，固仅简述一下&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;可以使用花生壳等内网穿透服务，但给的带宽太小，只能使用控制界面，不能使用摄像头。&lt;/p&gt;
+&lt;p&gt;也可以选择自建内网穿透，例如 Frp, Ngrok 等服务。但最近越来越多 Frp 服务器遭到攻击，固不建议自建。&lt;/p&gt;
+&lt;h2 id=&#34;方法三：使用-VPN&#34;&gt;&lt;a href=&#34;#方法三：使用-VPN&#34; class=&#34;headerlink&#34; title=&#34;方法三：使用 VPN&#34;&gt;&lt;/a&gt;方法三：使用 VPN&lt;/h2&gt;&lt;p&gt;这是本人推荐的方法。&lt;/p&gt;
+&lt;p&gt;与 Octoprint + Marlin 仅需要映射 80 端口不同，Klipper 还需要映射 Moonraker 的 7125 端口，配置端口转发与实际使用都不如前者来的方便。&lt;/p&gt;
+&lt;p&gt;我个人推荐用诸如 Zerotier, Tailscale 一类的 VPN 软件，搭建自己的小内网，通过内网 IP 直接访问 Klipper，既安全又方便。&lt;/p&gt;
+&lt;p&gt;Zerotier 或者 Tailscale 的使用技巧网上一大片，我就不赘述了。&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/375e7789.html</guid>
+            <title>群晖搭建 VSCode 服务器与 Syncthing 服务</title>
+            <link>https://blog.udon.eu.org/archives/375e7789.html</link>
+            <category>教程</category>
+            <pubDate>Sat, 20 Mar 2021 00:00:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;这次我尝试在群晖上搭建 VSCode 服务器与 Syncthing 服务，实现电脑与 NAS 间的代码同步与网页中的 Coding。&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+
+&lt;hr&gt;
+&lt;h2 id=&#34;VSCode-网页版的实现&#34;&gt;&lt;a href=&#34;#VSCode-网页版的实现&#34; class=&#34;headerlink&#34; title=&#34;VSCode 网页版的实现&#34;&gt;&lt;/a&gt;VSCode 网页版的实现&lt;/h2&gt;&lt;h3 id=&#34;偶遇服务器软件&#34;&gt;&lt;a href=&#34;#偶遇服务器软件&#34; class=&#34;headerlink&#34; title=&#34;偶遇服务器软件&#34;&gt;&lt;/a&gt;偶遇服务器软件&lt;/h3&gt;&lt;p&gt;刷 RSS 时我看到 V2EX 上一个帖子分享了一个实用工具：&lt;a href=&#34;%22https://github.com/conwnet/github1s%22&#34;&gt;github+1s&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这个项目可以实现在 &lt;strong&gt;网页版 VSCode&lt;/strong&gt; 中打开 GitHhub 上的代码。&lt;/p&gt;
+&lt;p&gt;这个项目使用的 &lt;a href=&#34;%22https://github.com/cdr/code-server%22&#34;&gt;code-server&lt;/a&gt; 引起了我的兴趣。&lt;/p&gt;
+&lt;h3 id=&#34;code-server-的部署&#34;&gt;&lt;a href=&#34;#code-server-的部署&#34; class=&#34;headerlink&#34; title=&#34;code-server 的部署&#34;&gt;&lt;/a&gt;code-server 的部署&lt;/h3&gt;&lt;p&gt;群晖自带的 Docker 套件简化了部署的过程。&lt;/p&gt;
+&lt;p&gt;在注册表中搜索 &lt;a href=&#34;https://registry.hub.docker.com/r/codercom/code-server/&#34;&gt;code-server&lt;/a&gt; 下载 image；&lt;/p&gt;
+&lt;p&gt;打开 image 进行配置：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用高权限执行容器&lt;/li&gt;
+&lt;li&gt;在 &lt;code&gt;高级设置-环境&lt;/code&gt; 页面中添加环境变量 &lt;code&gt;PASSWORD&lt;/code&gt;，值设定为你的登陆密码（由于在 Docker 页面中以明文保存，请注意密码安全）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;启动容器，并使用 Docker 内置的 &lt;code&gt;终端机&lt;/code&gt; 打开一个新的 &lt;code&gt;bash&lt;/code&gt;。换源、更新 apt 、安装常用软件我就不再赘述。&lt;/p&gt;
+&lt;h3 id=&#34;code-server-的外网访问&#34;&gt;&lt;a href=&#34;#code-server-的外网访问&#34; class=&#34;headerlink&#34; title=&#34;code-server 的外网访问&#34;&gt;&lt;/a&gt;code-server 的外网访问&lt;/h3&gt;&lt;p&gt;code-server 没有自带 HTTPS 相关的配置，需要使用网站服务器进行反向代理。&lt;/p&gt;
+&lt;p&gt;目前比较流行的有 Caddy 和 NGINX 两款。&lt;/p&gt;
+&lt;p&gt;鉴于 Caddy 配置简单且 HTTPS 优先，我这次使用 Caddy。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://caddyserver.com/docs/install#debian-ubuntu-raspbian&#34;&gt;Caddy 官方安装文档&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;或使用一键安装脚本&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;curl https://getcaddy.com | bash -s personal&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;如果有开放的 443 端口，则可使用 Caddy 的自动 HTTPS 功能进行快速配置。&lt;/p&gt;
+&lt;p&gt;若像我一样在家中的 NAS 上配置 code-server，则需要自己申请 tls 证书 (如 Let&amp;#96;s Encrypt)，并按照 &lt;a href=&#34;https://dengxiaolong.com/caddy/zh/tls.html&#34;&gt;Caddy-tls&lt;/a&gt; 配置。&lt;/p&gt;
+&lt;p&gt;反向代理配置可参考 &lt;a href=&#34;https://github.com/cdr/code-server/blob/main/docs/guide.md#lets-encrypt&#34;&gt;code-server 官方的反代配置教程&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;一些疑难杂症&#34;&gt;&lt;a href=&#34;#一些疑难杂症&#34; class=&#34;headerlink&#34; title=&#34;一些疑难杂症&#34;&gt;&lt;/a&gt;一些疑难杂症&lt;/h3&gt;&lt;h4 id=&#34;一些插件无法安装&#34;&gt;&lt;a href=&#34;#一些插件无法安装&#34; class=&#34;headerlink&#34; title=&#34;一些插件无法安装&#34;&gt;&lt;/a&gt;一些插件无法安装&lt;/h4&gt;&lt;p&gt;目前 code-server 的 VSCode 版本为 1.51.1， VSCode 官方则为 1.54.3 ，因此某些较新的插件可能无法使用。&lt;/p&gt;
+&lt;p&gt;可以前往 &lt;a href=&#34;https://marketplace.visualstudio.com/&#34;&gt;VS插件市场&lt;/a&gt; 下载旧版插件并手动安装。&lt;/p&gt;
+&lt;h4 id=&#34;Docker-内挂载的目录无写权限&#34;&gt;&lt;a href=&#34;#Docker-内挂载的目录无写权限&#34; class=&#34;headerlink&#34; title=&#34;Docker 内挂载的目录无写权限&#34;&gt;&lt;/a&gt;Docker 内挂载的目录无写权限&lt;/h4&gt;&lt;p&gt;使用 &lt;code&gt;sudo chmod 777 ./&lt;/code&gt; 给 coder 用户赋予读写权力。&lt;/p&gt;
+&lt;h4 id=&#34;Docker-内-Caddy-无法自启&#34;&gt;&lt;a href=&#34;#Docker-内-Caddy-无法自启&#34; class=&#34;headerlink&#34; title=&#34;Docker 内 Caddy 无法自启&#34;&gt;&lt;/a&gt;Docker 内 Caddy 无法自启&lt;/h4&gt;&lt;p&gt;这个我也还没有解决。暂且手动启动。&lt;/p&gt;
+&lt;h4 id=&#34;code-server-的各种性能问题&#34;&gt;&lt;a href=&#34;#code-server-的各种性能问题&#34; class=&#34;headerlink&#34; title=&#34;code-server 的各种性能问题&#34;&gt;&lt;/a&gt;code-server 的各种性能问题&lt;/h4&gt;&lt;p&gt;等待更多的更新吧，我接下来会尝试在 Docker 里编译原版 VSCode 并开启 Web 模式，对比二者性能。&lt;/p&gt;
+&lt;h2 id=&#34;Syncthing-服务搭建&#34;&gt;&lt;a href=&#34;#Syncthing-服务搭建&#34; class=&#34;headerlink&#34; title=&#34;Syncthing 服务搭建&#34;&gt;&lt;/a&gt;Syncthing 服务搭建&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://syncthing.net/&#34;&gt;Syncthing 官网&lt;/a&gt; 已经给出了十分详尽的安装教程，也有群晖的安装包，我就不再赘述安装过程。&lt;/p&gt;
+&lt;p&gt;Syncthing 的管理页面端口为 &lt;code&gt;8384&lt;/code&gt;，若想在外网访问请使用 HTTPS。可以使用群晖内置的反向代理服务器进行反代。&lt;/p&gt;
+&lt;p&gt;要注意把 &lt;code&gt;22000&lt;/code&gt; 端口的 &lt;code&gt;TCP&lt;/code&gt; 与 &lt;code&gt;UDP&lt;/code&gt; 全部开放，才可在外网顺利与 NAS 同步。&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/a455b52c.html</guid>
+            <title>逃离国产软件 - 虚拟机计划</title>
+            <link>https://blog.udon.eu.org/archives/a455b52c.html</link>
+            <category>教程</category>
+            <category>软件</category>
+            <pubDate>Fri, 07 Aug 2020 12:30:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;使用 Hyper-V 运行 Windows LTSC 虚拟机，以隔离流氓的国产软件们。&lt;/p&gt;
+&lt;h3 id=&#34;为何大费周章？&#34;&gt;&lt;a href=&#34;#为何大费周章？&#34; class=&#34;headerlink&#34; title=&#34;为何大费周章？&#34;&gt;&lt;/a&gt;为何大费周章？&lt;/h3&gt;&lt;p&gt;我试过网络上的不少方法来隔离鹅厂的软件 —— 刚开源的 Sandboxie 也好，利用 Windows ACL 机制通过低权账户加以限制也好 —— 都因为权限问题失败了。最后决定用虚拟环境直接隔离这些软件。&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+
+&lt;h3 id=&#34;为什么是-Hyper-V-和-LTSC？&#34;&gt;&lt;a href=&#34;#为什么是-Hyper-V-和-LTSC？&#34; class=&#34;headerlink&#34; title=&#34;为什么是 Hyper-V 和 LTSC？&#34;&gt;&lt;/a&gt;为什么是 Hyper-V 和 LTSC？&lt;/h3&gt;&lt;p&gt;我用过 VMWare，觉得还是 Windows 原生的 Hyper-V 启动最快。还不用钱。&lt;/p&gt;
+&lt;p&gt;Windows LTSC 是企业定制版，官方精简了系统，性能开销更少。&lt;/p&gt;
+&lt;h3 id=&#34;事前准备&#34;&gt;&lt;a href=&#34;#事前准备&#34; class=&#34;headerlink&#34; title=&#34;事前准备&#34;&gt;&lt;/a&gt;事前准备&lt;/h3&gt;&lt;p&gt;拥有 16G 以上内存及 NVME 高速硬盘的用户可以放心采用该方案，虚拟机运行时不会影响其他软件的流畅运行。&lt;/p&gt;
+&lt;h4 id=&#34;下载-MSDN-上的-Windows-LTSC&#34;&gt;&lt;a href=&#34;#下载-MSDN-上的-Windows-LTSC&#34; class=&#34;headerlink&#34; title=&#34;下载 MSDN 上的 Windows LTSC:&#34;&gt;&lt;/a&gt;下载 &lt;a href=&#34;https://msdn.itellyou.cn/&#34;&gt;MSDN&lt;/a&gt; 上的 Windows LTSC:&lt;/h4&gt;&lt;p&gt;侧边栏选择 &lt;strong&gt;操作系统&lt;/strong&gt; ；选择 &lt;strong&gt;Windows 10 Enterprise LTSC 2019&lt;/strong&gt;。&lt;/p&gt;
+&lt;h4 id=&#34;安装-Hyper-V：&#34;&gt;&lt;a href=&#34;#安装-Hyper-V：&#34; class=&#34;headerlink&#34; title=&#34;安装 Hyper-V：&#34;&gt;&lt;/a&gt;安装 Hyper-V：&lt;/h4&gt;&lt;p&gt;对于 Windows 专业版 用户，在 控制面板 - 程序与功能 - 启动或关闭Windows功能 中找到 &lt;strong&gt;Hyper-V&lt;/strong&gt; 并打开。&lt;/p&gt;
+&lt;p&gt;对于 其他版本 Windows 的用户，则稍微有些麻烦：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在记事本中输入如下代码&lt;/li&gt;
+&lt;/ol&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;&lt;span class=&#34;hljs-built_in&#34;&gt;pushd&lt;/span&gt; &lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;%~dp0&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-built_in&#34;&gt;dir&lt;/span&gt; /b %SystemRoot%\servicing\Packages\*Hyper-V*.mum &amp;gt;hyper-v.txt&lt;br&gt;&lt;br&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;for&lt;/span&gt; /f %%i &lt;span class=&#34;hljs-keyword&#34;&gt;in&lt;/span&gt; (&lt;span class=&#34;hljs-string&#34;&gt;&amp;#x27;findstr /i . hyper-v.txt 2^&amp;gt;nul&amp;#x27;&lt;/span&gt;) &lt;span class=&#34;hljs-keyword&#34;&gt;do&lt;/span&gt; dism /online /norestart /add-package:&lt;span class=&#34;hljs-string&#34;&gt;&amp;quot;%SystemRoot%\servicing\Packages\%%i&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;br&gt;del hyper-v.txt&lt;br&gt;&lt;br&gt;Dism /online /enable-feature /featurename:Microsoft-Hyper-V-All /LimitAccess /ALL&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;把文件保存为Hyper-V.cmd&lt;/li&gt;
+&lt;li&gt;右键该文件，选择 &lt;strong&gt;以管理员身份运行&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;根据提示完成安装。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;摘自知乎 &lt;a href=&#34;https://zhuanlan.zhihu.com/p/51939654&#34;&gt;没人不认识我&lt;/a&gt; 的回答&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;安装虚拟机&#34;&gt;&lt;a href=&#34;#安装虚拟机&#34; class=&#34;headerlink&#34; title=&#34;安装虚拟机&#34;&gt;&lt;/a&gt;安装虚拟机&lt;/h3&gt;&lt;p&gt;打开 Hyper-V ，选择 &lt;strong&gt;新建 - 虚拟机&lt;/strong&gt; ；&lt;/p&gt;
+&lt;p&gt;根据向导提示设置虚拟机，选择 &lt;strong&gt;第一代虚拟机&lt;/strong&gt; ；&lt;/p&gt;
+&lt;p&gt;内存分配我选了 2G （共16G）；CPU 分配我选了 4线程 （共12线程）【需要完成配置后在 &lt;strong&gt;设置&lt;/strong&gt; 中更改】；&lt;/p&gt;
+&lt;p&gt;其余设置默认或自定；&lt;/p&gt;
+&lt;p&gt;安装选项选择 &lt;strong&gt;从 CD&amp;#x2F;DVD-ROM 安装操作系统&lt;/strong&gt; ，选择刚刚下载好的 Windows LTSC ISO镜像；&lt;/p&gt;
+&lt;p&gt;完成配置后，启动虚拟机，安装 Windows LTSC 到硬盘。&lt;/p&gt;
+&lt;h3 id=&#34;配置环境&#34;&gt;&lt;a href=&#34;#配置环境&#34; class=&#34;headerlink&#34; title=&#34;配置环境&#34;&gt;&lt;/a&gt;配置环境&lt;/h3&gt;&lt;p&gt;装好系统后要干什么不用我说了吧。&lt;/p&gt;
+&lt;p&gt;把垃圾们倒进去就好啦。&lt;/p&gt;
+&lt;p&gt;实测空载消耗 CPU 算力在 0%-3% 浮动；内存占用 2.2G，实际使用 1.2G 。&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/e3c95af8.html</guid>
+            <title>BGP初体验-Linux,Openwrt与Quagga</title>
+            <link>https://blog.udon.eu.org/archives/e3c95af8.html</link>
+            <category>教程</category>
+            <pubDate>Mon, 10 Feb 2020 12:30:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;好久没写博客了！今天抽出点时间分享一下我的 BGP 初体验。&lt;/p&gt;
+&lt;p&gt;这一切的一切都要从一个叫鹤伞 Ria 的 Vtuber 说起……&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+
+&lt;h2 id=&#34;环境配置&#34;&gt;&lt;a href=&#34;#环境配置&#34; class=&#34;headerlink&#34; title=&#34;环境配置&#34;&gt;&lt;/a&gt;环境配置&lt;/h2&gt;&lt;h3 id=&#34;操作环境&#34;&gt;&lt;a href=&#34;#操作环境&#34; class=&#34;headerlink&#34; title=&#34;操作环境&#34;&gt;&lt;/a&gt;操作环境&lt;/h3&gt;&lt;p&gt;Debian 系 Linux（其实是 Kali）：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo apt update &amp;amp; sudo apt install quagga&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Openwrt:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;opkg update &amp;amp; opkg install quagga quagga-zebra quagga-bgpd quagga-vtysh&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;网络配置&#34;&gt;&lt;a href=&#34;#网络配置&#34; class=&#34;headerlink&#34; title=&#34;网络配置&#34;&gt;&lt;/a&gt;网络配置&lt;/h3&gt;&lt;p&gt;采用 Zerotier 建立内网环境模拟真实网络。&lt;/p&gt;
+&lt;p&gt;Zerotier 的安装及配置不再赘述，官网有详尽教程。&lt;/p&gt;
+&lt;h2 id=&#34;网络环境&#34;&gt;&lt;a href=&#34;#网络环境&#34; class=&#34;headerlink&#34; title=&#34;网络环境&#34;&gt;&lt;/a&gt;网络环境&lt;/h2&gt;&lt;p&gt;本来想做三台设备两个 AS 间的通讯，有一台设备无法安装任何 BGP 软件也就作罢；也没有画拓扑图的必要了（悲）。&lt;/p&gt;
+&lt;p&gt;AS114514 Debian 10.0.1.1，命名为 R1，享有 10.0.1.0&amp;#x2F;24 网段；&lt;/p&gt;
+&lt;p&gt;AS1919810 Openwrt 10.0.2.1，命名为 R2，享有 10.0.2.0&amp;#x2F;24 网段。&lt;/p&gt;
+&lt;h2 id=&#34;Quagga配置&#34;&gt;&lt;a href=&#34;#Quagga配置&#34; class=&#34;headerlink&#34; title=&#34;Quagga配置&#34;&gt;&lt;/a&gt;Quagga配置&lt;/h2&gt;&lt;p&gt;下面才是重头戏。Quagga 的配置文件位于 &lt;code&gt;/etc/quagga/&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;据测试，Openwrt 安装 quagga 后会带有初始配置，而 Debian 不带初始配置，可自行创建。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/etc/quagga/zebra.conf&lt;/code&gt; 配置（可不用修改）&lt;/p&gt;
+&lt;figure class=&#34;highlight pgsql&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs pgsql&#34;&gt;! 登陆密码&lt;br&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;password&lt;/span&gt; zebra&lt;br&gt;!&lt;br&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;access&lt;/span&gt;-list vty permit &lt;span class=&#34;hljs-number&#34;&gt;127.0&lt;/span&gt;&lt;span class=&#34;hljs-number&#34;&gt;.0&lt;/span&gt;&lt;span class=&#34;hljs-number&#34;&gt;.0&lt;/span&gt;/&lt;span class=&#34;hljs-number&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;access&lt;/span&gt;-list vty deny &lt;span class=&#34;hljs-keyword&#34;&gt;any&lt;/span&gt;&lt;br&gt;!&lt;br&gt;&lt;span class=&#34;hljs-type&#34;&gt;line&lt;/span&gt; vty&lt;br&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;access&lt;/span&gt;-&lt;span class=&#34;hljs-keyword&#34;&gt;class&lt;/span&gt; vty&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;code&gt;/etc/quagga/bgpd.conf&lt;/code&gt; 配置（需要根据情境修改）&lt;/p&gt;
+&lt;figure class=&#34;highlight diff&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs diff&#34;&gt;&lt;span class=&#34;hljs-addition&#34;&gt;! 密码&lt;/span&gt;&lt;br&gt;password zebra&lt;br&gt;&lt;span class=&#34;hljs-addition&#34;&gt;! AS号&lt;/span&gt;&lt;br&gt;router bgp 114514&lt;br&gt;&lt;span class=&#34;hljs-addition&#34;&gt;! 本机公网（VPN网络）ip&lt;/span&gt;&lt;br&gt; bgp router-id 10.0.1.1&lt;br&gt;&lt;span class=&#34;hljs-addition&#34;&gt;! 本路由享有网段（需要交换的网段）&lt;/span&gt;&lt;br&gt; network 10.0.1.0/24&lt;br&gt;&lt;span class=&#34;hljs-addition&#34;&gt;! peer信息（建立连接的机器的公网（VPN网络）ip，AS及称呼）&lt;/span&gt;&lt;br&gt; neighbor 10.0.2.1 remote-as 1919810&lt;br&gt; neighbor 10.0.2.1 description R2&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt; 另一台机器的配置只需依葫芦画瓢，我就不再赘述。&lt;/p&gt;
+&lt;p&gt;配置之后，运行&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/etc/init.d/zebra restart&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/etc/init.d/bgpd restart&lt;/code&gt;（Debian）&lt;/p&gt;
+&lt;p&gt;或者&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;/etc/init.d/quagga restart&lt;/code&gt;（Openwrt）&lt;/p&gt;
+&lt;p&gt;重启 quagga 服务。&lt;/p&gt;
+&lt;h2 id=&#34;欣赏结果&#34;&gt;&lt;a href=&#34;#欣赏结果&#34; class=&#34;headerlink&#34; title=&#34;欣赏结果&#34;&gt;&lt;/a&gt;欣赏结果&lt;/h2&gt;&lt;p&gt;忙活了这么久，终于能看到结果了！&lt;/p&gt;
+&lt;p&gt;运行&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;vtysh&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;进入 quagga 控制台（指令模拟 Cisco，这块不大了解）&lt;/p&gt;
+&lt;p&gt;输入&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;show ip bgp neighbor&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;就会看到&lt;/p&gt;
+&lt;figure class=&#34;highlight pgsql&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs pgsql&#34;&gt;BGP neighbor &lt;span class=&#34;hljs-keyword&#34;&gt;is&lt;/span&gt; &lt;span class=&#34;hljs-number&#34;&gt;10.0&lt;/span&gt;&lt;span class=&#34;hljs-number&#34;&gt;.2&lt;/span&gt;&lt;span class=&#34;hljs-number&#34;&gt;.1&lt;/span&gt;, remote &lt;span class=&#34;hljs-keyword&#34;&gt;AS&lt;/span&gt; &lt;span class=&#34;hljs-number&#34;&gt;1919810&lt;/span&gt;, &lt;span class=&#34;hljs-keyword&#34;&gt;local&lt;/span&gt; &lt;span class=&#34;hljs-keyword&#34;&gt;AS&lt;/span&gt; &lt;span class=&#34;hljs-number&#34;&gt;114514&lt;/span&gt;, &lt;span class=&#34;hljs-keyword&#34;&gt;external&lt;/span&gt; link&lt;br&gt;Description: R2&lt;br&gt;BGP &lt;span class=&#34;hljs-keyword&#34;&gt;version&lt;/span&gt; &lt;span class=&#34;hljs-number&#34;&gt;4&lt;/span&gt;, remote router ID &lt;span class=&#34;hljs-number&#34;&gt;10.0&lt;/span&gt;&lt;span class=&#34;hljs-number&#34;&gt;.2&lt;/span&gt;&lt;span class=&#34;hljs-number&#34;&gt;.1&lt;/span&gt;&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;还有这么一张表&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;hljs&#34;&gt;                     Sent       Rcvd
+Opens:                  2          0
+Notifications:          0          0
+Updates:                2          2
+Keepalives:          1050       1049
+Route Refresh:          0          0
+Capability:             0          0
+Total:               1054       1051
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;再看看路由器内的活动ipv4路由表&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th align=&#34;center&#34;&gt;网络&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;对象&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;IPv4 网关&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;跃点数&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;表&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;
+&lt;td align=&#34;center&#34;&gt;xxx&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;10.0.2.0&amp;#x2F;24&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;10.0.2.1&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;20&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;main&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;&lt;/table&gt;
+&lt;p&gt;就算大功告成了！&lt;/p&gt;
+&lt;h2 id=&#34;有什么用处呢？&#34;&gt;&lt;a href=&#34;#有什么用处呢？&#34; class=&#34;headerlink&#34; title=&#34;有什么用处呢？&#34;&gt;&lt;/a&gt;有什么用处呢？&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;没有。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;内网测试唯一能享受的就是看着这条无形的链接，想象自己也是网络工程师。&lt;/p&gt;
+&lt;p&gt;但是还是感觉很爽！&lt;/p&gt;
+&lt;p&gt;而且你已经学会（大概）了 BGP，获取全球路由表也能办到了！&lt;/p&gt;
+&lt;p&gt;参考 Ria 的爸爸&lt;del&gt;（我的岳父）&lt;/del&gt;的文章&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://blog.foxsar.black/?p=246&#34;&gt;使用bird配置bgp网络互连&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;至于这一切与 Ria 有啥关系？欢迎关注 Ria 了解详情（滑稽）&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://t.me/kanaria_group&#34;&gt;Telegram群组&lt;/a&gt;  &lt;a href=&#34;https://space.bilibili.com/2450927&#34;&gt;bilibli&lt;/a&gt;  &lt;a href=&#34;https://www.youtube.com/channel/UCC12ijOcPxnRSQPLvjWYXUg&#34;&gt;Youtube&lt;/a&gt;&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/9d1c6fa4.html</guid>
+            <title>Joplin+Webdav同步问题的解决方案</title>
+            <link>https://blog.udon.eu.org/archives/9d1c6fa4.html</link>
+            <category>教程</category>
+            <pubDate>Mon, 06 Jan 2020 18:00:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;h2 id=&#34;问题内容&#34;&gt;&lt;a href=&#34;#问题内容&#34; class=&#34;headerlink&#34; title=&#34;问题内容&#34;&gt;&lt;/a&gt;问题内容&lt;/h2&gt;&lt;p&gt;在群晖上搭建了 Webdav 服务器，使用 Joplin 连接后无法同步笔记。&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt; 
+
+&lt;h2 id=&#34;解决方案&#34;&gt;&lt;a href=&#34;#解决方案&#34; class=&#34;headerlink&#34; title=&#34;解决方案&#34;&gt;&lt;/a&gt;解决方案&lt;/h2&gt;&lt;h3 id=&#34;错误示范：&#34;&gt;&lt;a href=&#34;#错误示范：&#34; class=&#34;headerlink&#34; title=&#34;错误示范：&#34;&gt;&lt;/a&gt;错误示范：&lt;/h3&gt;&lt;p&gt;‘ &lt;a href=&#34;https://your.domain.com:[your&#34;&gt;https://your.domain.com:[your&lt;/a&gt; port] ‘&lt;/p&gt;
+&lt;p&gt;以此路径访问的是群晖文件系统的 &lt;code&gt;/ &lt;/code&gt; 目录，由于没有权限读写，同步失败。&lt;/p&gt;
+&lt;h3 id=&#34;正确示范：&#34;&gt;&lt;a href=&#34;#正确示范：&#34; class=&#34;headerlink&#34; title=&#34;正确示范：&#34;&gt;&lt;/a&gt;正确示范：&lt;/h3&gt;&lt;p&gt;在群晖控制面板内新建一个名为 &lt;code&gt;Joplin&lt;/code&gt; 的共享文件夹。以域名：&lt;/p&gt;
+&lt;p&gt;‘ &lt;a href=&#34;https://your.domain.com:[your&#34;&gt;https://your.domain.com:[your&lt;/a&gt; port] &amp;#x2F;Joplin’&lt;/p&gt;
+&lt;p&gt;访问即可同步。&lt;/p&gt;
+&lt;h3 id=&#34;自定义配置：&#34;&gt;&lt;a href=&#34;#自定义配置：&#34; class=&#34;headerlink&#34; title=&#34;自定义配置：&#34;&gt;&lt;/a&gt;自定义配置：&lt;/h3&gt;&lt;p&gt;若想在已经存在的文件夹下同步 Joplin 笔记，按照正确示范所书写的 URL 书写路径即可在想要的地方同步。&lt;/p&gt;
+&lt;h2 id=&#34;解决方案的探索&#34;&gt;&lt;a href=&#34;#解决方案的探索&#34; class=&#34;headerlink&#34; title=&#34;解决方案的探索&#34;&gt;&lt;/a&gt;解决方案的探索&lt;/h2&gt;&lt;p&gt;（我并未了解过 Webdav 的原理）&lt;br&gt;遇到此问题时，我在上 Google 查找解决方法前试着自行分析。思考原因后我选择了抓包分析。&lt;/p&gt;
+&lt;p&gt;结合抓包结果和 Joplin 同步日志可以看到 Joplin 在 &lt;code&gt;/ &lt;/code&gt; 目录下查找了 &lt;code&gt;.lock&lt;/code&gt; 等文件。结合其他 Webdav 软件可以看到访问的 URL 指向的是目标文件夹，即“域名：端口&amp;#x2F;目标文件夹”，由此推测需要在配置内为 Joplin 指明同步目录，否则将在没有权限的根目录下同步，导致失败。&lt;/p&gt;
+&lt;p&gt;这是一次没有什么技术含量但能启发我的尝试。若你也遇到了类似的问题，希望也能启发到你。&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/27f2d840.html</guid>
+            <title>iPv6下绝佳的DDNS方法-dynv6</title>
+            <link>https://blog.udon.eu.org/archives/27f2d840.html</link>
+            <category>教程</category>
+            <pubDate>Thu, 03 Oct 2019 23:30:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;下面我将介绍一种适用于 IPv6-DDNS 的绝佳方法！&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+
+&lt;h3 id=&#34;通过-IPv6-访问的优点&#34;&gt;&lt;a href=&#34;#通过-IPv6-访问的优点&#34; class=&#34;headerlink&#34; title=&#34;通过 IPv6 访问的优点&#34;&gt;&lt;/a&gt;通过 IPv6 访问的优点&lt;/h3&gt;&lt;p&gt;没有端口限制！！！可以通过 80&amp;#x2F;443 访问 web 服务器了！不用带着烦人的端口号！&lt;/p&gt;
+&lt;p&gt;每台设备有独立的 IPv6，配置更加方便，无需路由器充当网关进行端口转发！&lt;/p&gt;
+&lt;h3 id=&#34;IPv6-也有不足之处&#34;&gt;&lt;a href=&#34;#IPv6-也有不足之处&#34; class=&#34;headerlink&#34; title=&#34;IPv6 也有不足之处&#34;&gt;&lt;/a&gt;IPv6 也有不足之处&lt;/h3&gt;&lt;p&gt;最严重的问题：很多家宽并没有开启 IPv6 的获取。但访问 IPv6 的设备必须要拥有 IPv6 地址！&lt;/p&gt;
+&lt;p&gt;技术问题，难以解决。一般来说手机的移动网络都已分发 IPv6 地址。&lt;/p&gt;
+&lt;p&gt;想要家宽拥有 IPv6？或许你需要修改光猫设置（超级管理），亦或是将光猫改为桥接模式，用路由器拨号从而获取 IPv6 地址。&lt;/p&gt;
+&lt;h3 id=&#34;如何实现iPv6-DDNS&#34;&gt;&lt;a href=&#34;#如何实现iPv6-DDNS&#34; class=&#34;headerlink&#34; title=&#34;如何实现iPv6-DDNS&#34;&gt;&lt;/a&gt;如何实现iPv6-DDNS&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;在 &lt;a href=&#34;https://dynv6.com/&#34;&gt;dynv6&lt;/a&gt;注册一个账号&lt;/li&gt;
+&lt;li&gt;在 &lt;strong&gt;Instructions&lt;/strong&gt; 界面查看API与你的DDNS域名&lt;/li&gt;
+&lt;li&gt;下载官方提供的 &lt;a href=&#34;https://gist.github.com/corny/7a07f5ac901844bd20c9&#34;&gt;a nice script&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这点尤其重要！我在网络上寻寻觅觅无数脚本，总是失败。最后才发现官方有提供脚本也！一试马上就成功了。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;按照页面内提供的代码执行脚本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&#34;highlight stata&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs stata&#34;&gt;&lt;span class=&#34;hljs-keyword&#34;&gt;token&lt;/span&gt;= *your &lt;span class=&#34;hljs-keyword&#34;&gt;token&lt;/span&gt;* ./dynv6.&lt;span class=&#34;hljs-keyword&#34;&gt;sh&lt;/span&gt; *your DDNS domain*&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;ul&gt;
+&lt;li&gt;可以将其添加到 crontab 一类的软件内，规定时间自动执行脚本（每 10分钟一次为宜）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;大功告成！&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;事后&#34;&gt;&lt;a href=&#34;#事后&#34; class=&#34;headerlink&#34; title=&#34;事后&#34;&gt;&lt;/a&gt;事后&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;你可以把自己的域名 CNAME 过去&lt;/li&gt;
+&lt;li&gt;也可以用 dynv6 提供的域名&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;随心所欲！&lt;/p&gt;
+&lt;p&gt;Over.&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/a4c81e8f.html</guid>
+            <title>搭建Calibre-Web电子书网页端管理服务</title>
+            <link>https://blog.udon.eu.org/archives/a4c81e8f.html</link>
+            <category>教程</category>
+            <pubDate>Wed, 02 Oct 2019 18:30:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;h4 id=&#34;说在前面&#34;&gt;&lt;a href=&#34;#说在前面&#34; class=&#34;headerlink&#34; title=&#34;说在前面&#34;&gt;&lt;/a&gt;说在前面&lt;/h4&gt;&lt;p&gt;Kindle 是一样阅读利器，但若是没有一个强大的书库，它也只能用来压泡面（笑）&lt;/p&gt;
+&lt;p&gt;今天我们利用 Docker 在群晖（任意系统）上搭建 Calibre-web 服务&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+
+&lt;h4 id=&#34;docker选择&#34;&gt;&lt;a href=&#34;#docker选择&#34; class=&#34;headerlink&#34; title=&#34;docker选择&#34;&gt;&lt;/a&gt;docker选择&lt;/h4&gt;&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://hub.docker.com/r/technosoft2000/calibre-web/&#34;&gt;technosoft2000-calibre-web&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我在尝试了 3 款 Docker Image 后，决定使用这款。&lt;/p&gt;
+&lt;h4 id=&#34;优点&#34;&gt;&lt;a href=&#34;#优点&#34; class=&#34;headerlink&#34; title=&#34;优点&#34;&gt;&lt;/a&gt;优点&lt;/h4&gt;&lt;h5 id=&#34;Calibre-web&#34;&gt;&lt;a href=&#34;#Calibre-web&#34; class=&#34;headerlink&#34; title=&#34;Calibre-web&#34;&gt;&lt;/a&gt;Calibre-web&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;基于 Python，性能高（低）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;与 Calibre 软件的数据库等文件完全互通&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;支持推送至 Kindle&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;支持在线转码书籍（虽然问题较多）&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5 id=&#34;technosoft2000-calibre-web&#34;&gt;&lt;a href=&#34;#technosoft2000-calibre-web&#34; class=&#34;headerlink&#34; title=&#34;technosoft2000-calibre-web&#34;&gt;&lt;/a&gt;technosoft2000-calibre-web&lt;/h5&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;比起其他 Image 版本更新更加稳定（稳定很多）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;支持在线转码（其他 Image 不行）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;版本较新&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;安装&#34;&gt;&lt;a href=&#34;#安装&#34; class=&#34;headerlink&#34; title=&#34;安装&#34;&gt;&lt;/a&gt;安装&lt;/h4&gt;&lt;p&gt;首先，将你的 Calibre 数据库的位置挂载到 Docker 内的 &lt;strong&gt;&amp;#x2F;books&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;启动 Docker 后不要着急，等待 Docker 内软件安装完毕后，访问您设置的端口，访问 Calibre-Web。&lt;/p&gt;
+&lt;p&gt;在 &lt;strong&gt;Calibre 数据库位置&lt;/strong&gt; 一栏填写&lt;/p&gt;
+&lt;figure class=&#34;highlight bash&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs bash&#34;&gt;/books&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;strong&gt;特性配置&lt;/strong&gt; 可以依情况而变，不一定要按我的配置。&lt;/p&gt;
+&lt;p&gt;若想要使用在线转码功能，&lt;strong&gt;外部二进制&lt;/strong&gt; 一栏中，选择 &lt;strong&gt;使用 calibre 的电子书转换器&lt;/strong&gt; 。 &lt;strong&gt;转换工具路径&lt;/strong&gt; 按图片中填写。&lt;/p&gt;
+&lt;figure class=&#34;highlight armasm&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;code class=&#34;hljs armasm&#34;&gt;/&lt;span class=&#34;hljs-meta&#34;&gt;opt&lt;/span&gt;/calibre/ebook-convert&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+
+&lt;p&gt;点击 &lt;strong&gt;提交&lt;/strong&gt; 即可完成安装。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;若提示无法读取数据库，尝试将数据库所处的文件夹的权限改为&lt;strong&gt;755&lt;/strong&gt; 。&lt;/p&gt;
+&lt;p&gt;如何操作？请打开 SSH，在 Terminal 内操作。&lt;/p&gt;
+&lt;p&gt;若还是失败，尝试在本地 Calibre 软件新建一个书库，将&lt;strong&gt;空的&lt;/strong&gt;数据库文件移动到你挂载的目录下。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;安装界面示意图&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2019-10-02/1.jpg&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;尾声&#34;&gt;&lt;a href=&#34;#尾声&#34; class=&#34;headerlink&#34; title=&#34;尾声&#34;&gt;&lt;/a&gt;尾声&lt;/h4&gt;&lt;p&gt;安装后的操作我就不多提了。该上传书籍的上传，该push的push。&lt;/p&gt;
+&lt;p&gt;我的几个建议：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;推送邮箱推荐使用 Outlook，限制少。&lt;/li&gt;
+&lt;li&gt;可以用 Calibre 软件管理数据库。不知道为什么，在本地做好更改后，网页版并没有任何变化。我试着备份又还原了数据库后，网页里再重新加载数据库才成功了。&lt;/li&gt;
+&lt;li&gt;网页转码会遇到种种问题，例如电子书有加密。转码失败实属正常。&lt;/li&gt;
+&lt;/ul&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/87bacf3f.html</guid>
+            <title>群晖-外网访问一站式教程2 DDNS</title>
+            <link>https://blog.udon.eu.org/archives/87bacf3f.html</link>
+            <category>教程</category>
+            <pubDate>Sat, 31 Aug 2019 18:30:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;简述配置 DDNS 的方法。&lt;/p&gt;
+&lt;h4 id=&#34;什么是DDNS&#34;&gt;&lt;a href=&#34;#什么是DDNS&#34; class=&#34;headerlink&#34; title=&#34;什么是DDNS&#34;&gt;&lt;/a&gt;什么是DDNS&lt;/h4&gt;&lt;p&gt;&lt;a href=&#34;https://zh.m.wikipedia.org/zh/%E5%8B%95%E6%85%8BDNS&#34;&gt;维基百科-动态DNS&lt;/a&gt;&lt;br&gt;鉴于 IPv4 地址的枯竭，运营商开始给家用宽带分配动态 IP 地址，即 IP 会随时间或重新拨号而改变。DDNS 可以允许用户通过API动态地将变化的 IP 地址传送给域名解析商，达到域名外网访问的效果。&lt;br&gt;由于带宽分配原因，家用宽带的上传带宽一般在 20-30Mbps 间，故外网访问速度并没有达到如签约的 100Mbps 属正常。&lt;/p&gt;
+&lt;h4 id=&#34;事先准备&#34;&gt;&lt;a href=&#34;#事先准备&#34; class=&#34;headerlink&#34; title=&#34;事先准备&#34;&gt;&lt;/a&gt;事先准备&lt;/h4&gt;&lt;p&gt;打电话给 ISP（运营商）的小姐姐，让她给你公网 IP，如果问起原因可以回答家里装监控。没有开启公网 IP 将无法从外网访问家庭的内部网络。&lt;br&gt;由于运营商（指大部分，如电信）封锁了 80（HTTP）和 443（HTTPS）端口，我们将使用其他的端口进行访问。挑选一些你喜欢的端口，预备使用（如 8080-8090，4431-4439等）。&lt;/p&gt;
+&lt;h4 id=&#34;选择支持DDNS的域名解析服务商&#34;&gt;&lt;a href=&#34;#选择支持DDNS的域名解析服务商&#34; class=&#34;headerlink&#34; title=&#34;选择支持DDNS的域名解析服务商&#34;&gt;&lt;/a&gt;选择支持DDNS的域名解析服务商&lt;/h4&gt;&lt;h5 id=&#34;CloudFlare&#34;&gt;&lt;a href=&#34;#CloudFlare&#34; class=&#34;headerlink&#34; title=&#34;CloudFlare&#34;&gt;&lt;/a&gt;CloudFlare&lt;/h5&gt;&lt;p&gt;老牌的域名解析商，也是少有的免费提供 CDN 的服务商。&lt;br&gt;我推荐 CloudFlare 的原因有三点&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;可以使用 CDN，保证网络质量始终处于较好状态。例如，我的 Blog 搭建在 Github 上，若有时因网络抽风无法访问 Github，CDN 能助你一臂之力。&lt;/li&gt;
+&lt;li&gt;可以查看连接数，数据量，访客量等详细数据。&lt;/li&gt;
+&lt;li&gt;API 获取方便。(2022 Update: CloudFlare 的 API 服务器接近半墙，国内很难再访问了，不推荐使用)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h5 id=&#34;Dynv6&#34;&gt;&lt;a href=&#34;#Dynv6&#34; class=&#34;headerlink&#34; title=&#34;Dynv6&#34;&gt;&lt;/a&gt;Dynv6&lt;/h5&gt;&lt;p&gt;提供 IPv4 与 IPv6 DDNS 的服务商，在 21 年有一次较长时间的故障，平常都非常稳定。&lt;/p&gt;
+&lt;h5 id=&#34;DNSPod&#34;&gt;&lt;a href=&#34;#DNSPod&#34; class=&#34;headerlink&#34; title=&#34;DNSPod&#34;&gt;&lt;/a&gt;DNSPod&lt;/h5&gt;&lt;p&gt;被腾讯收购的 DNS 服务商，使用需实名。&lt;/p&gt;
+&lt;h4 id=&#34;配置-DDNS-服务&#34;&gt;&lt;a href=&#34;#配置-DDNS-服务&#34; class=&#34;headerlink&#34; title=&#34;配置 DDNS 服务&#34;&gt;&lt;/a&gt;配置 DDNS 服务&lt;/h4&gt;&lt;p&gt;家用路由器的 DDNS 功能一般仅支持国内大型服务商，例如花生壳。&lt;/p&gt;
+&lt;p&gt;有两种方法可以配置自己的 DDNS 服务：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;将负责拨号的路由器刷成 Openwrt 系统，安装 DDNS 插件以配置自定义脚本的 DDNS 服务；&lt;/li&gt;
+&lt;li&gt;在一台 24x7 运行的设备上，通过 API 获取 IP 地址，并定时执行脚本更新 IP 地址；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;前者虽然更加麻烦，但可以实现仅在 IP 更换时发起更新解析的请求，而不需要定期（如每十分钟）请求一次 API，减小账户被封的风险，并尽可能地缩短从 IP 更换到新的解析生效的时间。&lt;/p&gt;
+&lt;p&gt;不管是路由器也好，Linux 上的脚本也好，可以在 GitHub 上寻找对应 DDNS 服务商的更新脚本，填上配置就能使用啦~&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/8776c6d2.html</guid>
+            <title>群晖-外网访问一站式教程1 Zerotier</title>
+            <link>https://blog.udon.eu.org/archives/8776c6d2.html</link>
+            <category>教程</category>
+            <pubDate>Tue, 20 Aug 2019 12:00:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;说在前面：有一个月没更新文章了。今后尽量做到 1-2 周更一篇吧。Goo 酱终于把我的 Blog 收录了（其实是我主动提交的），这些教程也能被大家看到啦！有任何问题可以在文章结尾的 Gitalk 处留言，我会尽快回复的！&lt;/p&gt;
+&lt;p&gt;这篇教程无图，省流。(其实经过 Gzip 压缩后已经能省 80% 的数据量，我也被惊到了)&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+
+&lt;hr&gt;
+&lt;p&gt;在上一回的教程里，我们成功搭建了MC基岩版服务器。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://blog.udon.icu/2019/07/27/MC_Server/&#34;&gt;群晖-MC基岩版服务器教程&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;但这个服务器仅存在于本地，若朋友不在同一个局域网下，就无法连接此服务器（这不是肯定的嘛）。&lt;/p&gt;
+&lt;p&gt;下面我将介绍几种从往外访问家里的群晖服务器的方法。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h4 id=&#34;最简单的方法-Zerotier-VPN-法&#34;&gt;&lt;a href=&#34;#最简单的方法-Zerotier-VPN-法&#34; class=&#34;headerlink&#34; title=&#34;最简单的方法 - Zerotier - VPN 法&#34;&gt;&lt;/a&gt;最简单的方法 - Zerotier - VPN 法&lt;/h4&gt;&lt;p&gt;有兴趣了解 VPN 技术的朋友可以点击查看 &lt;a href=&#34;https://zh.wikipedia.org/wiki/%E8%99%9B%E6%93%AC%E7%A7%81%E4%BA%BA%E7%B6%B2%E8%B7%AF&#34;&gt;维基百科 - VPN&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Zerotier 可以提供免费的VPN服务，无需复杂配置即可在任何地方连接本地服务器&lt;/p&gt;
+&lt;h5 id=&#34;安装&#34;&gt;&lt;a href=&#34;#安装&#34; class=&#34;headerlink&#34; title=&#34;安装&#34;&gt;&lt;/a&gt;安装&lt;/h5&gt;&lt;p&gt;第一步：&lt;a href=&#34;https://download.zerotier.com/dist/synology/&#34;&gt;下载对应版本的 Zerotier 软件&lt;/a&gt; 并于软件市场安装&lt;/p&gt;
+&lt;p&gt;示范：&lt;/p&gt;
+&lt;p&gt;例如我的群晖的CPU是 64位 的 J1900，我选择了这一款软件&lt;a href=&#34;https://download.zerotier.com/dist/synology/zerotier_x64-6.1_1.4.0-0.spk&#34;&gt;zerotier_x64-6.1_1.4.0-0.spk&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;接下来，在群晖的 &lt;code&gt;套件中心-设置-信任层级&lt;/code&gt; 中选择 &lt;code&gt;任何发行者&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;然后在 &lt;code&gt;套件中心-手动安装&lt;/code&gt; 里选择刚刚下载好的 &lt;code&gt;zerotier_xxxxxx.spk&lt;/code&gt; 安装包进行安装&lt;/p&gt;
+&lt;p&gt;第二步：注册Zerotier。网络上教程极多，我就不再赘述，可以参考这一篇文章。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.jianshu.com/p/eefddb256ad7&#34;&gt;内网穿透工具 — ZeroTier One 的使用&lt;/a&gt; 作者 &lt;a href=&#34;https://www.jianshu.com/u/b28343f20873&#34;&gt;BiteMan&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;第三步：记住刚刚注册完拿到的 Network ID 了么，打开 Zerotier 套件，在右下角输入 Network ID 点击 join，就加入这个网络（Networks）啦。记得在 Zerotier 网站控制台里勾选这个新连接（新创建的网络默认使用加入需要验证的规则，我也建议开启，增强安全性）（我强烈建议每添加一台设备即为其命名）。&lt;/p&gt;
+&lt;p&gt;第四步：在需要访问群晖服务器的设备上也安装好 Zerotier 软件（比起手动安装要简单不少，各大应用市场里也都有，建议下载官方提供的安装包），重复步骤三，加入同一个网络（Networks）下。&lt;/p&gt;
+&lt;p&gt;到此，Zerotier 双端已经配置完毕。&lt;/p&gt;
+&lt;h5 id=&#34;如何使用呢？&#34;&gt;&lt;a href=&#34;#如何使用呢？&#34; class=&#34;headerlink&#34; title=&#34;如何使用呢？&#34;&gt;&lt;/a&gt;如何使用呢？&lt;/h5&gt;&lt;p&gt;在 Zerotier 网页控制台里，若已添加两台设备，你会看到 Members 分栏中有两台设备，他们的右边都有一个 IP 地址。当两个设备都打开 Zerotier 软件并成功连接了 VPN，你就可以把他们当作在一个局域网下，IP 地址就是 Zerotier 提供的那个，端口号原封不动。&lt;/p&gt;
+&lt;p&gt;例如我想访问群晖的DSM管理界面，输入 &lt;code&gt;xxx.xxx.xxx.xxx:5000&lt;/code&gt; 即可。（Zerotier提供了几种保留网段，可以从 10、172、192 网段里选择你喜欢的 IP 段）&lt;/p&gt;
+&lt;h5 id=&#34;已知问题&#34;&gt;&lt;a href=&#34;#已知问题&#34; class=&#34;headerlink&#34; title=&#34;已知问题&#34;&gt;&lt;/a&gt;已知问题&lt;/h5&gt;&lt;p&gt;Zerotier 适合访问网页&amp;#x2F;SSH 等简单服务，若用其连接游戏，可能会有某些时刻丢包率过高（原因不明）导致强制登出，严重影响游戏体验。&lt;/p&gt;
+&lt;p&gt;下一篇文章里我会介绍第二种方法 - DDNS，此方法可以带来极致体验（笑）。&lt;/p&gt;
+ ]]></description>
+        </item>
+    </channel>
+</rss>

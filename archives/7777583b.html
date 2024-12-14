@@ -1,0 +1,736 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme="auto">
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon.ico">
+  <link rel="icon" href="/images/favicon.ico">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Kare Udon">
+  <meta name="keywords" content="折腾,palworld,服务器,openwrt,防火墙,pve">
+  
+    <meta name="description" content="记录一下一次折腾路由器和服务器的艰辛历程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="被我整坏的路由器和服务器">
+<meta property="og:url" content="https://blog.udon.eu.org/archives/7777583b.html">
+<meta property="og:site_name" content="カレーうどん屋">
+<meta property="og:description" content="记录一下一次折腾路由器和服务器的艰辛历程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-02-12T10:00:00.000Z">
+<meta property="article:modified_time" content="2024-12-14T08:34:27.955Z">
+<meta property="article:author" content="Kare Udon">
+<meta property="article:tag" content="随笔">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>被我整坏的路由器和服务器 - カレーうどん屋</title>
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css">
+
+
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css">
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css">
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css">
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css">
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.udon.eu.org","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/color-schema.js"></script>
+  
+
+
+  <link rel="alternate" type="application/rss+xml" title="カレーうどん屋" href="https://blog.udon.eu.org/rss.xml">
+  <link rel="alternate" type="application/atom+xml" title="カレーうどん屋" href="https://blog.udon.eu.org/atom.xml">
+  <link rel="alternate" type="application/json" title="カレーうどん屋" href="https://blog.udon.eu.org/feed.json">
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>カレーうどん屋</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/photo_wall/" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>照片墙</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss-fill"></i>
+                <span>rss</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax="true" style="background: url('/images/banner_img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="被我整坏的路由器和服务器"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-02-12 18:00" pubdate>
+          2024年2月12日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">被我整坏的路由器和服务器</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>为了搭建 PalWorld 的私服，我又一次踏上了折腾之旅，并成功将路由器和家里的服务器都搞崩了。</p>
+<p>好在最后两台设备都恢复如初。我就想来做一下这次“事故”的复盘。</p>
+<h2 id="我的设备"><a href="#我的设备" class="headerlink" title="我的设备"></a>我的设备</h2><p>本次操作的有两台设备，一台是 x86 软路由，运行 Openwrt；一台是配置比较奇怪的 x86 服务器，运行 PVE。</p>
+<h2 id="Openwrt-的网络隔离配置"><a href="#Openwrt-的网络隔离配置" class="headerlink" title="Openwrt 的网络隔离配置"></a>Openwrt 的网络隔离配置</h2><p>说在前头，我对 Openwrt 的操作真的是一窍不通。网络相关的知识兴许懂一些，但一到实操环境就纰漏百出了。</p>
+<p>由于 PalWorld 服务端启动后便会在游戏的服务器列表公开自己的 IP，且无法关闭这个功能，有比较大的安全隐患。在配置好 PalWorld 服务端所运行的虚拟机后，我决定将这台虚拟机的网络与局域网内其他设备隔离。这也是所有折腾的起源。</p>
+<h3 id="配置-VLAN-导致的失联"><a href="#配置-VLAN-导致的失联" class="headerlink" title="配置 VLAN 导致的失联"></a>配置 VLAN 导致的失联</h3><p>我能想到的第一个方案便是，给这台虚拟机分配一个与当前局域网不同的网段，并将两个网段隔离。</p>
+<p>VLAN 我还是知道的，便着手开始创建新的 VLAN，并保存…连不上路由器了。</p>
+<p>急了啊，创建了 VLAN 就代表开启网桥的 VLAN 过滤。目前这个 VLAN 没有分配给任何一个接口，自然是啥都连不上了。好在 Openwrt 有自动回滚的功能，90 秒若设备连不上路由器，便会将刚刚的更改回滚…但不是每次都能成功。</p>
+<p>有反复折腾了几次：创建 VLAN、创建接口、创建防火墙的 Zone，分配来分配去，中途也搞砸了几次，配置也都回滚了，直到最后一次尝试，luci 弹出了令人感到安心的“正在回滚配置”的提示，然后就…卡住了。</p>
+<p>考虑到 Openwrt 使用的是 squashfs，怀疑是设备上的设置确实回滚了，但内存中的配置没能正确地回去，我将设备断电重启。果不其然，配置回到了应用前的样子。</p>
+<p>在尝试配置 VLAN 数次后，我放弃了。即使给虚拟机分配了新网段，也设置好了防火墙规则，虚拟机依旧可以访问到内网网段的设备。</p>
+<p>目前我还没有闲心思慢慢研究 Openwrt 的种种配置，便打算换一个方式实现。</p>
+<h2 id="配置-PVE-防火墙"><a href="#配置-PVE-防火墙" class="headerlink" title="配置 PVE 防火墙"></a>配置 PVE 防火墙</h2><p>第二个方案便是，在 PVE 的防火墙中禁止虚拟机连接内部网段的其他设备了。</p>
+<h3 id="启动-Datacenter-防火墙但没有添加允许规则导致的失联"><a href="#启动-Datacenter-防火墙但没有添加允许规则导致的失联" class="headerlink" title="启动 Datacenter 防火墙但没有添加允许规则导致的失联"></a>启动 Datacenter 防火墙但没有添加允许规则导致的失联</h3><p>我启用了虚拟机的防火墙，发现配置并没有生效。简单查询后发现，需要将 Datacenter 的防火墙启用，VM 防火墙才有效果。我便看也没看地就开启了 Datacenter 防火墙，发现管理后台页面无法刷新了。此时我才看到屏幕上 Datacenter 防火墙的默认配置 —— IN: DROP.</p>
+<p>这下好了，外部连接统统被阻断，也就无谈通过控制面板将防火墙再关闭。</p>
+<p>这台服务器是无头的，安装有一张 P100 显卡，但没有显示输出。所以在不动硬件的情况下，我没法通过显示器访问终端的。</p>
+<p>通过检索，我了解到了好几种奇技淫巧来关闭 PVE 的防火墙。</p>
+<h3 id="挂载并修改-crontab"><a href="#挂载并修改-crontab" class="headerlink" title="挂载并修改 crontab"></a>挂载并修改 crontab</h3><p>正好手上有一个硬盘盒，我就将系统盘取下，通过硬盘盒连接到了软路由，尝试修改系统盘里的文件。</p>
+<p>使用 <code>fdisk</code> 查看这块系统盘的分区情况，但没有看到熟悉的 <code>ext4</code> 字样。取而代之的是 <code>Linux LVM</code>。LVM 相当于是 Linux 对磁盘进行了再一次的分区，因此挂载就不能是简单的 <code>mount</code>，得用 <code>lvm2</code> 工具。</p>
+<p>再敲了几个命令后，我成功将 PVE 分区的 <code>root</code> 文件夹挂载，并在 crontab 中添加了关闭 PVE 防火墙相关的命令。</p>
+<p><code>umount</code>，取下系统盘并装回服务器，开机…没有任何反应，依旧打不开管理面板。是教程给的方法有误吗？</p>
+<p>遂又取下盘，挂载到软路由上，却提示该分区忙…我是相当忌惮挂载并修改分区的，生怕损坏了分区，服务器的数据可就全丢了。不敢再继续操作，我得另想出路。</p>
+<h3 id="连接显示器，但还是个瞎子"><a href="#连接显示器，但还是个瞎子" class="headerlink" title="连接显示器，但还是个瞎子"></a>连接显示器，但还是个瞎子</h3><p>现在能做的就是在服务器上通过 PVE 的 rescue terminal，来修改防火墙的配置了。</p>
+<p>我关闭了服务器，取下 P100，换上了 R7 240 这张十年老兵，插上了便携显示器…</p>
+<blockquote>
+<p>error: No suitable video mode found. Booting in blind mode.</p>
+</blockquote>
+<p>你这不是输出字了吗，怎么就进瞎子模式了？？？</p>
+<p>经过查询，我了解到系统正在寻找到显示模式，正是古早电脑终端使用的 <code>80-Column</code> 这样的显示模式。</p>
+<p>至于什么是 Blind Mode，我尝试在 GRUB 和 Linux 源码中搜索，都没有结果；为什么 PVE 系统找不到我的 R7 240，可能是缺少驱动吧，现在也无处知晓。</p>
+<p>按照网上的教程尝试在 GRUB 引导系统启动时添加显示模式的支持，并没有效果；当我尝试打印支持的显示模式时，发现根本不存在正常的显示模式，故只能放弃直接启动 PVE 的 rescue terminal.</p>
+<h3 id="还是得靠救援盘"><a href="#还是得靠救援盘" class="headerlink" title="还是得靠救援盘"></a>还是得靠救援盘</h3><p>给服务器插上救援盘，我先是打开了基于 Windows 的 PE 系统，发现显卡是有输出的，但分辨率非常低，且只有黑白画面。看来这张老显卡与这块寨板的相性真的不大好。</p>
+<p>在确认 Windows PE 系统下什么都做不了，操作还及其不便，我便退出了 PE 系统，打开了 Ubuntu LiveCD。</p>
+<p>这回，显卡倒是可以正常运行。以 <code>80-Column</code> 模式输出文字还是可以轻松办到的。有了命令行，操作也简单了不少。</p>
+<p>同为 Linux，操作 LVM 就简单了许多。使用 <code>lvm2</code> 挂载 PVE 的系统分区，并用 <code>chroot</code> 将用户空间切换至 PVE 系统，直接用 <code>systemctl disable pve-firewall</code> 把防火墙关了。</p>
+<p>再次进入 PVE，这下开机防火墙就不会启动，赶紧进 Datacenter 防火墙设置里还原误操作的配置。</p>
+<h2 id="事后的反思"><a href="#事后的反思" class="headerlink" title="事后的反思"></a>事后的反思</h2><h3 id="VLAN-配置的失误"><a href="#VLAN-配置的失误" class="headerlink" title="VLAN 配置的失误"></a>VLAN 配置的失误</h3><p>我对 VLAN 配置没有经验，便想着参考网上其他人的配置方法来做。但我查到的都是创建访客 Wi-Fi 这类的配置教程。与我的网络环境的差异在于，访客 Wi-Fi 用的 Interface 与 LAN 不一样，而我需要在 LAN 下配置两个 VLAN，配置方法就有些不同，不能直接搬配置。</p>
+<p>我应当要找的是较为通用的，同一个 Interface 下 VLAN 的配置教程（可能单臂路由配置和这个就有些像），再迁移到 Openwrt 上进行配置。</p>
+<p>由于软路由只有两个网口，也没法像有四五个网口的路由器一样留下一个作为”不死“的管理口，以降低把路由器配置挂掉的风险。</p>
+<h3 id="PVE-原本可以修得更快"><a href="#PVE-原本可以修得更快" class="headerlink" title="PVE 原本可以修得更快"></a>PVE 原本可以修得更快</h3><p>原本在将 PVE 系统盘挂载到软路由时，便可以用 <code>systemd</code> 停掉 <code>pve-firewall</code> 但当时我看到 PVE 论坛里有人说在 crontab 里加上 PVE 关闭防火墙的指令便能访问控制面板了，也有人附和说可以用。但我实际操作后发现并没有效果。</p>
+<p>而再次尝试挂载 LVM 时，提示分区忙让我不敢继续操作。虽然在服务器上用 LiveCD 直接挂载并没有出现分区忙的情况。</p>
+
+                
+              </div>
+            
+            <hr>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%9A%8F%E7%AC%94/" class="category-chain-item">随笔</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%9A%8F%E7%AC%94/" class="print-no-link">#随笔</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>被我整坏的路由器和服务器</div>
+      <div>https://blog.udon.eu.org/archives/7777583b.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Kare Udon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年2月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/" rel="external nofollow noopener noreferrer">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/archives/a534d51a.html" title="旅行与军粮">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">旅行与军粮</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/archives/aca48136.html" title="日本之行-第一站-大阪">
+                        <span class="hidden-mobile">日本之行-第一站-大阪</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="cusdis" style="width:100%">
+    <div id="cusdis_thread" data-host="https://cusdis.com" data-app-id="786783f6-49d3-4e30-9a91-b4939c6244bb" data-page-id="dec01cb96227f4ba06d68fc553a38630" data-page-url="archives/7777583b.html" data-page-title="被我整坏的路由器和服务器" data-theme="auto">
+    </div>
+  </div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#cusdis_thread', function() {
+      Fluid.utils.createScript('https://cusdis.com/js/widget/lang/zh-cn.js');
+      Fluid.utils.createScript('https://cusdis.com/js/cusdis.es.js');
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema) {
+        document.querySelector('#cusdis_thread').dataset.theme = schema
+      }
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="external nofollow noopener noreferrer"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="external nofollow noopener noreferrer"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <link rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css">
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/plugins.js"></script>
+
+
+  <script src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js"></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script src="/js/img-lazyload.js"></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src="https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js"></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script src="/js/boot.js"></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

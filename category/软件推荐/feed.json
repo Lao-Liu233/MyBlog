@@ -1,0 +1,19 @@
+{
+    "version": "https://jsonfeed.org/version/1",
+    "title": "カレーうどん屋 • All posts by \"软件推荐\" category",
+    "description": "カレーうどん屋.",
+    "home_page_url": "https://blog.udon.eu.org",
+    "items": [
+        {
+            "id": "https://blog.udon.eu.org/archives/6b40e5ad.html",
+            "url": "https://blog.udon.eu.org/archives/6b40e5ad.html",
+            "title": "提升音乐体验-本地音乐标签/歌词匹配与回放增益",
+            "date_published": "2020-05-05T05:40:06.000Z",
+            "content_html": "<link rel=\"stylesheet\" class=\"aplayer-secondary-style-marker\" href=\"/assets/css/APlayer.min.css\"><script src=\"/assets/js/APlayer.min.js\" class=\"aplayer-secondary-script-marker\"></script><script class=\"meting-secondary-script-marker\" src=\"/assets/js/Meting.min.js\"></script><p>推荐两款能让听歌体验变得更好的软件 —— Music Tag &#x2F; Foobar2000 。</p>\n<p>附带使用教程。</p>\n<span id=\"more\"></span>\n\n<h2 id=\"音乐标签-Music-Tag\"><a href=\"#音乐标签-Music-Tag\" class=\"headerlink\" title=\"音乐标签 Music Tag\"></a>音乐标签 Music Tag</h2><h3 id=\"官方网站-下载地址\"><a href=\"#官方网站-下载地址\" class=\"headerlink\" title=\"官方网站&#x2F;下载地址\"></a>官方网站&#x2F;下载地址</h3><p><a href=\"https://www.cnblogs.com/vinlxc/p/11347744.html\">https://www.cnblogs.com/vinlxc/p/11347744.html</a></p>\n<h3 id=\"软件特点\"><a href=\"#软件特点\" class=\"headerlink\" title=\"软件特点\"></a>软件特点</h3><p>古人云，专辑封面是一首歌的灵魂。（我乱说的）</p>\n<p>Music Tag 是一款可以自动匹配本地音乐的标签与歌词的软件。</p>\n<p>一键从多家音乐网站拉取元数据&#x2F;封面图&#x2F;歌词，不能再爽了。</p>\n<h3 id=\"使用教程-建议\"><a href=\"#使用教程-建议\" class=\"headerlink\" title=\"使用教程&#x2F;建议\"></a>使用教程&#x2F;建议</h3><p>导入一批歌曲后，选择 自动匹配标签 ：（如下图）</p>\n<p><img src=\"/images/2020-05-05/music-tag-1.png\"></p>\n<p>然后按下图配置，在原有元数据下添加更多信息：</p>\n<p><img src=\"/images/2020-05-05/music-tag-2.png\"></p>\n<p>在第一轮匹配后，建议再进行第二轮封面图片匹配，并覆盖原图片，配置如下图：</p>\n<p><img src=\"/images/2020-05-05/music-tag-3.png\"></p>\n<p>接着，就需要你耐心地查看每首歌的元数据（善用方向键），检查是否有匹配错误的歌曲，并在 标签源-组合标签 处手动搜索，选择正确的元数据，如下图所示：</p>\n<p><img src=\"/images/2020-05-05/music-tag-4.png\"></p>\n<p>建议检查一下歌曲的歌词，特别是较小众的歌曲。Music Tag 的歌词搜索错误率较高。</p>\n<p>如下图所示，选择并查看歌词，若有误可以手动搜索：</p>\n<p><img src=\"/images/2020-05-05/music-tag-5.png\"></p>\n<p><img src=\"/images/2020-05-05/music-tag-6.png\"></p>\n<p>最后选择导出 LRC 歌词：</p>\n<p><img src=\"/images/2020-05-05/music-tag-7.png\"></p>\n<p>所有歌曲的 元数据-封面图-歌词 就此已匹配完毕。</p>\n<p>最终效果如下：</p>\n<p><img src=\"/images/2020-05-05/foobar2000-m.jpg\"></p>\n<h2 id=\"Foobar2000\"><a href=\"#Foobar2000\" class=\"headerlink\" title=\"Foobar2000\"></a>Foobar2000</h2><h3 id=\"官方网站\"><a href=\"#官方网站\" class=\"headerlink\" title=\"官方网站\"></a>官方网站</h3><p><a href=\"http://www.foobar2000.org/\">http://www.foobar2000.org/</a></p>\n<h3 id=\"回放增益介绍\"><a href=\"#回放增益介绍\" class=\"headerlink\" title=\"回放增益介绍\"></a>回放增益介绍</h3><p><a href=\"https://zh.wikipedia.org/wiki/%E5%9B%9E%E6%94%BE%E5%A2%9E%E7%9B%8A\">维基百科-回放增益</a></p>\n<p>回放增益可以使音量大小各不相同的音乐向统一标准靠齐。</p>\n<p>将所有音乐扫描并打上回放增益 tag 后，再也不用担心下一首歌震破耳膜了。</p>\n<h3 id=\"使用教程\"><a href=\"#使用教程\" class=\"headerlink\" title=\"使用教程\"></a>使用教程</h3><p>导入并全选歌曲，右键，选择 ReplayGain ：</p>\n<p><img src=\"/images/2020-05-05/foobar2000-1.png\"></p>\n<p>下列三种扫描方式均可。个人喜欢将全部歌曲的音量统一，故选择第一种：</p>\n<p><img src=\"/images/2020-05-05/foobar2000-2.png\"></p>\n<p>待扫描结束后，点击 Update File Tags ，将回放增益数据写入文件 Tag ：</p>\n<p><img src=\"/images/2020-05-05/foobar2000-3.png\"></p>\n<p>回放增益扫描完毕。</p>\n<h2 id=\"小结\"><a href=\"#小结\" class=\"headerlink\" title=\"小结\"></a>小结</h2><p>我是一周不往曲库里添加新曲就受不了的类型。</p>\n<p>这几天往曲库里添加曲子的时候查阅了这些能提升音乐体验的方法，希望能帮到你。</p>\n",
+            "tags": [
+                "教程",
+                "软件"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>カレーうどん屋 • Posts by &#34;3d 打印&#34; tag</title>
+        <link>https://blog.udon.eu.org</link>
+        <description>カレーうどん屋.</description>
+        <language>zh-CN</language>
+        <pubDate>Sat, 12 Feb 2022 14:50:00 +0800</pubDate>
+        <lastBuildDate>Sat, 12 Feb 2022 14:50:00 +0800</lastBuildDate>
+        <category>教程</category>
+        <category>随笔</category>
+        <category>软件</category>
+        <category>小鸡测评</category>
+        <category>3D 打印</category>
+        <category>嵌入式开发</category>
+        <category>GitHub Actions</category>
+        <category>Hexo</category>
+        <category>DIY</category>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/7263a385.html</guid>
+            <title>Klipper 的外网访问</title>
+            <link>https://blog.udon.eu.org/archives/7263a385.html</link>
+            <category>教程</category>
+            <category>3D 打印</category>
+            <pubDate>Sat, 12 Feb 2022 14:50:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;网络上有关 Klipper 的中文教程少之又少，固作此教程介绍一下如何在外网优雅地访问家中装有 Klipper 的 3D 打印机。&lt;/p&gt;
+&lt;h2 id=&#34;方法一：端口转发&#34;&gt;&lt;a href=&#34;#方法一：端口转发&#34; class=&#34;headerlink&#34; title=&#34;方法一：端口转发&#34;&gt;&lt;/a&gt;方法一：端口转发&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;此方法仅适用于拥有公网 IP 的用户&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;首先，使用 DDNS 将家庭宽带动态变化的 IP 绑定至域名，教程如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog..eu.org/archives/87bacf3f.html&#34;&gt;群晖-外网访问一站式教程2 DDNS&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog..eu.org/archives/27f2d840.html&#34;&gt;iPv6下绝佳的DDNS方法-dynv6&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在配置端口映射之前，先介绍一下 Klipper 的网络结构：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34; mermaid&#34;&gt;graph LR;
+	A(&amp;quot;你的设备&amp;quot;) &amp;lt;--80--&amp;gt;
+	B(&amp;quot;前端网页（Fluidd/Mainsail/Octoprint）&amp;quot;) &amp;lt;--7125--&amp;gt;
+	C(&amp;quot;API 服务器 Moonraker&amp;quot;) 	&amp;lt;--&amp;gt;
+	D(&amp;quot;你的 3D 打印机&amp;quot;);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;线上的数字便是通讯的端口。&lt;/p&gt;
+&lt;p&gt;由上图，我们不难看出，若需要在外网访问家中的 Klipper，就需要映射 &lt;strong&gt;80&lt;/strong&gt; 和 &lt;strong&gt;7125&lt;/strong&gt; 两个端口。&lt;/p&gt;
+&lt;p&gt;于路由器的 &lt;strong&gt;端口转发&amp;#x2F;端口映射&lt;/strong&gt; 界面配置 80 和 7125 的转发即可。家庭宽带的公网 IP 不会开放 80 端口，可将外网端口配置为 8080，对应的内网端口为 80 即可。&lt;/p&gt;
+&lt;p&gt;接着，在 Moonraker 配置 &lt;code&gt;moonraker.conf&lt;/code&gt; &lt;code&gt;[authorization]&lt;/code&gt; 模块的 &lt;code&gt;cors_domains&lt;/code&gt; 模块中添加你的域名，格式为 &lt;code&gt;*://你们域名&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;也可以选择不使用自己搭建的前端网页，而使用 &lt;a href=&#34;http://app.fluidd.xyz/&#34;&gt;Fluidd&lt;/a&gt; 或者 &lt;a href=&#34;%5BMainsail%5D(http://my.mainsail.xyz/)&#34;&gt;Mainsail&lt;/a&gt; 作者搭建的前端网页。在 Moonraker 配置 &lt;code&gt;moonraker.conf&lt;/code&gt; &lt;code&gt;[authorization]&lt;/code&gt; 模块的 &lt;code&gt;cors_domains&lt;/code&gt; 模块中添加 &lt;code&gt;*://my.mainsail.xyz 与 *://app.fluidd.xyz&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;方法二：内网穿透&#34;&gt;&lt;a href=&#34;#方法二：内网穿透&#34; class=&#34;headerlink&#34; title=&#34;方法二：内网穿透&#34;&gt;&lt;/a&gt;方法二：内网穿透&lt;/h2&gt;&lt;p&gt;&lt;strong&gt;本人不推荐使用这个方法，固仅简述一下&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;可以使用花生壳等内网穿透服务，但给的带宽太小，只能使用控制界面，不能使用摄像头。&lt;/p&gt;
+&lt;p&gt;也可以选择自建内网穿透，例如 Frp, Ngrok 等服务。但最近越来越多 Frp 服务器遭到攻击，固不建议自建。&lt;/p&gt;
+&lt;h2 id=&#34;方法三：使用-VPN&#34;&gt;&lt;a href=&#34;#方法三：使用-VPN&#34; class=&#34;headerlink&#34; title=&#34;方法三：使用 VPN&#34;&gt;&lt;/a&gt;方法三：使用 VPN&lt;/h2&gt;&lt;p&gt;这是本人推荐的方法。&lt;/p&gt;
+&lt;p&gt;与 Octoprint + Marlin 仅需要映射 80 端口不同，Klipper 还需要映射 Moonraker 的 7125 端口，配置端口转发与实际使用都不如前者来的方便。&lt;/p&gt;
+&lt;p&gt;我个人推荐用诸如 Zerotier, Tailscale 一类的 VPN 软件，搭建自己的小内网，通过内网 IP 直接访问 Klipper，既安全又方便。&lt;/p&gt;
+&lt;p&gt;Zerotier 或者 Tailscale 的使用技巧网上一大片，我就不赘述了。&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/19f3c1e1.html</guid>
+            <title>我与 3D 打印</title>
+            <link>https://blog.udon.eu.org/archives/19f3c1e1.html</link>
+            <category>3D 打印</category>
+            <pubDate>Sun, 06 Feb 2022 23:00:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;玩 3D 打印有大半年了，虽然还谈不上资深，但已有了一些自己的想法，作此文分享一下自己的心得。&lt;/p&gt;
+&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;
+
+&lt;h2 id=&#34;3D-打印机介绍&#34;&gt;&lt;a href=&#34;#3D-打印机介绍&#34; class=&#34;headerlink&#34; title=&#34;3D 打印机介绍&#34;&gt;&lt;/a&gt;3D 打印机介绍&lt;/h2&gt;&lt;h3 id=&#34;3D-打印机的分类&#34;&gt;&lt;a href=&#34;#3D-打印机的分类&#34; class=&#34;headerlink&#34; title=&#34;3D 打印机的分类&#34;&gt;&lt;/a&gt;3D 打印机的分类&lt;/h3&gt;&lt;p&gt;民用 3D 打印无非两个流派：熔融沉积成型（FDM）与立体平板印刷（SLA，又称光固化），工业用途的还有金属粉末打印的 SLS。&lt;/p&gt;
+&lt;p&gt;光固化就不多提了，其优点是精度高，缺点则是机器与耗材价格昂贵，且打印时有比较大的气味（可能对人体有害），对通风的要求比较高，个人认为不适合在家里玩。&lt;/p&gt;
+&lt;p&gt;更适合摆在工作室里的 FDM 则是百花齐放，诞生出了各种各样的架构：从最简单的单臂型，到 I3 龙门架、圆形打印平台的三角洲，再到高速高精度的 CoreXY&amp;#x2F;XZ&amp;#x2F;YZ 架构、性能超强但组装价格昂贵的 UM 结构。最出名的开源设计则是 Voron 团队，旗下有小型的 Voron 0.1 和大型的 Voron 2.4，且还在持续更新中。&lt;/p&gt;
+&lt;h3 id=&#34;3D-打印控制系统&#34;&gt;&lt;a href=&#34;#3D-打印控制系统&#34; class=&#34;headerlink&#34; title=&#34;3D 打印控制系统&#34;&gt;&lt;/a&gt;3D 打印控制系统&lt;/h3&gt;&lt;p&gt;目前我见到的国内用的最多的 3D 打印机控制板（主板）是 MKS GEN L 系列（1.0&amp;#x2F;1.2&amp;#x2F;2.1），其搭载的是 ATmega 2560 芯片，常见的控制系统无非两种：Marlin 与 Klipper&lt;/p&gt;
+&lt;h4 id=&#34;Marlin-1-0-2-0&#34;&gt;&lt;a href=&#34;#Marlin-1-0-2-0&#34; class=&#34;headerlink&#34; title=&#34;Marlin 1.0&amp;#x2F;2.0&#34;&gt;&lt;/a&gt;Marlin 1.0&amp;#x2F;2.0&lt;/h4&gt;&lt;p&gt;Marlin 是一款片上储存，支持脱机打印、屏幕控制的系统。由 C 语言编写，配置较容易修改，但需要手动编译并烧录至控制板。目前已知的编译方法是 Arduino 编译与 VSCode 插件编译，我使用的是后者，但给我的体验不是很好。&lt;/p&gt;
+&lt;p&gt;Marlin 的优点是（若不需要自定义）安装简单，仅需用数据线连接电脑烧录即可。缺点则是对打印机的任何重新配置（除了能在屏幕上直接修改设置，如电机方向等），特别是之后要更换静音驱动，就需要手动编译系统，门槛较高且操作繁琐、坑多。&lt;/p&gt;
+&lt;h4 id=&#34;Klipper&#34;&gt;&lt;a href=&#34;#Klipper&#34; class=&#34;headerlink&#34; title=&#34;Klipper&#34;&gt;&lt;/a&gt;Klipper&lt;/h4&gt;&lt;p&gt;Klipper 是一款需要上位机控制的系统，主板上仅烧录了一个接收上位机控制指令的程序，大小大概是 Marlin 系统的 1&amp;#x2F;5。&lt;/p&gt;
+&lt;p&gt;据 Klipper 的开发团队&lt;a href=&#34;https://github.com/Klipper3d/klipper/blob/master/docs/Benchmarks.md&#34;&gt;描述&lt;/a&gt;，大部分单片机的性能比较弱，每秒能处理的指令（打印机控制指令）数不高，固采用上位机的高性能 CPU 来处理更高精度但更多指令数的控制指令可以有效地提高打印质量。&lt;/p&gt;
+&lt;p&gt;根据跑分表来看，其实 Mega 2560 的性能没有比树莓派的 CPU 弱很多，但考虑到树莓派还可以安装 API 服务器与 Web 控制界面，可以给打印机拓展更多的功能，连接一台上位机还是很具性价比的。&lt;/p&gt;
+&lt;p&gt;Klipper 在我看来就像是 3D 打印界的 Ardupilot （开源无人机控制套件），用户可以接触到很多底层的设置、直接控制主板上的所有输出，且修改任何配置都不用重新烧录系统，非常适合创客使用。&lt;/p&gt;
+&lt;p&gt;但高级权限也意味着更大的风险。若配置不当，则可能烧坏硬件。&lt;/p&gt;
+&lt;p&gt;目前我正在使用的是 Klipper 固件，在两三天的配置调试之后基本可以不用动配置文件了。配置过程中踩了一些坑，后面会单独发一篇文章分享一下 Klipper 配置过程。&lt;/p&gt;
+&lt;h3 id=&#34;3D-打印材料&#34;&gt;&lt;a href=&#34;#3D-打印材料&#34; class=&#34;headerlink&#34; title=&#34;3D 打印材料&#34;&gt;&lt;/a&gt;3D 打印材料&lt;/h3&gt;&lt;p&gt;SLA 打印用的是各种光敏树脂，我没有用过就不评价了。&lt;/p&gt;
+&lt;p&gt;FDM 使用的材料更加多种多样：PLA、PETG、ABS 三者为主流，TPE 柔性材料也见过有人在用。PLA 是最好打印的一类材料，PETG 需要较高的打印&amp;#x2F;热床温度，而 ABS 需要保温打印（需封箱）。剩下的就是一些改进&amp;#x2F;特种材料。例如在 PLA 中添加少量 PC、ABS 以加强硬度，这些材料名字多样，一般是在 PLA 之后加代号，如 PLA-F&amp;#x2F;AF&amp;#x2F;AT&amp;#x2F;G&amp;#x2F;Pro 等等；或是在 PLA 中添加少量木屑或杂质，使打印机外观像木制品&amp;#x2F;大理石制品，这类材料比较容易堵头，不是很推荐使用；甚至还有人打印碳纤维，但价格昂贵。&lt;/p&gt;
+&lt;h2 id=&#34;购买-3D-打印机的理由&#34;&gt;&lt;a href=&#34;#购买-3D-打印机的理由&#34; class=&#34;headerlink&#34; title=&#34;购买 3D 打印机的理由&#34;&gt;&lt;/a&gt;购买 3D 打印机的理由&lt;/h2&gt;&lt;p&gt;我不想做一个 “KOL”，把 3D 打印吹得天花乱坠。谈一谈我购买 3D 打印机的理由：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;可以动手&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;我是一个酷爱动手的人，看见 DIY 项目就忍不住去尝试。或许这辈子开不上高达，但能亲手组装一台能由我操控的机械（甚至还能打印出高达），也算是一点小小的慰藉。&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;让梦想中的模型成真&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;我有购买一台 3D 打印机的念头，来自一张网图，是一个制作精美的太阳时钟 —— 不是日晷，而是通过巧妙设计的结构，能投射出数字形式的大致时间。显然，这个太阳时钟是 3D 打印的。当时我就觉得，如果我能有一台 3D 打印机，我就能做各种各样的小玩意儿，多美妙 :)&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;建模小帮手&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;很奇怪的理由，但 3D 打印机确实促使我提升了 3D 建模技术。机器可以创造任何物品，但网上的模型毕竟有限，很多你想要的物品就需要你亲手去建模了。初中时我有学习 3D 建模的念头，当时选择了 C4D，但因为难度太高没多久就放弃了。现在我选择了学习 SolidWorks，自行设计并打印成品，我就能最直观的感受到模型的问题所在，并在软件里修正错误。&lt;/p&gt;
+&lt;h2 id=&#34;挑选打印机&#34;&gt;&lt;a href=&#34;#挑选打印机&#34; class=&#34;headerlink&#34; title=&#34;挑选打印机&#34;&gt;&lt;/a&gt;挑选打印机&lt;/h2&gt;&lt;p&gt;于是我就定下了买一台 3D 打印机的计划。这么一计划就是一年多。&lt;/p&gt;
+&lt;p&gt;在这一年里我找了很多店家，比对他们的性价比（我的博客里最经常出现的一个词），最后挑中了这家 —— 小树科技。&lt;/p&gt;
+&lt;p&gt;我不适合想买成品机，理由很简单：性价比较低，且没有组装的乐趣。这两年国内做开源机器的团队越来越多，小树科技算是比较早的一家。我最看重的莫过于详细的安装文档和一个可靠的社区，毕竟这次我要涉猎的是一个完全陌生的领域。&lt;/p&gt;
+&lt;p&gt;逛了逛他们的&lt;a href=&#34;(https://www.minitree.fun/)&#34;&gt;官网&lt;/a&gt;，确定他们有提供安装文档，用户社区也达到数千人规模，我决定了要买这一家的机器。&lt;/p&gt;
+&lt;p&gt;新手入门，我选择了 T3 型号的机器。单臂架构，3D 打印机中最简陋、缺点最多的架构，但也是消耗材料最少，价格最便宜的结构。&lt;/p&gt;
+&lt;p&gt;DIY 之路必然是坎坷的，如果你决定要自己组装一台 3D 打印机，过程中必然会遇到种种问题。做好心理准备，等待迎接解决问题之后的喜悦吧。&lt;/p&gt;
+&lt;p&gt;经过半年的调机与改装之后，这台 T3 已经能稳定地产出质量尚可的打印件，我认为再去改装这台机器所带来的提升已经不大，便决定将其升级为 CoreXY 架构。&lt;/p&gt;
+&lt;p&gt;升级 CoreXY 就是这个寒假的事情了，组装花了四五天，调机则还在进行中。目前来看这台机子潜力很大，请期待后续分享调机过程的文章。&lt;/p&gt;
+&lt;h2 id=&#34;结语&#34;&gt;&lt;a href=&#34;#结语&#34; class=&#34;headerlink&#34; title=&#34;结语&#34;&gt;&lt;/a&gt;结语&lt;/h2&gt;&lt;p&gt;感觉没什么好结的。&lt;/p&gt;
+&lt;p&gt;说句实话，调机真的挺痛苦的，刚装完机打两次很可能就会错一次层；但调完之后，再也不会错层的成就感经久不衰。&lt;/p&gt;
+ ]]></description>
+        </item>
+    </channel>
+</rss>

@@ -1,0 +1,849 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme="auto">
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon.ico">
+  <link rel="icon" href="/images/favicon.ico">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Kare Udon">
+  <meta name="keywords" content="再生龙,Clonezilla,备份,Manjaro,U盘,Ventoy">
+  
+    <meta name="description" content="手把手使用再生龙备份U盘内的 Manjaro 操作系统。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用再生龙 Clonezilla 备份操作系统">
+<meta property="og:url" content="https://blog.udon.eu.org/archives/e74a90f2.html">
+<meta property="og:site_name" content="カレーうどん屋">
+<meta property="og:description" content="手把手使用再生龙备份U盘内的 Manjaro 操作系统。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/1.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/2.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/3.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/4.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/5.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/6.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/7.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/8.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/10.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/11.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/12.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/13.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/14.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/15.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/16.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/18.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/20.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/21.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/22.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/23.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/24.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/19.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/26.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/25.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/27.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/28.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/29.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/30.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/31.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/32.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/33.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/34.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/35.jpeg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-08-12/36.jpeg">
+<meta property="article:published_time" content="2022-08-12T04:30:00.000Z">
+<meta property="article:modified_time" content="2024-12-14T08:34:27.951Z">
+<meta property="article:author" content="Kare Udon">
+<meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.udon.eu.org/images/2022-08-12/1.jpeg">
+  
+  
+  
+  <title>使用再生龙 Clonezilla 备份操作系统 - カレーうどん屋</title>
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css">
+
+
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css">
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css">
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css">
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css">
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.udon.eu.org","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/color-schema.js"></script>
+  
+
+
+  <link rel="alternate" type="application/rss+xml" title="カレーうどん屋" href="https://blog.udon.eu.org/rss.xml">
+  <link rel="alternate" type="application/atom+xml" title="カレーうどん屋" href="https://blog.udon.eu.org/atom.xml">
+  <link rel="alternate" type="application/json" title="カレーうどん屋" href="https://blog.udon.eu.org/feed.json">
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>カレーうどん屋</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/photo_wall/" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>照片墙</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss-fill"></i>
+                <span>rss</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax="true" style="background: url('/images/banner_img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="使用再生龙 Clonezilla 备份操作系统"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-08-12 12:30" pubdate>
+          2022年8月12日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">使用再生龙 Clonezilla 备份操作系统</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>近日购入了一只闪迪的 CZ880 Ｅｘｔｒｅｍｅ ＰＲＯ 固态U盘来装 Manjaro。</p>
+<p>虽然U盘本体是终身质保的，但数据无价，配置一遍系统就要花大把的时间。遂有了备份U盘内整个系统的念头。</p>
+<p>下面跟着我使用再生龙 Clonezilla 把U盘里的系统备份一下吧！</p>
+<h3 id="事先准备"><a href="#事先准备" class="headerlink" title="事先准备"></a>事先准备</h3><p>再生龙是运行在独立操作系统 (Debian&#x2F;Ubuntu) 上的一套软件，因此需要制作启动盘，或使用 Ventoy 等多系统启动方案。（实测 YUMI 无法启动再生龙，故建议使用 Ventoy）</p>
+<h4 id="制作启动盘"><a href="#制作启动盘" class="headerlink" title="制作启动盘"></a>制作启动盘</h4><p>前往 <a href="https://rufus.ie/zh/" rel="external nofollow noopener noreferrer" target="_blank">Rufus 官网</a> 下载 Rufus 启动盘制作工具。</p>
+<p>前往 <a href="https://clonezilla.org/downloads/download.php?branch=stable" rel="external nofollow noopener noreferrer" target="_blank">Clonezilla 官网</a> 下载再生龙映像。</p>
+<p>使用 Rufus 将再生龙映像烧写进另一个U盘即可。</p>
+<p><strong>U盘内数据将丢失，请做好备份！</strong></p>
+<h4 id="使用多系统启动"><a href="#使用多系统启动" class="headerlink" title="使用多系统启动"></a>使用多系统启动</h4><p>前往 <a href="https://www.ventoy.net/" rel="external nofollow noopener noreferrer" target="_blank">Ventoy 官网</a> 下载安装包（兼容 Windows 与 Linux），将你的另一个U盘制作为 Ventoy 多启动盘。</p>
+<p>前往 <a href="https://clonezilla.org/downloads/download.php?branch=stable" rel="external nofollow noopener noreferrer" target="_blank">Clonezilla 官网</a> 下载再生龙映像。</p>
+<p>将再生龙映像拷贝至 Ventoy 多启动盘中。</p>
+<p>选择你想存放备份数据的目的地，创建一个存放备份映像的文件夹（注意目录名称中不能带有空格）。</p>
+<p>剧透一下，40G 的系统盘备份之后大约占了 16-17G. 请留出足够的空间（建议和待备份的数据等大小）。</p>
+<h3 id="开始备份"><a href="#开始备份" class="headerlink" title="开始备份"></a>开始备份</h3><p>瞎眼警告：由于没有合适的截屏方式，我很不愿意地采取了 拍 屏 的方式，敬请谅解。</p>
+<h4 id="启动再生龙系统"><a href="#启动再生龙系统" class="headerlink" title="启动再生龙系统"></a>启动再生龙系统</h4><p>确保你的电脑关闭了安全启动，若还打开着，需要在 BIOS 中将其关闭。</p>
+<p>插入刚刚制作好的启动盘&#x2F;Ventoy 多启动盘，在电脑启动时猛敲键盘的…某个键，这因电脑型号而异，打开启动菜单。</p>
+<p>选择插入的启动盘&#x2F;多启动盘。</p>
+<p>启动盘用户若没有太大的兼容性问题，就能看到再生龙的启动菜单。</p>
+<p>多启动盘用户还要再多一步，在 Ventoy 菜单内选中再生龙的映像，如下图所示，即可打开再生龙的启动菜单。</p>
+<p><img src="/images/2022-08-12/1.jpeg" srcset="/img/loading.gif" lazyload alt="Ventoy 多启动菜单"></p>
+<p>P.S. 我的笔记本兴许和 Ventoy 的 UEFI 模式相性不大好，在 BIOS 中开启了 Lagacy 兼容模式后，使用 Legacy 模式才能开启 Ventoy。</p>
+<h4 id="选择再生龙启动方式"><a href="#选择再生龙启动方式" class="headerlink" title="选择再生龙启动方式"></a>选择再生龙启动方式</h4><p><img src="/images/2022-08-12/2.jpeg" srcset="/img/loading.gif" lazyload alt="再生龙启动菜单"></p>
+<p>经典的 GRUB 启动菜单，一般来说选择默认的第一项启动方式即可。</p>
+<h5 id="VGA-启动花屏"><a href="#VGA-启动花屏" class="headerlink" title="VGA 启动花屏"></a>VGA 启动花屏</h5><p>我的电脑遇到了在 VGA 800x600 模式下花屏的问题。</p>
+<p>最终进入 <code>Other mods of Clonezilla live</code> 菜单，</p>
+<p><img src="/images/2022-08-12/3.jpeg" srcset="/img/loading.gif" lazyload alt="其他启动模式"></p>
+<p>选择了上图中的 KVM &amp; To RAM 模式，可以正常启动了。</p>
+<h5 id="USB-口不够用的用户"><a href="#USB-口不够用的用户" class="headerlink" title="USB 口不够用的用户"></a>USB 口不够用的用户</h5><p>我这台笔记本只有两个 USB 口，其中一个要给备份源头 CZ880,另一个则要给移动硬盘，故选择了 <code>To RAM</code> 模式，将再生龙载入内存，就可以拔掉多启动U盘，空出 USB 口给移动硬盘了。</p>
+<h4 id="语言配置"><a href="#语言配置" class="headerlink" title="语言配置"></a>语言配置</h4><p><img src="/images/2022-08-12/4.jpeg" srcset="/img/loading.gif" lazyload alt="语言配置"></p>
+<p>选择自己想用的语言即可。</p>
+<p><img src="/images/2022-08-12/5.jpeg" srcset="/img/loading.gif" lazyload alt="键盘配置"></p>
+<p>保持默认配置即可。</p>
+<h4 id="备份配置"><a href="#备份配置" class="headerlink" title="备份配置"></a>备份配置</h4><p><img src="/images/2022-08-12/6.jpeg" srcset="/img/loading.gif" lazyload alt="功能选择"></p>
+<p>我们选 <code>Start Clonezilla 使用再生龙</code>。</p>
+<p>命令行可以在熟悉了配置之后使用。</p>
+<p><img src="/images/2022-08-12/7.jpeg" srcset="/img/loading.gif" lazyload alt="备份模式选择"></p>
+<p>此处我们选择第一项 <code>device-image 硬盘/分区[存到/来自]镜像文件</code>。</p>
+<p>若想进行两盘对拷，可以选择第二项。我还没有尝试过。</p>
+<h4 id="挂载存储目录"><a href="#挂载存储目录" class="headerlink" title="挂载存储目录"></a>挂载存储目录</h4><p><img src="/images/2022-08-12/8.jpeg" srcset="/img/loading.gif" lazyload alt="存储目录选择"></p>
+<p>这次我打算使用移动硬盘备份系统，故选择第一项 <code>local dev 使用本机的分区</code>。</p>
+<p><img src="/images/2022-08-12/10.jpeg" srcset="/img/loading.gif" lazyload alt="插入 USB 设备提示"></p>
+<p>随后，再生龙会提示插入想要挂载的 USB 设备，按照提示做即可。</p>
+<p><img src="/images/2022-08-12/11.jpeg" srcset="/img/loading.gif" lazyload alt="检测到的存储设备"></p>
+<p>此时画面会动态显示系统识别到的存储设备。看到期望的目标设备时，按下 <code>Ctrl-C</code> 停止搜索。</p>
+<p><img src="/images/2022-08-12/12.jpeg" srcset="/img/loading.gif" lazyload alt="分区选择"></p>
+<p>在扫描完电脑当前安装的所有硬盘的分区后，你需要选择备份镜像文件存放的那个分区。</p>
+<p>如图，我希望备份到大小为 1.8T 的移动硬盘上，故选择最后一项 <code>sdc2</code>。</p>
+<p><img src="/images/2022-08-12/13.jpeg" srcset="/img/loading.gif" lazyload alt="是否检查并修复文件系统"></p>
+<p>随后，再生龙询问你是否需要检查并修复挂载的文件系统，我们选第一项否就好了。</p>
+<p><img src="/images/2022-08-12/14.jpeg" srcset="/img/loading.gif" lazyload alt="备份位置选择"></p>
+<p>接着，就是选择备份镜像存放的位置。</p>
+<p>使用键盘的方向键选择目录，使用 <code>Tab</code> 跳转到下方的选项，选择 <code>Browse</code> 并敲击回车就可以进入到此目录。</p>
+<p>若希望在选中目录下存放备份镜像文件（是一个文件夹），就可以选择 <code>Done</code> 选项，回车确认。</p>
+<p><img src="/images/2022-08-12/15.jpeg" srcset="/img/loading.gif" lazyload alt="是否检查镜像可还原性"></p>
+<p>系统询问是否检查生成的备份镜像的可还原性，这里我们选是，多花一点时间能确保备份的完整性。</p>
+<p><img src="/images/2022-08-12/16.jpeg" srcset="/img/loading.gif" lazyload alt="是否对镜像加密"></p>
+<p>镜像加密，依个人喜好选择。</p>
+<p><img src="/images/2022-08-12/18.jpeg" srcset="/img/loading.gif" lazyload alt="备份模式确认"></p>
+<p>待上述配置完成后，系统会向你再次确认备份的内容与目的地。</p>
+<p>确认无误后输入 <code>y</code> 并敲击回车继续。</p>
+<h4 id="简单模式-高级模式"><a href="#简单模式-高级模式" class="headerlink" title="简单模式&#x2F;高级模式"></a>简单模式&#x2F;高级模式</h4><p>此时应该有一个模式选择，问你想要使用简单模式还是专家模式。</p>
+<p>我建议选择 专家模式，简单模式能选择的参数较少。</p>
+<p><img src="/images/2022-08-12/20.jpeg" srcset="/img/loading.gif" lazyload alt="模式选择"></p>
+<p>接下来的三个选项，全部保持默认配置即可。</p>
+<p><img src="/images/2022-08-12/21.jpeg" srcset="/img/loading.gif" lazyload alt="高级设置1"></p>
+<p><img src="/images/2022-08-12/22.jpeg" srcset="/img/loading.gif" lazyload alt="高级设置2"></p>
+<p><img src="/images/2022-08-12/23.jpeg" srcset="/img/loading.gif" lazyload alt="高级设置3"></p>
+<h4 id="压缩方式选择"><a href="#压缩方式选择" class="headerlink" title="压缩方式选择"></a>压缩方式选择</h4><p><img src="/images/2022-08-12/24.jpeg" srcset="/img/loading.gif" lazyload alt="压缩方式选择"></p>
+<p>此处选择第三项 <code>-z2p 使用并行 bzip2 压缩</code>。</p>
+<p>实测 bzip2 压缩速度比较快，产生的备份镜像的体积也不算大。</p>
+<p>下图为选择了第一项 <code>-z1p 使用并行的 gzip 压缩</code> 的速度：</p>
+<p><img src="/images/2022-08-12/19.jpeg" srcset="/img/loading.gif" lazyload alt="并行 gzip 压缩速度"></p>
+<p>下图为选择了第三项 <code>-z2p 使用并行 bzip2 压缩</code> 的速度：</p>
+<p><img src="/images/2022-08-12/26.jpeg" srcset="/img/loading.gif" lazyload alt="并行 bzip2 压缩速度"></p>
+<p>可以看出 bzip2 压缩速度比 gzip 快了8倍。</p>
+<p>其他压缩方式的速度，待我测试之后更新文章。</p>
+<p><img src="/images/2022-08-12/25.jpeg" srcset="/img/loading.gif" lazyload alt="分卷大小配置"></p>
+<p>分卷大小配置保持默认即可。</p>
+<h4 id="备份镜像检查"><a href="#备份镜像检查" class="headerlink" title="备份镜像检查"></a>备份镜像检查</h4><p>待备份完成后，再生龙还会进行一次备份镜像的可还原性检查，如下图：</p>
+<p><img src="/images/2022-08-12/27.jpeg" srcset="/img/loading.gif" lazyload alt="可还原性检查"></p>
+<p>若得到下图的提示，则备份镜像生成成功了。</p>
+<p><img src="/images/2022-08-12/28.jpeg" srcset="/img/loading.gif" lazyload alt="可还原性检查完成"></p>
+<p>随后，选择按照意愿选择备份结束后的操作即可。</p>
+<p><img src="/images/2022-08-12/29.jpeg" srcset="/img/loading.gif" lazyload alt="备份结束后操作选择"></p>
+<p>至此，再生龙 CLonezilla 的基础教学就结束了，你已经学会了如何使用再生龙的图形界面进行备份。</p>
+<p>下面是一些再生龙的高阶（大概很高级）使用方法。</p>
+<h3 id="高级操作"><a href="#高级操作" class="headerlink" title="高级操作"></a>高级操作</h3><h4 id="使用无线网络备份"><a href="#使用无线网络备份" class="headerlink" title="使用无线网络备份"></a>使用无线网络备份</h4><p>上文中，我的电脑仅有两个 USB 口，为备份的流程增添了不必要的麻烦。</p>
+<p>能否使用 Wi-Fi 将备份镜像推送至家中的 NAS 呢？</p>
+<p>再生龙内置了许多通过无线&#x2F;有线网络备份的方法，如下图：</p>
+<p><img src="/images/2022-08-12/30.jpeg" srcset="/img/loading.gif" lazyload alt="备份选项"></p>
+<p>我们尝试使用 Webdav 来远程备份吧！</p>
+<h5 id="利与弊"><a href="#利与弊" class="headerlink" title="利与弊"></a>利与弊</h5><p>使用 Wi-Fi 备份可以摆脱线缆，更加轻松而优雅地进行备份。</p>
+<p>然而，由于通过 Wi-Fi 或者一切网络传输数据的速度仍然无法比肩有线传输，备份所消耗的时间将是备份至本地磁盘的 3-4 倍。</p>
+<p>备份我U盘中的 40G 的 Manjaro 系统用时 30min 左右。</p>
+<p>倘若你有大把的时间，或家中的内网速度足够快，大可使用无线备份。品着咖啡，看着数据上云（笑）。</p>
+<h5 id="预先准备"><a href="#预先准备" class="headerlink" title="预先准备"></a>预先准备</h5><p>上文中我们选择了基于 Debian 的 Clonezilla Stable 版本，遗憾的是 Debian 系统中并未携带太多驱动程序，因此识别不到我的 Intel AX200 无线网卡。</p>
+<p>经过测试，基于 Ubuntu 的 <a href="https://clonezilla.org/downloads/download.php?branch=alternative" rel="external nofollow noopener noreferrer" target="_blank">Clonezilla Alternative Stable</a> 版本可以识别到 AX200 网卡。</p>
+<p>点击上方链接即可下载 Clonezilla Alternative Stable 版本的映像。</p>
+<p>重新烧写启动U盘&#x2F;拷贝映像至多启动U盘即可。</p>
+<h6 id="又遇到了启动问题"><a href="#又遇到了启动问题" class="headerlink" title="又遇到了启动问题"></a>又遇到了启动问题</h6><p>使用基于 Ubuntu 的再生龙，上文中使用的 <code>KVM</code> 模式变得无法打开了，且 <code>VGA 800x600</code> 模式是一样的花屏。</p>
+<p>在一番尝试之后，我发现藏在更多启动选项菜单里的 <code>VGA 1024x768</code> 模式可以正常显示。看来基于 Debian 的再生龙也可以使用这个模式。</p>
+<h5 id="开始备份-1"><a href="#开始备份-1" class="headerlink" title="开始备份"></a>开始备份</h5><p><img src="/images/2022-08-12/31.jpeg" srcset="/img/loading.gif" lazyload alt="网络管理"></p>
+<p>选择了非本地的镜像存储位置后，系统将开启上图的网络管理菜单。</p>
+<p>选择第一项 <code>Edit a connection</code>。</p>
+<p><img src="/images/2022-08-12/32.jpeg" srcset="/img/loading.gif" lazyload alt="连接管理"></p>
+<p>选择 <code>Add</code> 选项，在弹出菜单中 <code>Wi-Fi</code>。</p>
+<p><img src="/images/2022-08-12/33.jpeg" srcset="/img/loading.gif" lazyload alt="添加 Wi-Fi"></p>
+<p><code>Profile name</code> 随意填写；</p>
+<p><code>Device</code> 一般填写 <code>wlan0</code>，系统的第一块无线网卡；</p>
+<p>接着，按照自己的情况填写图中划线的三个配置即可。</p>
+<p><img src="/images/2022-08-12/34.jpeg" srcset="/img/loading.gif" lazyload alt="连接状态"></p>
+<p>保存 Wi-Fi 配置后，就能看到当前配置的连接状态。</p>
+<p>若当前配置名前带 <code>*</code>，且右侧选项为 <code>Deactivate</code>，则 Wi-Fi 已连接成功。</p>
+<p><img src="/images/2022-08-12/35.jpeg" srcset="/img/loading.gif" lazyload alt="填写 Webdav 服务器地址"></p>
+<p>接着，系统要求填写 Webdav 地址。</p>
+<p><img src="/images/2022-08-12/36.jpeg" srcset="/img/loading.gif" lazyload alt="确认 Webdav 配置"></p>
+<p>最后，系统会向你确认 Webdav 是否正确。</p>
+<p>若确认无误，即可敲击回车继续。</p>
+<p>接下来的步骤和上述初级教程硬盘挂载之后的流程是完全一样的，请参考上文继续配置。</p>
+
+                
+              </div>
+            
+            <hr>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%99%E7%A8%8B/" class="category-chain-item">教程</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>使用再生龙 Clonezilla 备份操作系统</div>
+      <div>https://blog.udon.eu.org/archives/e74a90f2.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Kare Udon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年8月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/" rel="external nofollow noopener noreferrer">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/archives/9b78ad2a.html" title="寻梦穿越机 - 入门浅谈">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">寻梦穿越机 - 入门浅谈</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/archives/f82a3103.html" title="BETAFPV 高频头固件编译 AttributeError">
+                        <span class="hidden-mobile">BETAFPV 高频头固件编译 AttributeError</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="cusdis" style="width:100%">
+    <div id="cusdis_thread" data-host="https://cusdis.com" data-app-id="786783f6-49d3-4e30-9a91-b4939c6244bb" data-page-id="08dd94924f06feeb09de1aaac9afb0a6" data-page-url="archives/e74a90f2.html" data-page-title="使用再生龙 Clonezilla 备份操作系统" data-theme="auto">
+    </div>
+  </div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#cusdis_thread', function() {
+      Fluid.utils.createScript('https://cusdis.com/js/widget/lang/zh-cn.js');
+      Fluid.utils.createScript('https://cusdis.com/js/cusdis.es.js');
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema) {
+        document.querySelector('#cusdis_thread').dataset.theme = schema
+      }
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="external nofollow noopener noreferrer"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="external nofollow noopener noreferrer"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <link rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css">
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/plugins.js"></script>
+
+
+  <script src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js"></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script src="/js/img-lazyload.js"></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src="https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js"></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script src="/js/boot.js"></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

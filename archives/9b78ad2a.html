@@ -1,0 +1,819 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme="auto">
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon.ico">
+  <link rel="icon" href="/images/favicon.ico">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Kare Udon">
+  <meta name="keywords" content="穿越机,无人机,FPV,Betaflight">
+  
+    <meta name="description" content="浅谈穿越机入门。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="寻梦穿越机 - 入门浅谈">
+<meta property="og:url" content="https://blog.udon.eu.org/archives/9b78ad2a.html">
+<meta property="og:site_name" content="カレーうどん屋">
+<meta property="og:description" content="浅谈穿越机入门。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-09-05/%E5%9B%BA%E5%AE%9A%E7%BF%BC%E4%B8%8E%E5%A4%9A%E8%BD%B4.jpg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-09-05/%E7%A9%BF%E8%B6%8A%E6%9C%BA%E4%BC%A0%E6%84%9F%E5%99%A8.jpg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-09-05/T12%E7%84%8A%E5%8F%B0.jpg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-09-05/%E7%A9%BF%E8%B6%8A%E6%9C%BA%E6%9E%B6%E6%9E%84.jpg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-09-05/%E6%9C%BA%E6%9E%B6%E7%A7%8D%E7%B1%BB.jpg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-09-05/%E6%9C%BA%E6%9E%B6%E5%A4%96%E5%BD%A2.jpg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-09-05/%E9%A3%9E%E5%A1%94.jpg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-09-05/%E9%A3%9E%E6%8E%A7SoC.jpg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-09-05/%E6%8E%A5%E6%94%B6%E6%9C%BA%E4%B8%8E%E5%9B%BE%E4%BC%A0.jpg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-09-05/Betaflight.jpg">
+<meta property="og:image" content="https://blog.udon.eu.org/images/2022-09-05/%E6%88%91%E7%9A%84%E6%88%90%E6%9E%9C.jpg">
+<meta property="article:published_time" content="2022-09-04T04:00:00.000Z">
+<meta property="article:modified_time" content="2024-12-14T08:34:27.951Z">
+<meta property="article:author" content="Kare Udon">
+<meta property="article:tag" content="随笔">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.udon.eu.org/images/2022-09-05/%E5%9B%BA%E5%AE%9A%E7%BF%BC%E4%B8%8E%E5%A4%9A%E8%BD%B4.jpg">
+  
+  
+  
+  <title>寻梦穿越机 - 入门浅谈 - カレーうどん屋</title>
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css">
+
+
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css">
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css">
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css">
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css">
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.udon.eu.org","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/color-schema.js"></script>
+  
+
+
+  <link rel="alternate" type="application/rss+xml" title="カレーうどん屋" href="https://blog.udon.eu.org/rss.xml">
+  <link rel="alternate" type="application/atom+xml" title="カレーうどん屋" href="https://blog.udon.eu.org/atom.xml">
+  <link rel="alternate" type="application/json" title="カレーうどん屋" href="https://blog.udon.eu.org/feed.json">
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>カレーうどん屋</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/photo_wall/" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>照片墙</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss-fill"></i>
+                <span>rss</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax="true" style="background: url('/images/banner_img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="寻梦穿越机 - 入门浅谈"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-09-04 12:00" pubdate>
+          2022年9月4日 中午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          22 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">寻梦穿越机 - 入门浅谈</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>暑假开始之前，我就朦朦胧胧有购入一台穿越机的想法。起因为何？我也不是很清楚。是看到了<a href="https://www.youtube.com/watch?v=b0JZxm7ajcs" rel="external nofollow noopener noreferrer" target="_blank">酷炫的穿越机航拍视频</a>？还是童年时期的航模魂蠢蠢欲动，将要苏醒？</p>
+<p>兴趣，倘若不立刻抓住，很快就会被抛至脑后。为了不让自己后悔，那就立刻开始筹备吧！攥紧并不是特别充盈的钱包，我踏上了寻梦之路。</p>
+<h2 id="什么是穿越机"><a href="#什么是穿越机" class="headerlink" title="什么是穿越机"></a>什么是穿越机</h2><p>FPV (First-Person View)，是指通过第一人称视角远程控制无人飞行设备 (UAV) 的控制方式，也是一项运动，也指代了一类设备。</p>
+<p>FPV 设备包含固定翼 (Fixed Wing) 与多轴 (Multi-rotor) 两种。穿越机多指多轴 FPV (常见为四轴)。</p>
+<p><img src="/images/2022-09-05/%E5%9B%BA%E5%AE%9A%E7%BF%BC%E4%B8%8E%E5%A4%9A%E8%BD%B4.jpg" srcset="/img/loading.gif" lazyload alt="四轴 FPV (上) 与固定翼 FPV (下)"></p>
+<h2 id="一盆冷水"><a href="#一盆冷水" class="headerlink" title="一盆冷水"></a>一盆冷水</h2><p>在详细介绍穿越机构成之前，请允许我泼一盆冷水。</p>
+<p>穿越机与一些航拍无人机，例如大疆 (DJI) 的四轴航拍机与航拍 FPV 相比，颇有原始人见到现代人的感觉。</p>
+<p>大疆无人机上搭载了各种各样的传感器，各系列大都配备了二向 (前后)、四向 (前后左右) 或五向 (增加一个上方) 的视觉避障功能、红外定高悬停功能，以及低电量 GPS 自动返航功能。</p>
+<p>上述这些看似是无人机应当“标配”的功能，追求轻量化的穿越机时常一个也没有。一台最小安装的穿越机全机的传感器仅有集成于飞控的陀螺仪和地磁传感器 (电调的电流传感器一般不算在内)，飞控仅知道当前机身的朝向、倾斜角度与加速度，无法感知周围的环境，没有实现避障、悬停与自动返航的能力。飞机的运动状态完全取决于飞手的操控，电池的剩余电量甚至需要飞手根据电芯电压来推断。</p>
+<p><img src="/images/2022-09-05/%E7%A9%BF%E8%B6%8A%E6%9C%BA%E4%BC%A0%E6%84%9F%E5%99%A8.jpg" srcset="/img/loading.gif" lazyload alt="穿越机少得可怜的传感器"></p>
+<p>再者，为了能获得更大的速度与更高的机动性，穿越机飞行过程一般处于手动模式，对飞机四向的倾斜没有限制，飞行过程中出现危险操作的概率大，事故概率也大。而大疆无人机对飞行速度、角度有严格的限制，能有效地降低炸机的概率。</p>
+<p>因此，飞行穿越机的难度将是飞行大疆等航拍无人机的十倍、甚至百倍。请务必不要抱着随便玩一玩、随心飞的态度入坑穿越机，发生事故后轻则炸机提 (遥) 控回家，重则伤到自己或他人。对于喜欢日常随心飞行的玩家，大疆或类似牌子的无人机 (包括航拍机和穿越机) 更为合适。</p>
+<hr>
+<p>下文将详细介绍入门穿越机所需要的技术知识与穿越机的重要模块。在明白风险之后仍打算入坑穿越机，或对穿越机有兴趣的你，欢迎继续往下阅读。</p>
+<h2 id="技术储备"><a href="#技术储备" class="headerlink" title="技术储备"></a>技术储备</h2><p>上文提到了我童年时期的航模魂。我在小学就跟着老师学习无线电和航模知识，练习了焊接技巧和单旋翼的航模直升机的飞行技巧。曾参加某个航模比赛并拿到了铜牌的好成绩 (我好自豪)。</p>
+<p>因此，我对我的焊接技术和遥控操控能力比较有信心。而这两个能力恰好是入门穿越机不可或缺的。下面我列举一些入门穿越机需要掌握的技能。</p>
+<h3 id="锡焊"><a href="#锡焊" class="headerlink" title="锡焊"></a>锡焊</h3><p>  除了购买真·到手飞套餐 (机子已组装完成，接收机已与遥控器完成配对)，其余情况大概率需要焊接一些导线。</p>
+<p>  大部分组装机套餐都不包含接收机，因为接收机与遥控器一一对应，一般是和遥控一起购买的。就需要用户自行焊接至飞控上。</p>
+<p>  锡焊所用到的工具有电烙铁和焊锡丝，最好能佐以松香，增加焊接成功率。电烙铁推荐购买 T12 或更好的，因为飞控散热设计，很多焊盘为通孔的形式，热量会非常快地传到到全板，导致焊锡较难达到融化的温度。若使用功率太低的电烙铁，可能无法融化焊锡。</p>
+<p><img src="/images/2022-09-05/T12%E7%84%8A%E5%8F%B0.jpg" srcset="/img/loading.gif" lazyload alt="T12 焊台"></p>
+<p>  由于飞控比较小巧，焊盘也十分迷你，对焊接技术要求较高。</p>
+<h3 id="使用搜索引擎"><a href="#使用搜索引擎" class="headerlink" title="使用搜索引擎"></a>使用搜索引擎</h3><p>  不懂不可怕，不懂得学习才可怕。</p>
+<p>  穿越机有关的零碎知识犹如满天星，散布于互联网的每一个角落，需要一定的搜索技巧才能挖掘到有用的知识。</p>
+<p>  国内有关穿越机的网站数量比较少，建议使用英文搜索。</p>
+<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><p>  若想要更新 ELRS 接收机和高频头的固件，需要从源码编译 ELRS 固件。虽然 ELRS 团队提供了一套图形化的编译工具，但难免会遇到一些疑难杂症 (博客中就有 ELRS 固件编译的踩坑记录)。需要对编译有一定的知识，能自行解决简单的问题。或者选择使用出厂固件，不自行升级。</p>
+<h3 id="操控能力-协调性"><a href="#操控能力-协调性" class="headerlink" title="操控能力 (协调性)"></a>操控能力 (协调性)</h3><p>  像音游 (音乐游戏) 一样，微操遥控器并不是所有人都能很好地做到。穿越机对遥控指令的反应极为灵敏，需要你能精细地操控遥控器。</p>
+<p>  但这项技能可以通过电脑模拟飞行来习得。建议在正式开始飞行前，先在电脑上使用模拟器熟悉飞机的控制。</p>
+<h3 id="一颗勇敢的心"><a href="#一颗勇敢的心" class="headerlink" title="一颗勇敢的心"></a>一颗勇敢的心</h3><p>  在飞行穿越机的过程中，不可能不出现炸机 (飞机以异常姿态落地) 的情况，难免会留下一点阴影。</p>
+<p>  我在小学时飞过固定翼飞机，曾不慎撞到电线，导致飞机起落架损坏脱落，最后只能由老师操控迫降。此事给我留下了不小的心理阴影，有好几个月我都不敢再飞行固定翼。不过最后还是克服了恐惧，再次拾起了遥控。</p>
+<p>  炸机并不可怕，每一次炸机都记录着你的成长。</p>
+<h2 id="深入了解"><a href="#深入了解" class="headerlink" title="深入了解"></a>深入了解</h2><p>类似 Linux (比较奇怪的类比)，穿越机也分为最小安装和额外拓展两部分。</p>
+<p><img src="/images/2022-09-05/%E7%A9%BF%E8%B6%8A%E6%9C%BA%E6%9E%B6%E6%9E%84.jpg" srcset="/img/loading.gif" lazyload alt="穿越机架构"></p>
+<p>最小安装：</p>
+<ul>
+<li>机架 - 硬连接其他组件，保护脆弱的电路板；</li>
+<li>电机 (和桨叶) - 提供飞行动力；</li>
+<li>飞控 - 控制飞行状态，是穿越机的大脑；</li>
+<li>电调 (电子调速器) - 驱动电机、分隔电路 (防止电机减速时产生的反向电流烧坏其他电子设备);</li>
+<li>接收机 - 接受遥控器控制信号 (有 2.4GHz、915MHz、 868MHz 等频段，互不兼容)；</li>
+<li>图传 - 发送图像信号 (多为 5.8GHz 频段)；</li>
+<li>摄像头 - 提供第一人称视角；</li>
+</ul>
+<p>额外拓展：</p>
+<ul>
+<li>GPS 模块；</li>
+<li>BB 响 (蜂鸣器 Beeper，用于寻找飞机)；</li>
+<li>LED 灯珠、灯带 (好看 XD)；</li>
+<li>红外避障模块；</li>
+<li>运动摄像机 (拍摄更清晰、帧率更高的视频)；</li>
+</ul>
+<p>挑几个比较重要的模块介绍一下：</p>
+<h3 id="机架"><a href="#机架" class="headerlink" title="机架"></a>机架</h3><p>穿越机机架一般由碳纤维板制成，质地轻盈且强度极高，可以物理连接不同的模块，并保护脆弱的电子设备 (飞控、图传等裸板)。</p>
+<p>挑选时，机架有几个要主要关注的核心参数：</p>
+<ul>
+<li><p>外形：</p>
+<p>机架分为普通式与涵道式 (Duct Propeller) 两种。</p>
+<p>普通式机架的螺旋桨桨叶裸露在外，而涵道式机架的螺旋桨外侧有涵道 (类圆筒) 包裹。</p>
+<p>有一些普通式机架可以通过额外安装涵道，变身成为涵道机架。</p>
+</li>
+</ul>
+<p><img src="/images/2022-09-05/%E6%9C%BA%E6%9E%B6%E7%A7%8D%E7%B1%BB.jpg" srcset="/img/loading.gif" lazyload alt="普通机架 (左) 与涵道机架 (右)"></p>
+<p>  普通式机架采用开放式的设计，尽可能少地使用材料以减轻重量。由于螺旋桨暴露在外，危险性较大。普通机架可被用于任何竞速与花飞机型。</p>
+<p>  涵道式机架通过涵道结构可以提供更好的升力、稳定性和安全性，但额外增添了重量和封阻，一般被用于小型机与花飞机型。</p>
+<p><img src="/images/2022-09-05/%E6%9C%BA%E6%9E%B6%E5%A4%96%E5%BD%A2.jpg" srcset="/img/loading.gif" lazyload alt="机架外形"></p>
+<p>  此外，机架还可以再细分为 X 型、H 型等，在此就不多展开，有兴趣的读者可以自行查阅。</p>
+<ul>
+<li><p>大小：</p>
+<p>穿越机大小各异，从最小的一寸机，到体型较大的五寸、六寸机。</p>
+<p>二寸以下的机子防风能力较差，但体型轻盈且常使用涵道机架，适合在室内飞行，且不易伤人。</p>
+<p>三寸以上的机子动力充沛，飞行速度快，但体型大、螺旋桨裸露，无法在室内飞行。适合在场地广阔的室外进行竞速或花飞 (花样飞行)。</p>
+</li>
+</ul>
+<h3 id="飞控与电调"><a href="#飞控与电调" class="headerlink" title="飞控与电调"></a>飞控与电调</h3><p>飞控与电调 (有时还有图传) 几块板子大小相当，时常纵向堆叠安装，称为飞塔。在多块 PCB 间有硅胶柱减震。</p>
+<p><img src="/images/2022-09-05/%E9%A3%9E%E5%A1%94.jpg" srcset="/img/loading.gif" lazyload alt="双层飞塔"></p>
+<p>飞控需要注意的参数不多：</p>
+<ul>
+<li><p>飞控 SoC：</p>
+<p>常见飞控 SoC 的型号有 F405 和 F722，他们的全称应为 STM32F405 和 STM32F722. 差别主要在主频和内存大小上。</p>
+</li>
+</ul>
+<p><img src="/images/2022-09-05/%E9%A3%9E%E6%8E%A7SoC.jpg" srcset="/img/loading.gif" lazyload alt="飞控 SoC"></p>
+<p>  由于穿越机飞行对计算性能不是很敏感 (类似 3D 打印机)，一般选择搭载 F405 SoC 的飞控性能就足够使用了。</p>
+<ul>
+<li><p>串口数量：</p>
+<p>新手会用到的串口数量不会超过两个 (外接部分型号的图传和接收机)，绝大部分飞控都能满足这个要求。若有需要安装 GPS 和其他传感器，则要注意查看飞控支持的串口数量了。</p>
+</li>
+</ul>
+<p>电调最重要的参数就是最大放电电流了。</p>
+<p>电调的电流选择需要根据机身大小、电机和桨叶大小、形状进行估计，通常电机厂家会给出推荐值，按照推荐选购即可。</p>
+<h3 id="接收机与图传"><a href="#接收机与图传" class="headerlink" title="接收机与图传"></a>接收机与图传</h3><p><img src="/images/2022-09-05/%E6%8E%A5%E6%94%B6%E6%9C%BA%E4%B8%8E%E5%9B%BE%E4%BC%A0.jpg" srcset="/img/loading.gif" lazyload alt="接收机 (左) 与图传 (右)"></p>
+<p>接收机与图传共享一个重要的特性，协议：</p>
+<p>常见的接收机有 ELRS (ExpressLRS) 和黑羊 TBS 两类。应该注意的是，<strong>不同种类的接收机使用的通信协议和频段不同，能与其配对的遥控器和高频头也不同</strong>，因此在挑选接收机的时候一定要看清楚协议和频段。</p>
+<p>接收机和飞控的串口通讯协议也各异，有 UART、SBUS 等数种，再购买接收机前需确认飞控有相对应的串口。</p>
+<p>图传分数字图传和模拟图传两种。</p>
+<p>数字图传以大疆的最为出名，需要使用配套的飞行眼镜；模拟图传大多使用 5.8G 频段通讯，和大部分接收模拟信号的飞行眼镜通用。</p>
+<p>图传连接至飞控的串口通讯协议也很多，购买的时候请多加留意。</p>
+<p>除此之外，接收机有遥测功率、内&#x2F;外置天线、天线接口等参数，在挑选时都需要多加留意。</p>
+<p>图传的另一主要参数则是发射功率。发射功率越大，能稳定接受图传信号的距离一般就越大。小型穿越机一般选择发射功率在 200mW 到 500mW 的图传即可 (部分图传发射功率可调)；若有远航要求，也可选择发射功率大于 1W 的图传 (价格较高、发热也较大，一般带有主动散热)。</p>
+<h3 id="机子之外的配件"><a href="#机子之外的配件" class="headerlink" title="机子之外的配件"></a>机子之外的配件</h3><p>除了穿越机本体之外，想要拥有完整的飞性体验，还需要遥控器、高频头、电池、平衡充电器、飞行眼镜等配件。</p>
+<p>上述的每一种配件都可以写作一篇介绍文章。由于篇幅有限，本文就不再介绍上述的外围配件，请善用搜索引擎，学习相关知识。</p>
+<h3 id="配套软件"><a href="#配套软件" class="headerlink" title="配套软件"></a>配套软件</h3><p>除了硬件，穿越机配套的控制软件也尤为重要。目前主流的控制软件是开源的 Betaflight。</p>
+<p><img src="/images/2022-09-05/Betaflight.jpg" srcset="/img/loading.gif" lazyload alt="Betaflight 地面站界面"></p>
+<p>Betaflight 分为嵌入端 (安装在飞控中嵌入式系统) 和地面站 (安装在电脑里的软件)。将飞控通过线缆连接至电脑，并打开 Betaflight 地面站软件，即可对飞控参数进行调整。</p>
+<p>Betaflight 调参也是一门大课，新手不建议自定义太多的参数。待熟悉飞机之后，才建议调整 PID 等高级控制参数。</p>
+<h2 id="新手的第一台飞机"><a href="#新手的第一台飞机" class="headerlink" title="新手的第一台飞机"></a>新手的第一台飞机</h2><p>说了这么多，要上某宝挑选、下单穿越机的种种配件了吗？</p>
+<p>我的建议是否定的。</p>
+<p>我咨询了一些老玩家，他们建议新手购买他人已完成调参的二手机器，或者购买商家大部分已组装完成套机，以绕过纷繁复杂且状况百出的 DIY 过程，降低还未入坑就弃坑的风险。</p>
+<p>此外，自行购买散件的总价常常会高于购买整机的价格。对于钱包不是特别充盈的我，购买整机也是一个省钱的选择。</p>
+<p>待熟悉了穿越机的飞行与调试之后，再学习他人经验，设计并组装一台自己心目中的机器也不迟，这才是 DIY 的浪漫。</p>
+<h2 id="我的成果"><a href="#我的成果" class="headerlink" title="我的成果"></a>我的成果</h2><p><img src="/images/2022-09-05/%E6%88%91%E7%9A%84%E6%88%90%E6%9E%9C.jpg" srcset="/img/loading.gif" lazyload alt="我的成果"></p>
+<p>我选择购买一位老玩家完成大部分组装工作的“半”整机——包含了机架、电机、飞控和电调。图传、摄像头和接收机则是我自行购买和焊接安装的。</p>
+<p>飞机到手、外围装备齐全，只待一飞冲天。</p>
+
+                
+              </div>
+            
+            <hr>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E9%9A%8F%E7%AC%94/" class="category-chain-item">随笔</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E9%9A%8F%E7%AC%94/" class="print-no-link">#随笔</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>寻梦穿越机 - 入门浅谈</div>
+      <div>https://blog.udon.eu.org/archives/9b78ad2a.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Kare Udon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年9月4日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/" rel="external nofollow noopener noreferrer">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/archives/f9bfe16a.html" title="使用 Docker Compose 部署 Keycloak 20">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">使用 Docker Compose 部署 Keycloak 20</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/archives/e74a90f2.html" title="使用再生龙 Clonezilla 备份操作系统">
+                        <span class="hidden-mobile">使用再生龙 Clonezilla 备份操作系统</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="cusdis" style="width:100%">
+    <div id="cusdis_thread" data-host="https://cusdis.com" data-app-id="786783f6-49d3-4e30-9a91-b4939c6244bb" data-page-id="382cb477270fa5673432ef2bf87831a7" data-page-url="archives/9b78ad2a.html" data-page-title="寻梦穿越机 - 入门浅谈" data-theme="auto">
+    </div>
+  </div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#cusdis_thread', function() {
+      Fluid.utils.createScript('https://cusdis.com/js/widget/lang/zh-cn.js');
+      Fluid.utils.createScript('https://cusdis.com/js/cusdis.es.js');
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema) {
+        document.querySelector('#cusdis_thread').dataset.theme = schema
+      }
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="external nofollow noopener noreferrer"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="external nofollow noopener noreferrer"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <link rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css">
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/plugins.js"></script>
+
+
+  <script src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js"></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script src="/js/img-lazyload.js"></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src="https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js"></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script src="/js/boot.js"></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

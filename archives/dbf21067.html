@@ -1,0 +1,789 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme="auto">
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon.ico">
+  <link rel="icon" href="/images/favicon.ico">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Kare Udon">
+  <meta name="keywords" content="DN42,BGP,wiregurad,zerotier,bird 2">
+  
+    <meta name="description" content="入坑了 DN42，简单聊一聊我的感受。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="玩一玩 DN42">
+<meta property="og:url" content="https://blog.udon.eu.org/archives/dbf21067.html">
+<meta property="og:site_name" content="カレーうどん屋">
+<meta property="og:description" content="入坑了 DN42，简单聊一聊我的感受。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-01T04:30:00.000Z">
+<meta property="article:modified_time" content="2024-12-14T08:34:27.951Z">
+<meta property="article:author" content="Kare Udon">
+<meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>玩一玩 DN42 - カレーうどん屋</title>
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css">
+
+
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css">
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css">
+
+  <link rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css">
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css">
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.udon.eu.org","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"gtag":null,"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/color-schema.js"></script>
+  
+
+
+  <link rel="alternate" type="application/rss+xml" title="カレーうどん屋" href="https://blog.udon.eu.org/rss.xml">
+  <link rel="alternate" type="application/atom+xml" title="カレーうどん屋" href="https://blog.udon.eu.org/atom.xml">
+  <link rel="alternate" type="application/json" title="カレーうどん屋" href="https://blog.udon.eu.org/feed.json">
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>カレーうどん屋</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-bookmark-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/photo_wall/" target="_self">
+                <i class="iconfont icon-image"></i>
+                <span>照片墙</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/atom.xml" target="_self">
+                <i class="iconfont icon-rss-fill"></i>
+                <span>rss</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax="true" style="background: url('/images/banner_img/default.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="玩一玩 DN42"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-04-01 12:30" pubdate>
+          2022年4月1日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">玩一玩 DN42</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>两个月前，我向 DN42 提交了申请，并于4个小时后通过了审核，获得了自己的 AS 和 IP。</p>
+<p>作此文分享一下把玩 DN42 的心得，也作为我的备忘录。</p>
+<h2 id="我的信息"><a href="#我的信息" class="headerlink" title="我的信息"></a>我的信息</h2><figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs maxima">AS4242423490<br>IPv4: <span class="hljs-number">172.23</span><span class="hljs-number">.13</span><span class="hljs-number">.64</span>/<span class="hljs-number">28</span><br>IPv6: fd44:<span class="hljs-number">6b93</span>:4eaa::/<span class="hljs-number">48</span><br></code></pre></td></tr></table></figure>
+
+<p>目前仅一个洛杉矶节点开放 Peer，后期还将添加韩国和日本的节点。</p>
+<h2 id="如何把玩"><a href="#如何把玩" class="headerlink" title="如何把玩"></a>如何把玩</h2><h3 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h3><p>有关注册的文章很多，推荐这两篇：</p>
+<p><a href="https://lantian.pub/article/modify-website/dn42-experimental-network-2020.lantian/" rel="external nofollow noopener noreferrer" target="_blank">DN42 实验网络介绍及注册教程（2022-02 更新） | Lan Tian @ Blog</a></p>
+<p><a href="https://blog.baoshuo.ren/post/dn42-network/#" rel="external nofollow noopener noreferrer" target="_blank">初探 DN42 网络 - 宝硕博客 (baoshuo.ren)</a></p>
+<p>需要使用 Git 和 PGP，在 DN42 的 Git 仓库提交你的个人信息即可完成注册。</p>
+<h3 id="搭建内网"><a href="#搭建内网" class="headerlink" title="搭建内网"></a>搭建内网</h3><p>在和其他 AS 建立对等连接之前，我们先要把内网整理好：</p>
+<p>各台服务器的地理位置和网络位置各不相同，需要使用 VPN 创建虚拟局域网。</p>
+<p>课堂上讲了两种内网路由协议：</p>
+<ul>
+<li><p>RIP 是“真”内网用的，不适用于这种物理位置距离较远（路由跳数多）的虚拟内网；</p>
+</li>
+<li><p>可以使用 OSPF，但我在配置的时候遇到了不少问题，因此也不建议你使用。</p>
+</li>
+</ul>
+<p>有一位老朋友可以轻松解决以上两个问题：<strong>Zerotier</strong>。</p>
+<p>Zerotier 的虚拟网络可以使用自己的 IP，只需在 <strong>Managed Routes</strong> 中设置你在 DN42 申请的 IPv4 和 IPv6，即可为每台加入虚拟网络的主机自动或手动配置 DN42 IP。</p>
+<p>在机器之间使用 DN42 IP 互 ping 测试连通性。</p>
+<h3 id="准备-BGP-相关软件"><a href="#准备-BGP-相关软件" class="headerlink" title="准备 BGP 相关软件"></a>准备 BGP 相关软件</h3><p>搭建好内网之后，就可以开始配置 BGP 发言人啦。</p>
+<p>选择一台或多台服务器，作为自治域向外宣告路由的发言人。</p>
+<p>在每台服务器上都需要配置 BGP 相关的软件，以及和其他 BGP 发言人建立连接（一般是 VPN 连接）的软件。</p>
+<p>目前在 DN42 网络用的比较多的 VPN 软件是 Wireguard，BGP 软件则可以从 bird 2、bird 1、quagga 等软件中选择。</p>
+<p>我使用的是 bird 2。</p>
+<h4 id="安装与配置-BIRD-2"><a href="#安装与配置-BIRD-2" class="headerlink" title="安装与配置 BIRD 2"></a>安装与配置 BIRD 2</h4><p>安装命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">apt update<br>apt install bird2 -y<br></code></pre></td></tr></table></figure>
+
+<p>bird 2 的配置文件位于 <code>/etc/bird</code>，名为 <code>bird.conf</code>。</p>
+<p>配置文件可以参考（<del>照抄</del>）DN42 官方给出的配置：<a href="https://dn42.dev/howto/Bird2#example-configuration" rel="external nofollow noopener noreferrer" target="_blank">howto&#x2F;Bird2 (dn42.dev)</a></p>
+<p>喂到嘴边的配置方法：</p>
+<ul>
+<li>将官方配置填入 <code>/etc/bird/bird.conf</code></li>
+<li>在 <code>/etc/bird</code> 目录下新建名为 <code>peers</code> 的文件夹</li>
+<li>下载 ROA 配置（命令来自<a href="https://blog.baoshuo.ren/" rel="external nofollow noopener noreferrer" target="_blank">宝硕的博客</a>）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget -4 -O /tmp/dn42_roa.conf https://dn42.burble.com/roa/dn42_roa_bird2_4.conf &amp;&amp; <span class="hljs-built_in">mv</span> -f /tmp/dn42_roa.conf /etc/bird/dn42_roa.conf<br>wget -4 -O /tmp/dn42_roa_v6.conf https://dn42.burble.com/roa/dn42_roa_bird2_6.conf &amp;&amp; <span class="hljs-built_in">mv</span> -f /tmp/dn42_roa_v6.conf /etc/bird/dn42_roa_v6.conf<br></code></pre></td></tr></table></figure>
+
+<p>​	并配置 crontab，每小时自动下载并重载新配置：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">0 */1 * * * wget -4 -O /tmp/dn42_roa.conf https://dn42.burble.com/roa/dn42_roa_bird2_4.conf &amp;&amp; <span class="hljs-built_in">mv</span> -f /tmp/dn42_roa.conf /etc/bird/dn42_roa.conf<br>0 */1 * * * wget -4 -O /tmp/dn42_roa_v6.conf https://dn42.burble.com/roa/dn42_roa_bird2_6.conf &amp;&amp; <span class="hljs-built_in">mv</span> -f /tmp/dn42_roa_v6.conf /etc/bird/dn42_roa_v6.conf<br>0 */1 * * * birdc configure<br></code></pre></td></tr></table></figure>
+
+<h4 id="安装并配置-Wireguard"><a href="#安装并配置-Wireguard" class="headerlink" title="安装并配置 Wireguard"></a>安装并配置 Wireguard</h4><p>安装命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">apt update<br>apt install wireguard -y<br></code></pre></td></tr></table></figure>
+
+<p>这样就安装了 <code>Wireguard</code> 和名为 <code>wg-quick</code> 的管理工具。</p>
+<p>使用命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">wg genkey | <span class="hljs-built_in">tee</span> privatekey | wg pubkey &gt; publickey<br></code></pre></td></tr></table></figure>
+
+<p>在当前目录下创建 Wireguard 建立连接所用的密钥对（公钥和私钥）。</p>
+<p>就此 Wireguard 安装完成。</p>
+<h4 id="配置系统内核"><a href="#配置系统内核" class="headerlink" title="配置系统内核"></a>配置系统内核</h4><p>打开内核的数据包转发功能：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;net.ipv4.ip_forward=1&quot;</span> &gt;&gt; /etc/sysctl.conf<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;net.ipv6.conf.default.forwarding=1&quot;</span> &gt;&gt; /etc/sysctl.conf<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;net.ipv6.conf.all.forwarding=1&quot;</span> &gt;&gt; /etc/sysctl.conf<br>sysctl -p<br></code></pre></td></tr></table></figure>
+
+<p>关闭内核 <code>rp_filter</code> 的严格模式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;net.ipv4.conf.default.rp_filter=0&quot;</span> &gt;&gt; /etc/sysctl.conf<br><span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;net.ipv4.conf.all.rp_filter=0&quot;</span> &gt;&gt; /etc/sysctl.conf<br>sysctl -p<br></code></pre></td></tr></table></figure>
+
+<p>如果有 ufw 等防火墙自动配置工具，务必关闭。</p>
+<p>p.s. 我拿到任何机器后会立刻执行的指令是：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> ufw <span class="hljs-built_in">disable</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="创建-Dummy-网卡"><a href="#创建-Dummy-网卡" class="headerlink" title="创建 Dummy 网卡"></a>创建 Dummy 网卡</h4><p>dummy 网卡具体的作用我不是很清楚…</p>
+<p>只知道如果要用链路本地地址进行通讯，要把 DN42 的 IP 地址绑定到 dummy 网卡上。</p>
+<p>dummy 网卡配置指令如下：（[ ] 中为需要你填写的内容）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash">ip <span class="hljs-built_in">link</span> del dummy<br>ip <span class="hljs-built_in">link</span> add dummy <span class="hljs-built_in">type</span> dummy<br>ip addr add [你的 DN42 IPv4 地址]/32 dev dummy<br>ip addr add [你的 DN42 IPv6 地址]/128 dev dummy<br>ip <span class="hljs-built_in">link</span> <span class="hljs-built_in">set</span> dummy up<br></code></pre></td></tr></table></figure>
+
+<h3 id="和小伙伴建立对等连接（peer）"><a href="#和小伙伴建立对等连接（peer）" class="headerlink" title="和小伙伴建立对等连接（peer）"></a>和小伙伴建立对等连接（peer）</h3><h4 id="需要和对方分享的"><a href="#需要和对方分享的" class="headerlink" title="需要和对方分享的"></a>需要和对方分享的</h4><ul>
+<li>你的 DN42 信息，包括 AS 号和发言人的 DN42 IPv4（IPv6）地址；</li>
+<li>若使用链路本地地址，还需提供这东西，一般为一个本地 IPv6 地址，常取 <code>fe80::[你的 AS 号后4位]</code>；</li>
+<li>发言人的外网 IPv4 地址（或域名）和 Wireguard 隧道的通讯端口；</li>
+<li>Wireguard 公钥。</li>
+</ul>
+<p>有一些信息会在以下的配置中获得。</p>
+<h4 id="Wireguard-相关的"><a href="#Wireguard-相关的" class="headerlink" title="Wireguard 相关的"></a>Wireguard 相关的</h4><p>在 <code>/etc/wireguard</code> 目录下创建 Wireguard 配置文件，每一个配置文件对应着一个 Wireguard 隧道。</p>
+<p>例如你要和 AS114514 <del>臭</del> 建立对等连接，可以在 <code>peers</code> 文件夹下新建一个名为 <code>wg_114514.conf</code> （文件名即为 wireguard 隧道名）的配置文件。</p>
+<p>配置的模板如下：（[ ] 中为需要你填写的内容）</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-section">[Interface]</span><br><span class="hljs-attr">Table</span> = <span class="hljs-literal">off</span><br><span class="hljs-attr">ListenPort</span> = [我们的监听端口，可以用对方 AS 号的后五位]<br><span class="hljs-attr">PrivateKey</span> = [刚刚生成的 Wireguard 私钥]<br><span class="hljs-attr">PostUp</span> = ip addr add [本机的 DN42 IPv4 地址]/<span class="hljs-number">32</span> peer [对方机器的 DN42 IPv4 地址]/<span class="hljs-number">32</span> dev %i<br><span class="hljs-attr">PostUp</span> = ip addr add [本机的链路本地地址（见 BIRD 相关配置）]/<span class="hljs-number">64</span> dev %i<br><br><span class="hljs-section">[Peer]</span><br><span class="hljs-attr">PublicKey</span> = [对方的 Wireguard 公钥]<br><span class="hljs-attr">AllowedIPs</span> = <span class="hljs-number">10.0</span>.<span class="hljs-number">0.0</span>/<span class="hljs-number">8</span>, <span class="hljs-number">172.20</span>.<span class="hljs-number">0.0</span>/<span class="hljs-number">14</span>, <span class="hljs-number">172.31</span>.<span class="hljs-number">0.0</span>/<span class="hljs-number">16</span>, fd00::/<span class="hljs-number">8</span>, fe80::/<span class="hljs-number">64</span><br><span class="hljs-attr">Endpoint</span> = [对方机器的公网 IP 地址或域名 : 端口号]<br></code></pre></td></tr></table></figure>
+
+<p>然后使用 <code>wg-quick up [wireguard 隧道名（刚刚的配置文件名）]</code> 启动 Wireguard 隧道。</p>
+<p>可以 ping 一下对方的 DN42 IP 看看 Wireguard 隧道是否连接成功。</p>
+<p>使用 <code>wg</code> 命令查看各隧道的连接情况。若有显示 <code>last handshake</code>，一般情况下隧道就已成功建立。</p>
+<h4 id="BIRD-相关的"><a href="#BIRD-相关的" class="headerlink" title="BIRD 相关的"></a>BIRD 相关的</h4><p>在先前导入的 bird 2 配置中定义了一个 <code>peers</code> 文件夹，就是用来存放 peer 相关的配置。</p>
+<p>例如你要和 AS114514 <del>又臭</del> 建立对等连接，可以在 <code>peers</code> 文件夹下新建一个名为 <code>114514.conf</code> （文件名可自定义）的配置文件。</p>
+<p>我采用的是<a href="https://zh.wikipedia.org/wiki/%E9%93%BE%E8%B7%AF%E6%9C%AC%E5%9C%B0%E5%9C%B0%E5%9D%80" rel="external nofollow noopener noreferrer" target="_blank">链路本地地址（Link-Local）</a>的配置方法。配置的模板如下：（[ ] 中为需要你填写的内容）</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs inform7">protocol bgp <span class="hljs-comment">[peer的名字]</span> from dnpeers &#123;<br>    neighbor <span class="hljs-comment">[对方的链路本地地址]</span> % &#x27;<span class="hljs-comment">[通向对方的 Wiregurad 隧道名]</span>&#x27; as <span class="hljs-comment">[对方的 AS 号]</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>添加完配置之后别忘了用 <code>birdc configure</code> 重载 bird 2 配置。</p>
+<p>使用命令 <code>birdc s p</code> 可以查看 BIRD 2 软件下所有协议的通信情况。</p>
+<p>若显示为：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">dn42_xxxx</span>   BGP    ---    up    <span class="hljs-number">20</span>:<span class="hljs-number">36</span>:<span class="hljs-number">30</span>.<span class="hljs-number">984</span>   Established<br></code></pre></td></tr></table></figure>
+
+<p>则表示 BGP 连接已建立。</p>
+<h2 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h2><p>我还在写 DN42 相关的站点，在上面分享节点信息，方便大家 peer。</p>
+<p>但目前进度缓慢（悲）。</p>
+
+                
+              </div>
+            
+            <hr>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%95%99%E7%A8%8B/" class="category-chain-item">教程</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%95%99%E7%A8%8B/" class="print-no-link">#教程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>玩一玩 DN42</div>
+      <div>https://blog.udon.eu.org/archives/dbf21067.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Kare Udon</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年4月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/" rel="external nofollow noopener noreferrer">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/archives/28fa0729.html" title="Virmach Japan">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Virmach Japan</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/archives/9b58c98e.html" title="合宙 EPS32-C3 把玩记录（二）：WiFi 与一个 Web 程序">
+                        <span class="hidden-mobile">合宙 EPS32-C3 把玩记录（二）：WiFi 与一个 Web 程序</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div class="cusdis" style="width:100%">
+    <div id="cusdis_thread" data-host="https://cusdis.com" data-app-id="786783f6-49d3-4e30-9a91-b4939c6244bb" data-page-id="3ee25b65da16381f2a3207b1cb1fc9da" data-page-url="archives/dbf21067.html" data-page-title="玩一玩 DN42" data-theme="auto">
+    </div>
+  </div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#cusdis_thread', function() {
+      Fluid.utils.createScript('https://cusdis.com/js/widget/lang/zh-cn.js');
+      Fluid.utils.createScript('https://cusdis.com/js/cusdis.es.js');
+      var schema = document.documentElement.getAttribute('data-user-color-scheme');
+      if (schema) {
+        document.querySelector('#cusdis_thread').dataset.theme = schema
+      }
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="external nofollow noopener noreferrer"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="external nofollow noopener noreferrer"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js"></script>
+  <link rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css">
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js"></script>
+<script src="/js/events.js"></script>
+<script src="/js/plugins.js"></script>
+
+
+  <script src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js"></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script src="/js/img-lazyload.js"></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.0/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src="https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js"></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script src="/js/local-search.js"></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script src="/js/boot.js"></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

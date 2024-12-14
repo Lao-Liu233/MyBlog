@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+    <channel>
+        <title>カレーうどん屋 • Posts by &#34;diy&#34; tag</title>
+        <link>https://blog.udon.eu.org</link>
+        <description>カレーうどん屋.</description>
+        <language>zh-CN</language>
+        <pubDate>Sat, 06 Aug 2022 12:30:00 +0800</pubDate>
+        <lastBuildDate>Sat, 06 Aug 2022 12:30:00 +0800</lastBuildDate>
+        <category>教程</category>
+        <category>随笔</category>
+        <category>软件</category>
+        <category>小鸡测评</category>
+        <category>3D 打印</category>
+        <category>嵌入式开发</category>
+        <category>GitHub Actions</category>
+        <category>Hexo</category>
+        <category>DIY</category>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/f82a3103.html</guid>
+            <title>BETAFPV 高频头固件编译 AttributeError</title>
+            <link>https://blog.udon.eu.org/archives/f82a3103.html</link>
+            <category>教程</category>
+            <category>DIY</category>
+            <pubDate>Sat, 06 Aug 2022 12:30:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;h2 id=&#34;错误原因&#34;&gt;&lt;a href=&#34;#错误原因&#34; class=&#34;headerlink&#34; title=&#34;错误原因&#34;&gt;&lt;/a&gt;错误原因&lt;/h2&gt;&lt;p&gt;Python 模块 &lt;code&gt;pypandoc&lt;/code&gt; 版本过新，1.8.0 及更高版本已移除了 BETAFPV 高频头固件中仍在使用的 &lt;code&gt;convert&lt;/code&gt; 函数。&lt;/p&gt;
+&lt;h2 id=&#34;解决方法&#34;&gt;&lt;a href=&#34;#解决方法&#34; class=&#34;headerlink&#34; title=&#34;解决方法&#34;&gt;&lt;/a&gt;解决方法&lt;/h2&gt;&lt;p&gt;安装旧版的 &lt;code&gt;pypandoc&lt;/code&gt; 模块。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;pip install pypandoc==1.7.0&lt;/code&gt;&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://blog.udon.eu.org/archives/38942a16.html</guid>
+            <title>DIY 显示器音箱</title>
+            <link>https://blog.udon.eu.org/archives/38942a16.html</link>
+            <category>教程</category>
+            <category>DIY</category>
+            <pubDate>Fri, 03 Jun 2022 15:15:00 +0800</pubDate>
+            <description><![CDATA[ &lt;link rel=&#34;stylesheet&#34; class=&#34;aplayer-secondary-style-marker&#34; href=&#34;/assets/css/APlayer.min.css&#34;&gt;&lt;script src=&#34;/assets/js/APlayer.min.js&#34; class=&#34;aplayer-secondary-script-marker&#34;&gt;&lt;/script&gt;&lt;script class=&#34;meting-secondary-script-marker&#34; src=&#34;/assets/js/Meting.min.js&#34;&gt;&lt;/script&gt;&lt;p&gt;新买的显示器（LG 27UL500，虽然因为屏幕问题已经退货了）没有内置音箱，虽然大部分时间都在用耳机，但别人有的东西我不能没有嘛，就买了些材料，DIY 一个外接音箱。&lt;/p&gt;
+&lt;p&gt;写作此文章分享一下制作的过程~&lt;/p&gt;
+&lt;h3 id=&#34;物料清单&#34;&gt;&lt;a href=&#34;#物料清单&#34; class=&#34;headerlink&#34; title=&#34;物料清单&#34;&gt;&lt;/a&gt;物料清单&lt;/h3&gt;&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/01.JPG&#34; alt=&#34;物料清单&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;PAM8403 数字功放板 5RMB&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;接受 5V 电压，可以驱动两个 3W 的喇叭。商品详情页面吹的很厉害，确实底噪很小，而且输出的音量非常高。相当 OK 的功放板。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;8Ω 3W 喇叭两只（带音腔） 2*4RMB + 运费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;音质很不错，声音很大也不会破音，因为是广告机用的喇叭么？&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;3.5MM 公头 0.5RMB&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我选的型号是 PJ392，只要是 3.5MM 双声道的公头就行了。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Type C 母座 0.4RMB&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这个随意选。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;屏蔽线缆 2RMB&amp;#x2F;m&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我买的是4芯的屏蔽线，可供 Type C 头使用（2 power 2 data），音频线只需要三芯（2 data 1 GND），屏蔽线是为了更小的干扰、更好的音质。&lt;/p&gt;
+&lt;h3 id=&#34;开始组装&#34;&gt;&lt;a href=&#34;#开始组装&#34; class=&#34;headerlink&#34; title=&#34;开始组装&#34;&gt;&lt;/a&gt;开始组装&lt;/h3&gt;&lt;h4 id=&#34;3-5MM-线缆&#34;&gt;&lt;a href=&#34;#3-5MM-线缆&#34; class=&#34;headerlink&#34; title=&#34;3.5MM 线缆&#34;&gt;&lt;/a&gt;3.5MM 线缆&lt;/h4&gt;&lt;p&gt;剥除一段屏蔽线的外皮，做工还是很不错的，有金属丝和铝箔的屏蔽，塑料膜防水，还有一根抗拉扯的填充芯。&lt;/p&gt;
+&lt;p&gt;我选择使用红绿蓝三根线，黄线悬空。线色对应如下：&lt;/p&gt;
+&lt;p&gt;红 - 左声道；绿 - 右声道；蓝 - 接地。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/02.JPG&#34; alt=&#34;屏蔽线&#34;&gt;&lt;/p&gt;
+&lt;p&gt;可以预先套上一段热缩管。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/03.JPG&#34; alt=&#34;热缩管&#34;&gt;&lt;/p&gt;
+&lt;p&gt;取一枚 3.5mm 公头，旋下插头。&lt;/p&gt;
+&lt;p&gt;最长的一段一般是接地。若将接地朝下，我这款公头左侧为左声道，右侧为右声道。具体的接线方式可以用万用表测量接头和接口得知。&lt;/p&gt;
+&lt;p&gt;将线穿入孔中，上一坨焊锡即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/04.JPG&#34; alt=&#34;公头焊接&#34;&gt;&lt;/p&gt;
+&lt;p&gt;再使用万用表测量接头与线末端的连通性，注意不能与其他线短路了。&lt;/p&gt;
+&lt;p&gt;确认无误后可以打上热熔胶固定。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/05.JPG&#34; alt=&#34;热熔胶固定&#34;&gt;&lt;/p&gt;
+&lt;p&gt;再打点热熔胶，旋回外壳，将热缩管套好，加热热缩管使其收缩。&lt;/p&gt;
+&lt;p&gt;3.5mm 线缆就制作完成了。&lt;/p&gt;
+&lt;h4 id=&#34;驱动板焊接&#34;&gt;&lt;a href=&#34;#驱动板焊接&#34; class=&#34;headerlink&#34; title=&#34;驱动板焊接&#34;&gt;&lt;/a&gt;驱动板焊接&lt;/h4&gt;&lt;p&gt;驱动板上有三组线需要焊接：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;音频输入线（3.5mm 线缆）&lt;/li&gt;
+&lt;li&gt;电源输入线（Type C 线）&lt;/li&gt;
+&lt;li&gt;音频输出线（喇叭线）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Type C 线我没有再用屏蔽线，用两根导线连接 Type C 母头和驱动板即可。&lt;/p&gt;
+&lt;p&gt;焊接方法就不多说了，线穿过孔，上锡即可。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/06.JPG&#34; alt=&#34;焊接中的驱动板&#34;&gt;&lt;/p&gt;
+&lt;p&gt;全部线缆焊接完成如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/07.JPG&#34; alt=&#34;焊接完的驱动板&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;热熔胶填充&#34;&gt;&lt;a href=&#34;#热熔胶填充&#34; class=&#34;headerlink&#34; title=&#34;热熔胶填充&#34;&gt;&lt;/a&gt;热熔胶填充&lt;/h4&gt;&lt;p&gt;完成接线后，确认无短路，即可连接电脑测试音箱。&lt;/p&gt;
+&lt;p&gt;若没有问题，考虑到需要长期使用，就可以用热熔胶覆盖焊接处，防止焊点脱落。&lt;/p&gt;
+&lt;p&gt;用热熔胶覆盖之后的驱动板：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/images/2022-06-03/08.JPG&#34; alt=&#34;热熔胶覆盖的驱动板&#34;&gt;&lt;/p&gt;
+&lt;p&gt;嘛…手艺不是很行。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;就此，外接音箱组装完成啦！&lt;/p&gt;
+ ]]></description>
+        </item>
+    </channel>
+</rss>
